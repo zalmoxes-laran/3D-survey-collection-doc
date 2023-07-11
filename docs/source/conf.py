@@ -2,7 +2,7 @@
 
 # -- Project information
 
-project = 'Extended Matrix Blender tools'
+project = '3D Survey Collection'
 copyright = '2023, Emanuel Demetrescu'
 author = 'Emanuel Demetrescu'
 

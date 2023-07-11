@@ -1,16 +1,34 @@
-Usage
-=====
+Download - Install
+==================
 
 .. _installation:
 
-Installation
-------------
+Download the installation folder
+--------------------------------
 
-To use Extended Matrix, first install yED and Blender:
+The installation folder of the EMtools add-on are available at the following links:
 
-Here you can find the download page: https://www.extendedmatrix.org/download
+- `LTS version <https://github.com/zalmoxes-laran/3D-survey-collection>`_.
 
-Creating your first EM project
-------------------------------
+The two version of the EMtools add-on are also available at the `Download <https://www.extendedmatrix.org/downloadv>`_ section of the Extended Matrix website.
 
-A god way to learn how to create your first EM project, look at this quickstart https://youtu.be/M3Rwu9qS4P0
+
+
+
+Install 3DSC in Blender
+--------------------------
+
+
+In Blender it is possible to install EMtools by following the general steps useful for the default installation of an add-on:
+
+- download the zip folder of the add-on;
+
+- open Blender and click on *Edit*, *Preferences*;
+
+- in the *Preferences* panel, on the left side, select *Add-ons*;
+
+- click on the *Install* button;
+
+- locate the zip folder of the add-on and then press the *Install Add-on* button;
+
+- search the add-on within the list of Add-ons and activate it.

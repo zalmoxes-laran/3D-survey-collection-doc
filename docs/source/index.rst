@@ -1,15 +1,18 @@
-Welcome to Extended Matrix documentation!
-=========================================
+Welcome to the documentation page of the 3D Survey Collection (3DSC) add-on
+===========================================================================
 
-**Extended Matrix** is a formal language with which to keep track of virtual reconstruction processes. It is intended to be used by archaeologists and heritage specialists to document in a robust way their scientific activities. The EM allows to record the sources used and the processes of analysis and synthesis that have led from scientific evidence to virtual reconstruction. It organises 3D archaeological record so that the 3D modelling steps are smoother, transparent and scientifically complete. It has been developed by E. Demetrescu at CNR-ISPC (Rome, former CNR-ITABC). EM is at its 1.3 version (a 1.4 version is currently under development).
+**3D Survey Collection** is an add-on that allows to widely manage 2D and 3D survey data within the 3D environment of Blender. 
+For the features that this add-on offers, 3DSC is suitable for users (archaeologist, architects, engineers, etc) who work with 3D meshes (such as photogrammetric models) and need to manage, visualize and edit all this information within the same space. 
 
-In a wider perspective and due to its abstract approach, the Extended Matrix can be used as a human readable metaphor to ingest and present liquid semantic data. In other words, the nodes that compone the paradata section can be used to track and annotate in a simple but effective way several data provenance path exceeding the traditional reconstruction process it was firstly applied to.
+This add-on is a significant digital tool included within the `Extended Matrix Framework <https://www.extendedmatrix.org/discover/emf>`_, an Open Source and Open Science project which has been developed to manage, visualize, represent and share data and paradata associated to the documentation and the reconstruction of an archaeological context, an object or a collection. 
 
-Check out the :doc:`usage` section for further information, including how to :ref:`installation` the project.
-For the description of the nodes, see :ref:`nodes`
-For the properties, see :ref:`properties`
+The add-on has been developed by E. Demetrescu at CNR-ISPC (Rome, former CNR-ITABC).
 
-.. note::
+
+Check out the :doc:`usage` section for information about the installation of the add-on.
+For the description of every panel of EMtools, see :doc:`3DSCstructure`
+
+.. admonition:: Remember
 
    This documentation is under continuous editing.
 
@@ -17,11 +20,7 @@ Contents
 --------
 
 .. toctree::
+   :numbered: 5
 
    usage
-   nodes
-   properties
-   geometry
-   placement
-   material
-   color
+   3DSCstructure

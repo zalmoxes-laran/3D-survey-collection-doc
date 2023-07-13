@@ -258,13 +258,13 @@ Model Inspector
    Model Inspector panel (*Geometry* statistics on the left, *Textures* statistics in the center, *MeanRes* statistics on the right)
 
 
-Three main parts (:numref:`Fig. %s <Model_Inspector00FIG>`) constitute this panel: *Geometry*, *Texture* and *MeanRes*.
+This panel consists of three main parts (:numref:`Fig. %s <Model_Inspector00FIG>`): *Geometry*, *Texture* and *MeanRes*.
 
-By pressing the *Geoometry* button  the add-on returns some statistics about the geometry of the selected 3D object (*area* and *number of polygons*).
+By clicking on the *Geometry* button the add-on returns some statistics on the geometry of the selected 3D object (*area* and *number of polygons*).
 
-By pressing the *Textures* button (:numref:`Fig. %s <Model_Inspector02FIG>`) the add-on returns some statistics about the texture of the selected 3D object (*number of materials*, *resolution of the texutre*, *number of texture per resolution*).
+By clicking on the *Textures* button the add-on returns some statistics on the texture of the selected 3D object (*number of materials*, *resolution of the texutre*, *number of texture per resolution*).
 
-By pressing the *MeanRes* button (:numref:`Fig. %s <Model_Inspector03FIG>`) the add-on returns a synthesis of all the statistic values (*Geometry*, *Texture* and *MeanRes*) concerning the selected 3D object (*area* and *number of polygons*, *number of materials*, *resolution of the texutre*, *number of texture per resolution*, *mean resolution per texture* - mm/pixel and *mean resolution per polygons* - :math:`poly/m^2`).
+By clicking on the *MeanRes* button the add-on returns a summary of all the statistical values (*Geometry*, *Texture* and *MeanRes*) concerning the selected 3D object (*area* and *number of polygons*, *number of materials*, *resolution of the texutre*, *number of texture per resolution*, *mean resolution per texture* - mm/pixel and *mean resolution per polygons* - :math:`poly/m^2`).
 
 |
 

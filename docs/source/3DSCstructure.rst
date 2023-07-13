@@ -243,39 +243,6 @@ first, select an object that has been previously processed with the *LOD generat
 second, enter the desired LOD to be visualized; 
 third, press the *set LOD* button.
 
-
-
-
-.. _ColorCorrection:
-
-Color Correction
-----------------
-
-.. _ColorCorrectionFIG:
-
-
-|
-
-.. _Photogrammetry_paint:
-
-Photogrammetry paint
---------------------
-
-.. _Photogrammetry_paintFIG:
-
-
-|
-
-.. _Texture_mixer:
-
-Texture mixer
--------------
-
-.. _Texture_mixerFIG:
-
-
-|
-
 .. _Model_Inspector:
 
 Model Inspector
@@ -317,3 +284,33 @@ By pressing the *Textures* button (:numref:`Fig. %s <Model_Inspector02FIG>`) the
    Model Inspector (MeanRes) panel
 
 By pressing the *MeanRes* button (:numref:`Fig. %s <Model_Inspector03FIG>`) the add-on returns a synthesis of all the statistic values (*Geometry*, *Texture* and *MeanRes*) concerning the selected 3D object (*area* and *number of polygons*, *number of materials*, *resolution of the texutre*, *number of texture per resolution*, *mean resolution per texture* - mm/pixel and *mean resolution per polygons* - :math:`poly/m^2`).
+
+|
+
+.. _ColorCorrection:
+
+Color Correction
+----------------
+
+.. _ColorCorrectionFIG:
+
+|
+
+.. _Photogrammetry_paint:
+
+Photogrammetry paint
+--------------------
+
+.. _Photogrammetry_paintFIG:
+
+|
+
+.. _Texture_mixer:
+
+Texture mixer
+-------------
+
+.. _Texture_mixerFIG:
+
+|
+

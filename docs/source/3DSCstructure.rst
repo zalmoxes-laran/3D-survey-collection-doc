@@ -21,7 +21,9 @@ Panels appears as follows:
 
 - Photogrammetry paint; 
 
-- Texture mixer. 
+- Texture mixer;
+
+- Model Inspector. 
 
 
 .. _Shifting:
@@ -60,7 +62,7 @@ Importers
 
    Importers panel
 
-This panel (:numref:`Fig. %s <_ImportersFIG>`) allows to import in Blender three different types of data: coordinates, objects and cameras.
+This panel (:numref:`Fig. %s <ImportersFIG>`) allows to import in Blender three different types of data: coordinates, objects and cameras.
 
 .. 
    of the add-on is useful for users that work with photogrammetric meshes that could be exported with absolute coordinates from the photogrammetric software.
@@ -241,3 +243,77 @@ first, select an object that has been previously processed with the *LOD generat
 second, enter the desired LOD to be visualized; 
 third, press the *set LOD* button.
 
+
+
+
+.. _ColorCorrection:
+
+Color Correction
+----------------
+
+.. _ColorCorrectionFIG:
+
+
+|
+
+.. _Photogrammetry_paint:
+
+Photogrammetry paint
+--------------------
+
+.. _Photogrammetry_paintFIG:
+
+
+|
+
+.. _Texture_mixer:
+
+Texture mixer
+-------------
+
+.. _Texture_mixerFIG:
+
+
+|
+
+.. _Model_Inspector:
+
+Model Inspector
+---------------
+
+Three main parts constitute this panel: *Geometry*, *Texture* and *MeanRes*.
+
+
+.. _Model_Inspector01FIG:
+
+.. figure:: img/Model_Inspector01.png
+   :width: 400
+   :align: center 
+
+   Model Inspector (Geometry) panel
+
+By pressing the *Geoometry* button (:numref:`Fig. %s <Model_Inspector01FIG>`) the add-on returns some statistics about the geometry of the selected 3D object (*area* and *number of polygons*).
+
+|
+
+.. _Model_Inspector02FIG:
+
+.. figure:: img/Model_Inspector02.png
+   :width: 400
+   :align: center 
+
+   Model Inspector (Textures) panel
+
+By pressing the *Textures* button (:numref:`Fig. %s <Model_Inspector02FIG>`) the add-on returns some statistics about the texture of the selected 3D object (*number of materials*, *resolution of the texutre*, *number of texture per resolution*).
+
+|
+
+.. _Model_Inspector03FIG:
+
+.. figure:: img/Model_Inspector03.png
+   :width: 400
+   :align: center 
+
+   Model Inspector (MeanRes) panel
+
+By pressing the *MeanRes* button (:numref:`Fig. %s <Model_Inspector03FIG>`) the add-on returns a synthesis of all the statistic values (*Geometry*, *Texture* and *MeanRes*) concerning the selected 3D object (*area* and *number of polygons*, *number of materials*, *resolution of the texutre*, *number of texture per resolution*, *mean resolution per texture* - mm/pixel and *mean resolution per polygons* - :math:`poly/m^2`).

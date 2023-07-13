@@ -1,222 +1,243 @@
-EMtools Structure
-=================
+3D Survey Collection (3DSC) Structure
+=====================================
 
-The addon is divided into several independent panels that can be easily moved within the dedicated space on the sidebar of Blender. 
+**3DSC** is divided into several independent panels (at least 9 panels are available on the LTS version) which are automatically displayed on the sidebar of Blender after pressing the *3DSC* tab. 
 
-After the installation, panels are organized as follows: 
+Panels appears as follows: 
 
-- EM setup; 
+- Shifting; 
 
-- Visual manager; 
- 
-- US/USV Manager; 
- 
-- Paradata Manager; 
- 
-- Periods Manager; 
- 
-- EMdb; 
+- Importers;
 
-- Export Manager. 
+- Exporters; 
+
+- Quick Utils; 
+
+- LOD generator; 
+
+- LOD manager; 
+
+- Color Correction; 
+
+- Photogrammetry paint; 
+
+- Texture mixer. 
 
 
+.. _Shifting:
 
-.. _EMsetup:
-
-EM setup
+Shifting
 --------
 
-.. _EMsetupFIG:
+.. _ShiftingFIG:
 
-.. figure:: img/EMsetup.png
+.. figure:: img/Shifting.png
    :width: 400
    :align: center
 
-   EM setup Panel
+   Shifting panel
 
-This panel (:numref:`Fig. %s <EMsetupFIG>`)  allows to create the first connection between Blender and the Extended Matrix (.graphml file). 
-To establish the link EMTools needs to locate the graphml file (NB: before closing the path windows remember to uncheck *relative path* within the settings. 
+This panel (:numref:`Fig. %s <ShiftingFIG>`), which is directly linked with the *Importers* panel, represents the shifting values for X, Y, Z. 
+Shifting values indicate the translation of the objects with respect to the absolute coordinates.
+To automatically visualize the shift values it is necessary to create a shift file (SHIFT.txt).
+
+This is an example of first line of the shift file:
+EPSG::3004 2392800.00 5069900.00 0
+
+The *import* button allows to load the shift file.
+
+
+.. _Importers:
+
+Importers
+---------
+
+.. _ImportersFIG:
+
+.. figure:: img/Importers.png
+   :width: 400
+   :align: center 
+
+   Importers panel
+
+This panel (:numref:`Fig. %s <_ImportersFIG>`) allows to import in Blender three different types of data: coordinates, objects and cameras.
+
+.. 
+   of the add-on is useful for users that work with photogrammetric meshes that could be exported with absolute coordinates from the photogrammetric software.
+
+.. 
+   If user has already activated “Blender Gis” add-on, this feature will be useful to interact with other files associated with absolute coordinates.
+
+  
+
+In the first case, by clicking the *Coordinates* button user can import in Blender 2D point (such as .csv files) of both relative and absolute coordinates. 
+On the menu which appears on the right side of the window, user can associate the first 4 columns of the coordinates with the correspondent values (name, X, Y, Z) and then define the separator (comma, space, semicolon). 
+To visualize absolute coordinates within Blender, user must flag *Shift coordinates* button and 3DSC will automatically shift the file.
+
+In the second case, 3DSC allows to import several objects with a single command. 
+By clicking on the *Multiple objs* button an import window will appear. Here, users must select the desired meshes and then select the correct options on the right side.
+The latter are the same options that usually appear in the default *import .obj* menu of Blender.
+
+In the third case, by clicking the *Agisoft xml cams* user can import cameras from a project of Metashape (Agisoft xml file).
+
+.. _Exporters:
+
+Exporters
+---------
+
+.. _ExportersFIG:
+
+.. figure:: img/Exporters.png
+   :width: 400
+   :align: center
+
+   Exporters panel
+
+This panel (:numref:`Fig. %s <ExportersFIG>`) is divided in three sub-sections: *Coordinates*, *Export object(s) in one file* and *Export objects in several files*.
+
+The *Coordinates* button allows to export in .txt file format every type of coordinates associated to an object (such as: points, meshes, cameras etc..) within the 3D space of Blender. 
+On the right side of the export window, user can choose to flag some precise features (*Add names of objects*; *Add coordinates of rotation*; *Export only cams*; *World shift coordinates*) to customize the exportation. 
+
+This specific tool of 3DSC allows also to export instanced objects. 
+To export this type of objects user has to: 
+
+- place in x=0, y=0, z=0 the instanced object (**NB**: in this case, before starting the process, it is necessary to apply transformations to the object - such as: location, scale, and rotation -); 
+ 
+- select all the objects to be exported and then select the object in 0,0,0; 
+
+- click the *Coordinates* button in the *Exporters* panel of 3DSC.
+
+The other two *Exporters* execute the same (export) action but with two different results. 
+The *Export object(s) in one file* section allows to export single or multiple objects in one file. 
+Two different file formats are available for the export, user can choose these formats by clicking on *obj* or *fbx* button. 
+
+Before starting the export process, user has to define the path of the folder where the exporter must save files (**NB**: before closing the path windows remember to uncheck *relative path* within the settings. 
 Alternatively, it is possible to paste the entire path within the empty line). 
-After this step, click on the *Reload* button to establish the connection. 
-*Refresh* button allows to update the .graphml file, if changes have been applied on the EM graph during the modelling session. 
-Once the connection has been established, EMTools will summarize the most important information (US/USV; Periods; Properties; Sources) within a simple table. 
 
-In this panel users can also link the path to the *DosCo* folder. 
-For this step users must follow the same suggestions introduced for the EM file path. 
+The second option *Export objects in several files* allows to export a selection of objects in single files.
+The available file formats are *obj*, *fbx*, *gltf* and *glb*, they can be chosen by clicking on the correspondent buttons.
 
-If the EM graph presents a connection with and external database, EMTools allows to import databases to maintain data connection also within Blender. 
-To establish the connection, it is necessary to indicate the exact location of the database and then click on the *import* button. 
-For this step users must also follow the suggestions that have already been introduced for the EM file path. 
+In the lower part of the panel user can also select three different types of options: *enable instanced_export (only FBX)*, *Use Shift (slower, only obj)*, *use collection gerarchy*.
+
+The option *enable instanced_export (only FBX)* allows to export FBX file with instaced objects: select a group of objects and the add-on will generate a single file *[name]-inst.txt* using the name of the active object.
+
+The option *Use Shift (slower, only obj)* permits to export obj file with shift values. This process may be slower with big obj file. 
+
+The option *use collection gerarchy* consents to apply collection gerarchy for creating a tree of subfolders useful for Game Engines.
 
 
-.. _Visual_Manager:
+.. _Quick_Utils:
 
-Visual Manager
---------------
+Quick Utils
+-----------
 
-.. _Visual_ManagerFIG:
+.. _Quick_UtilsFIG:
 
-.. figure:: img/Visual_Manager.png
+.. figure:: img/QuickUtils.png
    :width: 400
    :align: center 
 
-   Visual Manager panel
+   Quick Utils panel
 
-This panel (:numref:`Fig. %s <Visual_ManagerFIG>`) consents to manage the visual aspect of the information in the 3D space of Blender. 
-Within the *display mode* section, users can filter the visualization of the geometries (the so-called Proxy Models or Proxies) by using *EM* or *Periods*. 
-On one hand, using *EM* option, user will visualize Proxies with a monochromatic material that will match their specific type of node (US, USV/s, USV/n, SF, etc..). 
-On the other, using *Periods* option, Proxies’ materials will be changed in relation to the chronological period to which proxy models will belong. 
+This panel (:numref:`Fig. %s <Quick_UtilsFIG>`) permits to customize some features of the 3D objects with a series of batch processes that can assist users organize objects within the Blender file.  
 
-Within the panel user can also control the alpha value of the Proxies’ material (0 = no alpha; 1 = completely transparent).
-Other display options allow user to visualize ONLY selected Proxies with different modes (bounding box, wireframe, solid, solid&wireframe). 
+The *Rename 4 GameEngines* button allows to automatically modify the name of a list of selected objects by adding the prefix *OB_actual name of the object*, which stands for *OB(JECT)_*.
 
-*Labels* section allows user to automatically create a label related to the selected proxies. 
-First, to assign label it is necessary to insert a camera within the 3D scene. 
-Second, once the camera has been oriented (NB: in order to easily orient the camera on the desired proxy or Proxies, user has different solution: manual orientation, by using default command of Blender, or using the add-on *Store View*, which is already contained in Blender), user has to define the exact place where labels will be created (in this case both pivot point and 3D cursor can be used as target point). 
-Finally, after selecting the desire number of proxies, by clicking the *Ab* button labels will be visualized oriented with point of view of the camera. 
-It’s important to understand that labels will be placed within the camera field of view, NOT on the top of the Proxies’ 3D surface. 
-*Collection* button permits to create a collection for the labels. 
-Once automatically generated, labels can be easily modified by applying the grab, scale and rotate commands of Blender. Labels will appear on the viewport of Blender and on the rendered images. 
+The *Remove selected suffix (if any)* tool allows user to organize the list of objects in the scene by simply removing the selected suffix (.001, .002, .003). 
+First, to use this tool it is necessary to select the objects to be cleaned and then add the prefix *OB_* by clicking on the *Rename 4 GameEngine* button. 
+Second, select the suffix to be clean and then press on the *X* button.
 
+The *Batch material settings* tool consents to automatically change four characteristics of the material of a mesh. 
+First, select single or multiple objects. 
+Second, select the option to change (*opaque*, *transparent*, *roughness*, *Metalness*) in the material. 
 
-.. _US/USV_Manager:
+By clicking on the *opaque* button 3DSC will change the Blend mode of the material (located in: *Material Properties*, *Viewport Display*, *Settings*, *Blend Mode*) into *Opaque*.
 
-US/USV Manager
---------------
+By clicking on the *transparent* button 3DSC will change the Blend mode of the material (located in: *Material Properties*, *Viewport Display*, *Settings*, *Blend Mode*) into *Alpha mode*. 
 
-.. _US/USV_ManagerFIG:
+By clicking on the *Roughness 1* button 3DSC will change the Roughness value to 1 within the Principled BSDF node.
 
-.. figure:: img/US_USV_Manager.png
-   :width: 400
-   :align: center
+By clicking on the *Metalness 0* button 3DSC will change the Roughness value to 0 within the Principled BSDF node.
 
-   US/USV Manager panel
-
-This panel (:numref:`Fig. %s <US/USV_ManagerFIG>`) allows to: control the connection between the EM graph and the 3D environment, visualize a complete list of US/USV; automatically select proxy models within the scene. 
-
-First, user can control the *connection status*. 
-A *chain not connected* will be the signal of an issue within the EM graph or within the 3D scene (a frequent issue is due to a mismatch between the node name within the EM and the Proxy name in Blender). 
-
-Second, EMTools allows to visualize a complete list of all the US/USV indicated within the EM. 
-
-Third, user can select proxies by following two solutions: *list to proxy* and *proxy to list*. 
-In the first case, after selecting a proxy in the list it will be possible to select that proxy within the 3D scene by clicking on the button with the cube. 
-In the second case, after selecting a proxy on the scene it will be possible to highlight that geometry in the list and visualize its name. 
-A search option is also available after clicking of the white arrow presents at the bottom of the list. 
-
-It’s important to note that between the search section of the list and the three buttons, two text lines allow to read extensively both the name of the selected proxy and its description. 
+The *Batch legacy material conversion* tool allows to convert a simple diffuse material into a Principles BSDF. 
+First, select single or multiple objects. 
+Second, press on the *Diffuse 2 Principled* button. 
 
 
+.. _Segmentation:
 
-.. _Paradata_Manager:
+Segmentation
+------------
 
-Paradata Manager
-----------------
+.. _SegmentationFIG:
 
-.. _Paradata_ManagerFIG:
-
-.. figure:: img/Paradata_Manager.png
+.. figure:: img/Segmentation.png
    :width: 400
    :align: center 
 
-   Paradata Manager panel
-
-This panel (:numref:`Fig. %s <Paradata_ManagerFIG>`) consent to have access to all the information linked with the subject of the study.  
-
-The *paradata streaming* button on the right corner of the US/USV panel, if active, enables to explore paradata connection (from properties to documents, passing through combiner nodes, if indicated, and extractor nodes) contained in the EM. 
-In this specific case, if the button is active, within the rounded brackets on the right side of the nodes visualized (Properties, Extractors, Combiners, and Docs) a number will indicate only nodes related with that precise proxy. 
-If *paradata streaming* button is inactive users will visualize all the EM nodes without a connection between them. In this specific case, within the rounded brackets on the right side of the nodes (Properties, Extractors, Combiners, and Docs) a number will indicate all the nodes presented in the EM.
-
-**NB**: to follow the streaming of information user should activate this button. 
-
-Every section (*Properties*, *Extractors*, *Combiners*, and *Docs*) contained a list of nodes. 
-As already explained for the *US/USV Manager*, under every list a search box and two lines, that allow to read extensively name and description values, are available. 
-*Extractors*, *Combiners* and *Docs* nodes also presented a third lines that allow to reach the repository where the information is located.
-
-(**DEV** version features..)
+   Segmentation panel
 
 
-.. _Periods_Manager:
+.. 
+   This panel (:numref:`Fig. %s <SegmentationFIG>`)
 
-Periods Manager
----------------
 
-.. _Periods_ManagerFIG:
 
-.. figure:: img/Periods_Manager.png
+
+
+.. _LODgenerator:
+
+LOD generator
+-------------
+
+.. _LODgeneratorFIG:
+
+.. figure:: img/LODgenerator.png
    :width: 400
    :align: center 
 
-   Periods Manager panel
+   LOD generator panel
 
 
-This panel (:numref:`Fig. %s <Periods_ManagerFIG>`) lists all the chronological periods of the EM and allows to interact with all the Proxy models using Periods as filter. 
-Within the list of Periods, on the right side, different button allow user to:
+This panel (:numref:`Fig. %s <LODgeneratorFIG>`) consents to generate Levels of Details (LODs) of a selected mesh. 
+This type of tool is useful to manage large and detailed datasets, such as a mesh from photogrammetry or a mesh obtained with a laser scanner.
 
-- change the color of each period;
-  
-- select all the proxy models associated to one or more periods;
-  
-- activate or deactivate the ability to select a proxies associated to a specific period;
-  
-- activate or deactivate the visibility of each period;
-  
-- activate or deactivate the possibility to visualize the objects attributed to a specific period;
+To use this tool user needs to first indicate the *LOD0*, the mesh with the highest level of detail within the Blender file. 
+First, select the object. 
+Second, press the *LOD 0 (set as)* button to indicate this object as the LOD 0.
 
-- activate or deactivate the possibility to soloing periods.
+Before generating multiple LODs user must follow some necessary steps: first, set the number of LOD by adding the correct number under the *LOD 0 (set as)* button; 
+second, flag the *Pad* and/or the *Scene light* option to activate the paddin ratio for the LOD and/or the scene light baking;
+third, set the *decimation ratio*; 
+fourth, set the *resolution of the baked texture*; 
+fifth, within the section *LOD cluster(s) export*, indicate the *path of the folder* where LOD will be saved (**NB**: before closing the path windows remember to uncheck *relative path* within the settings. 
+Alternatively, it is possible to paste the entire path within the empty line). 
+After setting these options, by pressing the *generate* button LODs will be created in the desired folder. 
 
-As already explained for the previous lists of items, under every list there is a search box. 
+If necessary, the *LOD generator tool* permits to create a group of LODs, by clicking on the *LOD clusters* button, and remove it, by pressing the *X* button. 
 
-The lower part of the panel is dedicated to Representation Models (RMs). 
-This section allows user to manually attribute one or more RM to one or more periods (in some cases, especially for structure that has been used for more than one period, it is necessary to associate a RM to multiple periods). 
-To attribute an RM to a period user must select one or more geometries and then click on the *+* button. 
-On the contrary, to remove an RM from a specific period user must select one or more geometries and then click on the *-* button. 
-The third button, the *RM selection* button, allows to select ONLY the RMs that belong to a precise period (**NB**: this option does not work if RMs have not been associated to a specific period). When a RM will be associated to a period a list of epochs will automatically appear under the line *Active object:*. 
-In this case a list of epochs it has been necessary since an RM can be attributed to multiple periods. 
-This list of epochs is also provided with a search box in the lower part of the panel. 
+The *FBX* button allows to export LODs’ cluster in FBX format in the folder previously indicated. 
 
+.. _LODmanager:
 
-.. _EMdb:
+LOD Manager
+-----------
 
-EMdb
-----
+.. _LODmanagerFIG:
 
-.. _EMdbFIG:
-
-.. figure:: img/EMdb.png
+.. figure:: img/LODmanager.png
    :width: 400
    :align: center 
 
-   EMdb panel
+   LOD Manager panel
 
+This panel (:numref:`Fig. %s <LODmanagerFIG>`) permits to change the LOD for each tile of a 3D object which is displayed in the viewport of Blender. 
+This type of tool allows to manage the visualization of large datasets which have already been segmented (using the *Segmentation* tool). 
+Using this tool users can view different tiles of the same 3D mesh with different LODs
+(**NB**: this tool can be employed only if LODs have been previously generated).
 
-This panel (:numref:`Fig. %s <EMdbFIG>`) consents to establish a connection between EMTools and an external database. 
+To visualize a specific LOD: 
+first, select an object that has been previously processed with the *LOD generator tool*; 
+second, enter the desired LOD to be visualized; 
+third, press the *set LOD* button.
 
-
-.. _Export_Manager:
-
-Export Manager
---------------
-
-.. _Export_ManagerFIG:
-
-.. figure:: img/Export_Manager.png
-   :width: 400
-   :align: center 
-
-   Export Manager panel
-
-This panel (:numref:`Fig. %s <Export_ManagerFIG>`) is divided in two different sections: *tables export* and *EMviq (data) export*. 
-The first section allows to automatically export EM data in csv files. 
-By pressing one button user can export the entire EM (*EM (csv)* button) or groups of nodes (*US/USV* button, *Sources* button, *Extractors* button). 
-The second part of the panel allows to export geometries from Blender to EMviq, that is the 3Dweb app, based on the Aton Framework, that allow to share online, within the same 3D scene, both 3D models (Proxies, Representation models and Source models) and the EM, with all its paradata. 
-
-To export correctly all the data, first it is necessary to control that every geometry (Representation Models and Source models) has been associated with the correct epoch/s.
-
-Second, 3D objects have to be associated to the correct collection of Blender (Representation Models - *RM*; Reality Based - *RB*; *Proxy*).
-
-Third, in order to visualize all the data, user must install Aton [link].
-
-Fourth, before exporting geometries, user must compile all the 5 text boxes corresponding to *Project’s name*, *Model’s name*, *ATON user’s name*, *ATON user’s password* and the *Path to ATON* (where the ATON folder has been stored) and then decide the *file format* (gltf, obj, fbx) and the *texture data* (compression, resolution and quality size). 
-
-Finally, by pressing the *Generate full EMviq Project* button EMTools will create two different folders with both the collection and scenes folder presented in the data folder of ATON. 

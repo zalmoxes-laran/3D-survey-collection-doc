@@ -32,3 +32,6 @@ In Blender it is possible to install EMtools by following the general steps usef
 - locate the zip folder of the add-on and then press the *Install Add-on* button;
 
 - search the add-on within the list of Add-ons and activate it.
+
+
+Within the preference menu of Blender, the add-on offers a feature that checks for new updates and then asks user for the installation. 

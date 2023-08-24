@@ -10,7 +10,7 @@ The installation folder of the EMtools add-on are available at the following lin
 
 - `LTS version <https://github.com/zalmoxes-laran/3D-survey-collection>`_.
 
-The two version of the EMtools add-on are also available at the `Download <https://www.extendedmatrix.org/downloadv>`_ section of the Extended Matrix website.
+The two version of the EMtools add-on are also available at the `Download <https://www.extendedmatrix.org/download>`_ section of the Extended Matrix website.
 
 
 

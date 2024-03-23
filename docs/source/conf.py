@@ -3,11 +3,11 @@
 # -- Project information
 
 project = '3D Survey Collection'
-copyright = '2023, Emanuel Demetrescu'
+copyright = '2024, Emanuel Demetrescu'
 author = 'Emanuel Demetrescu'
 
-release = '1.5'
-version = '1.5.4'
+release = '1.6'
+version = '1.6.0'
 
 # -- General configuration
 

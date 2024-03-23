@@ -282,6 +282,33 @@ Color Correction
 Photogrammetry paint
 --------------------
 
+.. figure:: img/PhotogrammetryPaint.png
+   :width: 400
+   :align: center 
+
+   Photogrammetry Paint panel
+
+The panel is part of a photogrammetric enhancement pipeline, enabling the setting up of a folder with undistorted images from a photogrammetric process, such as those processed by Metashape. This is where cameras can be converted and all images can be managed in an undistorted fashion. Prior to using this add-on, it is necessary to import cameras from photogrammetry software, such as Metashape via the DAE Collada format, which will allow importing the cameras along with the photogrammetric model's mesh. This mesh can either be discarded if not needed or used to improve its texturing.
+
+Essentially, this panel aims to enhance the photogrammetric texturing process by correcting any imperfections that, despite accurate photogrammetry, might result in smudges. For instance, issues such as poor image reprojection from the cameras in photogrammetry software can be addressed. With this add-on, users can load all undistorted images into Blender, enter individual cameras, and reproject parts of the original image onto the surface, thereby dramatically improving the overall visual quality of the 3D model.
+
+To use this feature, the undistorted path must be set, then the relevant camera selected from the dropdown menu, which includes a range of available cameras that can be further expanded by modifying the `cams.xml` in the add-on's `src` subfolder or by contacting [email](emanuel.demetrescudio.cnr.it) to integrate additional sensors. The camera's millimeters must also be set before pressing 'Apply' to modify the cameras.
+
+Furthermore, there is a "Remove Better Cams" section that adjusts the camera layout to make them smaller and cleaner in the 3D space, allowing for the neat organization of hundreds of cameras. This function also activates camera directions to understand which camera affects which part of the model, and there is a button for tuning where the camera's clipping plane can be indicated with minimum and maximum values. This can be set at any time.
+
+Once the cameras are set up in the system, users can activate any of the cameras to reproject a better image onto the surface of the mesh. This function allows for the selective improvement of the mesh's texture by utilizing superior images from specific camera angles, leading to a refined and visually enhanced 3D model.
+
+The "Load Undistorted Photo" function loads the undistorted image behind the camera, allowing for the texture to be reprojected onto the mesh. Users can fine-tune the focal length if the initial setting (e.g., 35 mm) is slightly off, adjusting to, for instance, 34.7 mm or 34.8 mm. The clipping in the camera can also be modified to extend beyond the default setting if needed to reach further, like over 4 meters. Before starting the painting process, it's important to select the object to be reprojected on in the "Canvas Object" field, using the dropper tool or by selecting the object in the 3D space and then pressing "or select obj to canvas."
+
+Before painting, an image editor like GIMP should be set by providing the path to its executable. After setting up, the "Paint Active from Cam" button allows for painting from the loaded camera perspective. It opens two instances of GIMP: one displaying the camera's view and the other the undistorted image. The user can copy the entire undistorted image with CTRL A and CTRL C and paste it into the canvas representing the 3D model. With the clone brush, unnecessary parts of the photograph are removed, and color correction is performed to blend seamlessly with the background image of the 3D model.
+
+Once satisfied with the result, the background layer is disabled, and the PNG file is overwritten to create a patch. Back in Blender, the patch is applied to the 3D model with the "Apply Paint" button, which updates the model's texture with the new, improved patch. Finally, "Save Modified Textures" is pressed to complete the process.
+
+A subsidiary panel of the camera will remain with the undistorted image; this can be made transparent with the button next to "Load Undistorted Photo" or deleted manually by going into the individual camera settings.
+
+The "Temporary Merge" function allows users to temporarily join two mesh objects in the scene. This feature is particularly useful for tasks that require meshes to be combined, such as texture painting to correct imperfections. For instance, users can utilize a clone stamp to transfer texture from one part of a mesh to another, effectively treating the meshes as a single unit. This can also be useful for creating a single UV unwrap atlas for multiple objects. After the necessary operations are completed, the "Respawn" button can be used to separate the meshes and return them to their original state.
+
+
 .. _Photogrammetry_paintFIG:
 
 |

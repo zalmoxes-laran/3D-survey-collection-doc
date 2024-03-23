@@ -282,6 +282,9 @@ Color Correction
 Photogrammetry paint
 --------------------
 
+
+.. _Photogrammetry_paintFIG:
+
 .. figure:: img/PhotogrammetryPaint.png
    :width: 400
    :align: center 
@@ -308,8 +311,6 @@ A subsidiary panel of the camera will remain with the undistorted image; this ca
 
 The "Temporary Merge" function allows users to temporarily join two mesh objects in the scene. This feature is particularly useful for tasks that require meshes to be combined, such as texture painting to correct imperfections. For instance, users can utilize a clone stamp to transfer texture from one part of a mesh to another, effectively treating the meshes as a single unit. This can also be useful for creating a single UV unwrap atlas for multiple objects. After the necessary operations are completed, the "Respawn" button can be used to separate the meshes and return them to their original state.
 
-
-.. _Photogrammetry_paintFIG:
 
 |
 

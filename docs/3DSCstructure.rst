@@ -1,7 +1,7 @@
 3D Survey Collection (3DSC) Structure
 =====================================
 
-**3DSC** is divided into several independent panels (at least 9 panels are available on the LTS version) which are automatically displayed on the sidebar of Blender after pressing the *3DSC* tab. 
+3DSC is divided into several independent panels (at least 9 panels are available on the LTS version) which are automatically displayed on the sidebar of Blender after pressing the *3DSC* tab. 
 
 .. contents::
    :local:

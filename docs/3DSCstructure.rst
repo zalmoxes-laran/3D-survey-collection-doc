@@ -3,28 +3,19 @@
 
 **3DSC** is divided into several independent panels (at least 9 panels are available on the LTS version) which are automatically displayed on the sidebar of Blender after pressing the *3DSC* tab. 
 
-Panels appears as follows: 
+# Table of Contents
 
-- Shifting; 
-
-- Importers;
-
-- Exporters; 
-
-- Quick Utils; 
-
-- LOD generator; 
-
-- LOD manager; 
-
-- Color Correction; 
-
-- Photogrammetry paint; 
-
-- Texture mixer;
-
-- Model Inspector. 
-
+1. [Shifting](#shifting)
+2. [Importers](#importers)
+3. [Exporters](#exporters)
+4. [Quick Utils](#quick-utils)
+5. [Segmentation](#segmentation)
+6. [LOD generator](#lodgenerator)
+7. [LOD Manager](#lodmanager)
+8. [Model Inspector](#model-inspector)
+9.  [Color Correction](#color-correction)
+10. [Photogrammetry Paint](#photogrammetry-paint)
+11. [Texture Mixer](#texture-mixer)
 
 .. _Shifting:
 
@@ -291,25 +282,70 @@ Photogrammetry paint
 
    Photogrammetry Paint panel
 
-The panel is part of a photogrammetric enhancement pipeline, enabling the setting up of a folder with undistorted images from a photogrammetric process, such as those processed by Metashape. This is where cameras can be converted and all images can be managed in an undistorted fashion. Prior to using this add-on, it is necessary to import cameras from photogrammetry software, such as Metashape via the DAE Collada format, which will allow importing the cameras along with the photogrammetric model's mesh. This mesh can either be discarded if not needed or used to improve its texturing.
 
-Essentially, this panel aims to enhance the photogrammetric texturing process by correcting any imperfections that, despite accurate photogrammetry, might result in smudges. For instance, issues such as poor image reprojection from the cameras in photogrammetry software can be addressed. With this add-on, users can load all undistorted images into Blender, enter individual cameras, and reproject parts of the original image onto the surface, thereby dramatically improving the overall visual quality of the 3D model.
+# Photogrammetry Paint Panel
 
-To use this feature, the undistorted path must be set, then the relevant camera selected from the dropdown menu, which includes a range of available cameras that can be further expanded by modifying the `cams.xml` in the add-on's `src` subfolder or by contacting [email](emanuel.demetrescudio.cnr.it) to integrate additional sensors. The camera's millimeters must also be set before pressing 'Apply' to modify the cameras.
+The "Photogrammetry Paint" panel in Blender is tailored for enhancing photogrammetric workflows. It provides a suite of tools for image and texture editing, enabling the user to work efficiently within the 3D environment. This panel facilitates various tasks such as managing undistorted images, merging and separating meshes for texture painting, adjusting camera settings for image projection, and integrating with external image editors for in-depth texture work.
 
-Furthermore, there is a "Remove Better Cams" section that adjusts the camera layout to make them smaller and cleaner in the 3D space, allowing for the neat organization of hundreds of cameras. This function also activates camera directions to understand which camera affects which part of the model, and there is a button for tuning where the camera's clipping plane can be indicated with minimum and maximum values. This can be set at any time.
+## Features
 
-Once the cameras are set up in the system, users can activate any of the cameras to reproject a better image onto the surface of the mesh. This function allows for the selective improvement of the mesh's texture by utilizing superior images from specific camera angles, leading to a refined and visually enhanced 3D model.
+- **Setup Scene**: Initializes the scene for photogrammetric texture editing.
 
-The "Load Undistorted Photo" function loads the undistorted image behind the camera, allowing for the texture to be reprojected onto the mesh. Users can fine-tune the focal length if the initial setting (e.g., 35 mm) is slightly off, adjusting to, for instance, 34.7 mm or 34.8 mm. The clipping in the camera can also be modified to extend beyond the default setting if needed to reach further, like over 4 meters. Before starting the painting process, it's important to select the object to be reprojected on in the "Canvas Object" field, using the dropper tool or by selecting the object in the 3D space and then pressing "or select obj to canvas."
+- **Folder with Undistorted Images**: Assign a directory containing the undistorted images to be used in texture painting.
 
-Before painting, an image editor like GIMP should be set by providing the path to its executable. After setting up, the "Paint Active from Cam" button allows for painting from the loaded camera perspective. It opens two instances of GIMP: one displaying the camera's view and the other the undistorted image. The user can copy the entire undistorted image with CTRL A and CTRL C and paste it into the canvas representing the 3D model. With the clone brush, unnecessary parts of the photograph are removed, and color correction is performed to blend seamlessly with the background image of the 3D model.
+- **Set Selected Cam(s) As**: 
+  - **Lens**: Select the type of lens used to capture your images.
+  - **Focal Length**: Input the focal length of the camera lens.
+  - **Apply**: Save your configured camera settings.
 
-Once satisfied with the result, the background layer is disabled, and the PNG file is overwritten to create a patch. Back in Blender, the patch is applied to the 3D model with the "Apply Paint" button, which updates the model's texture with the new, improved patch. Finally, "Save Modified Textures" is pressed to complete the process.
-
-A subsidiary panel of the camera will remain with the undistorted image; this can be made transparent with the button next to "Load Undistorted Photo" or deleted manually by going into the individual camera settings.
+- **Temporary Merge/Respawn Meshes**: 
+  - **Temporary Merge**: Combine selected meshes for collective texturing.
+  - **Respawn Meshes**: Separate previously merged meshes back to their original state.
 
 The "Temporary Merge" function allows users to temporarily join two mesh objects in the scene. This feature is particularly useful for tasks that require meshes to be combined, such as texture painting to correct imperfections. For instance, users can utilize a clone stamp to transfer texture from one part of a mesh to another, effectively treating the meshes as a single unit. This can also be useful for creating a single UV unwrap atlas for multiple objects. After the necessary operations are completed, the "Respawn" button can be used to separate the meshes and return them to their original state.
+
+- **Visual Mode**: 
+  - **Better Cams**: Enhance camera visualization for easier editing.
+  - **Disable Better Cams**: Revert to the standard camera view.
+
+- **Active Cam**: Display the camera that is currently being used for editing.
+
+- **Load Undistorted Photo**: Load the undistorted image for the active camera, ready for texture painting.
+
+- **Focal Length/Clip from-to**: Fine-tune the active camera's focal length and clipping range for precise texture projection.
+
+- **Camera Texture Not Present**: Notification when a camera texture is missing.
+
+- **Canvas Object**: Select the object which will receive the projected textures.
+
+- **Set an Image Editor Executable**: Specify the path to an external image editor for advanced texture editing.
+
+
+## Post-Processing in External Image Editors
+
+After pressing the **Paint Active from Cam** button, the user engages in a post-processing phase, typically in an external image editor such as GIMP or Photoshop. Here is what generally occurs during this phase:
+
+### GIMP/Photoshop Workflow:
+
+1. **Open Image Editor**: GIMP or Photoshop launches with two instances; one displaying the active camera's view and the other showing the undistorted image.
+
+2. **Copy/Paste Textures**: 
+   - Use `CTRL+A` and `CTRL+C` to select and copy the entire undistorted image.
+   - Paste it onto the canvas that represents the 3D model.
+
+3. **Clone Brush Tool**: Utilize the clone brush to remove unnecessary parts of the photograph and make chromatic adjustments. This ensures that the newly applied texture blends seamlessly with the existing textures.
+
+4. **Finalizing Texture**: Once the texture editing is complete:
+   - Disable the background layer in the image editor to isolate the new texture.
+   - Save the new texture by overwriting the existing file or as a new file to be used as a patch.
+
+5. **Apply New Texture in Blender**: Back in Blender, the **Apply Paint** function transfers the edited texture onto the 3D model.
+
+6. **Save and Update Model**: Hit **Save Modified Textures** to save your changes, solidifying the improved texture on the model.
+
+Remember to periodically save your work in the external editor and keep track of version changes to ensure a smooth workflow.
+
+Leverage the Photogrammetry Paint panel to ensure your textures align perfectly with the undistorted images, creating high-quality, realistic 3D models.
 
 
 |

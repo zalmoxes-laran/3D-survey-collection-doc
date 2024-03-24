@@ -3,19 +3,9 @@
 
 **3DSC** is divided into several independent panels (at least 9 panels are available on the LTS version) which are automatically displayed on the sidebar of Blender after pressing the *3DSC* tab. 
 
-# Table of Contents
-
-1. [Shifting](#shifting)
-2. [Importers](#importers)
-3. [Exporters](#exporters)
-4. [Quick Utils](#quick-utils)
-5. [Segmentation](#segmentation)
-6. [LOD generator](#lodgenerator)
-7. [LOD Manager](#lodmanager)
-8. [Model Inspector](#model-inspector)
-9.  [Color Correction](#color-correction)
-10. [Photogrammetry Paint](#photogrammetry-paint)
-11. [Texture Mixer](#texture-mixer)
+.. contents::
+   :local:
+   :depth: 1
 
 .. _Shifting:
 

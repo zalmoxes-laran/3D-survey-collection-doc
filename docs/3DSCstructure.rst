@@ -20,7 +20,7 @@ Shifting
 
 .. _ShiftingFIG:
 
-.. figure:: img/Shifting.png
+.. figure:: img/Shifting.jpg
    :width: 400
    :align: center
 
@@ -51,8 +51,15 @@ By pressing the *Export Shift values* button, the shift panel allows to export s
 In order to easily use georeferenced data within Blender it is necessary to set the same SHIFT coordinates also in BlenderGIS (RECOMMENDED). 
 As already mentioned for 3DSC, this important step for BlenderGis can be accomplished in two ways: manual and automatic.
 
+
+.. figure:: img/Shifting_02.jpg
+   :width: 400
+   :align: center
+
+   Shifting panel
+
 **Manual** mode implies that user manually inserts data (coordinates and EPSG) within the *Preferences* of BlenderGIS. 
-Then, to confirm this information, user must set the RS and the shift coordinates in the *View* tab, located on the Sidebar of Blender, within the panel *Geoscene*. 
+Then, to confirm this information, user must set the RS and the shift coordinates in the *View* tab, located on the Sidebar of Blender, within the panel *Geoscene* (:numref:`Fig. %s <Shifting_02FIG>`). 
 In the *Preferences* of BlenderGis, before setting the shift coordinates, user must set the correct RS by pressing the *add* button.  
 
 **Automatic** mode involves the use of an automatic procedure that imports shift data from 3DSC to BlenderGIS. 

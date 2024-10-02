@@ -1,11 +1,18 @@
 3D Survey Collection (v. 1.6.0) Structure
 =====================================
 
-3DSC is divided into several independent panels (at least 9 panels are available on the LTS version) which are automatically displayed on the sidebar of Blender after pressing the *3DSC* tab. 
+3DSC is composed of several independent panels placed on the sidebar of Blender, within the tab named *3DSC*. Panels can easily be arranged by grabbing them from the top right corner. 
 
 .. contents::
    :local:
    :depth: 1
+
+
+.. admonition:: Remember
+
+   The add-on, within the preference menu of Blender, offers a feature that checks for new updates and then asks user for the installation.
+
+
 
 .. _Shifting:
 

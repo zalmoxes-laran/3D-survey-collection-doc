@@ -56,7 +56,7 @@ As already mentioned for 3DSC, this important step for BlenderGis can be accompl
    :width: 400
    :align: center
 
-   Shifting panel
+   *Geoscene* panel within the *View* tab on the sidebar of Blender
 
 **Manual** mode implies that user manually inserts data (coordinates and EPSG) within the *Preferences* of BlenderGIS. 
 Then, to confirm this information, user must set the RS and the shift coordinates in the *View* tab, located on the Sidebar of Blender, within the panel *Geoscene* (:numref:`Fig. %s <Shifting_02FIG>`). 

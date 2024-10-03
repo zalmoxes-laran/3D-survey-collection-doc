@@ -98,23 +98,36 @@ Importers
 
 This panel (:numref:`Fig. %s <ImportersFIG>`) allows to import in Blender three different types of data: coordinates, objects and cameras.
 
-.. 
-   of the add-on is useful for users that work with photogrammetric meshes that could be exported with absolute coordinates from the photogrammetric software.
+By clicking the *Coordinates* button user can import a 2D survey (*.csv* or *.txt*) in relative or absolute coordinates. 
 
-.. 
-   If user has already activated “Blender Gis” add-on, this feature will be useful to interact with other files associated with absolute coordinates.
+.. _ImportersFIG:
 
-  
+.. figure:: img/Importers_02.jpg
+   :width: 400
+   :align: center 
+
+   Option of the Importers panel
+
+In the import window, user must: first, locate the appropriate file; second, after pressing the *Toggle Region* button (the one with a gear on the icon, placed on the right side of the window) associate the first 4 columns of the coordinates file with the equivalent values (name, X, Y, Z) of the selected file (*.csv* or *.txt*) and define the separator (comma, space, semicolon). 
 
 In the first case, by clicking the *Coordinates* button user can import in Blender 2D point (such as .csv files) of both relative and absolute coordinates. 
 On the menu which appears on the right side of the window, user can associate the first 4 columns of the coordinates with the correspondent values (name, X, Y, Z) and then define the separator (comma, space, semicolon). 
 To visualize absolute coordinates within Blender, user must flag *Shift coordinates* button and 3DSC will automatically shift the file.
+The options *Shift coordinates* and *Has header*, respectively on the top and on the lower part of the right side of the *Toggle Region* window, allow to: force 3DSC to consider the SHIFT coordinates (if the 2D survey is georeferenced and if the SHIFT has previously set up on 3DSC and BlenderGis) and ignore the first line of the selected file (if a header is presented). 
 
-In the second case, 3DSC allows to import several objects with a single command. 
-By clicking on the *Multiple objs* button an import window will appear. Here, users must select the desired meshes and then select the correct options on the right side.
-The latter are the same options that usually appear in the default *import .obj* menu of Blender.
 
-In the third case, by clicking the *Agisoft xml cams* user can import cameras from a project of Metashape (Agisoft xml file).
+.. _ImportersFIG:
+
+.. figure:: img/Importers_03.jpg
+   :width: 400
+   :align: center 
+
+   Option of the Importers panel related to objects
+
+
+   By clicking on the *Multiple objs* button 3DSC allows to import several objects with a single command. 
+   In the import window, user must: first, locate the appropriate file; second, select the correct options on the right side of the window (default option allow to successfully import the obj file). If the obj file are not *Z Up* and *Y Forward* oriented, user can choose the correct orientation by exploring the corresponding drop-down menu. 
+   The option *shifting coordinates*, if selected, allow to import georeferenced data with an associated *SHIFT.txt* file. 
 
 .. _Exporters:
 

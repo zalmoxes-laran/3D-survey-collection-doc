@@ -92,7 +92,7 @@ Importers
 
 .. admonition:: Remember
 
-   To import georeferenced data in Blender it is important to set the *SHIFT* data, see the :any:`_Shifting` section.
+   To import georeferenced data in Blender it is important to set the *SHIFT* data, see the :doc:`_Shifting` section.
 
 
 

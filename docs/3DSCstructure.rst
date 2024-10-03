@@ -108,7 +108,7 @@ By clicking the *Coordinates* button user can import a 2D survey (*.csv* or *.tx
 
    Option of the Importers panel
 
-In the import window, user must: first, locate the appropriate file; second, after pressing the *Toggle Region* button (the one with a gear on the icon, placed on the right side of the window) associate the first 4 columns of the coordinates file with the equivalent values (name, X, Y, Z) of the selected file (*.csv* or *.txt*) and define the separator (comma, space, semicolon, (:numref:`Fig. %s <ImportersFIG_02>`)). 
+In the import window, user must: first, locate the appropriate file; second, after pressing the *Toggle Region* button (the one with a gear on the icon, placed on the right side of the window) associate the first 4 columns of the coordinates file with the equivalent values (name, X, Y, Z) of the selected file (*.csv* or *.txt*) and define the separator (comma, space, semicolon, :numref:`Fig. %s <ImportersFIG_02>`). 
 
 In the first case, by clicking the *Coordinates* button user can import in Blender 2D point (such as .csv files) of both relative and absolute coordinates. 
 On the menu which appears on the right side of the window, user can associate the first 4 columns of the coordinates with the correspondent values (name, X, Y, Z) and then define the separator (comma, space, semicolon). 
@@ -126,7 +126,7 @@ The options *Shift coordinates* and *Has header*, respectively on the top and on
 
 
 By clicking on the *Multiple objs* button 3DSC allows to import several objects with a single command. 
-In the import window, user must: first, locate the appropriate file; second, select the correct options on the right side of the window (default option allow to successfully import the obj file). If the obj file are not *Z Up* and *Y Forward* oriented, user can choose the correct orientation by exploring the corresponding drop-down menu ((:numref:`Fig. %s <ImportersFIG_03>`)). 
+In the import window, user must: first, locate the appropriate file; second, select the correct options on the right side of the window (default option allow to successfully import the obj file). If the obj file are not *Z Up* and *Y Forward* oriented, user can choose the correct orientation by exploring the corresponding drop-down menu (:numref:`Fig. %s <ImportersFIG_03>`). 
 The option *shifting coordinates*, if selected, allow to import georeferenced data with an associated *SHIFT.txt* file. 
 
 .. _Exporters:

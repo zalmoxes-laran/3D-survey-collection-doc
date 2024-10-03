@@ -84,11 +84,17 @@ Importers
 
 .. _ImportersFIG:
 
-.. figure:: img/Importers.png
+.. figure:: img/Importers.jpg
    :width: 400
    :align: center 
 
    Importers panel
+
+.. admonition:: Remember
+
+   To import georeferenced data in Blender it is important to set the *SHIFT* data, see the :any:`_Shifting` section.
+
+
 
 This panel (:numref:`Fig. %s <ImportersFIG>`) allows to import in Blender three different types of data: coordinates, objects and cameras.
 

@@ -125,9 +125,9 @@ The options *Shift coordinates* and *Has header*, respectively on the top and on
    Option of the Importers panel related to objects
 
 
-   By clicking on the *Multiple objs* button 3DSC allows to import several objects with a single command. 
-   In the import window, user must: first, locate the appropriate file; second, select the correct options on the right side of the window (default option allow to successfully import the obj file). If the obj file are not *Z Up* and *Y Forward* oriented, user can choose the correct orientation by exploring the corresponding drop-down menu ((:numref:`Fig. %s <ImportersFIG_03>`)). 
-   The option *shifting coordinates*, if selected, allow to import georeferenced data with an associated *SHIFT.txt* file. 
+By clicking on the *Multiple objs* button 3DSC allows to import several objects with a single command. 
+In the import window, user must: first, locate the appropriate file; second, select the correct options on the right side of the window (default option allow to successfully import the obj file). If the obj file are not *Z Up* and *Y Forward* oriented, user can choose the correct orientation by exploring the corresponding drop-down menu ((:numref:`Fig. %s <ImportersFIG_03>`)). 
+The option *shifting coordinates*, if selected, allow to import georeferenced data with an associated *SHIFT.txt* file. 
 
 .. _Exporters:
 

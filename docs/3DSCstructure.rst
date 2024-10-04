@@ -309,7 +309,7 @@ To do this, first select the object and, then press the *LOD 0 (set as)* button 
 
 Before generating LODs some steps need to be follow:
 
-- set the number of LOD by adding the correct number under the *LOD 0 (set as)* button; 
+- set the number of LODs by entering the correct value under the *LOD 0 (set as)* button; 
 - select the *Pad* option to activate the *Paddin ratio* for LOD creation; 
 - set the *Decimation ratio*; 
 - set the *Resolution* of the baked texture; 

@@ -294,7 +294,7 @@ LOD generator
 
 .. _LODgeneratorFIG:
 
-.. figure:: img/LODgenerator.png
+.. figure:: img/LODgenerator.jpg
    :width: 400
    :align: center 
 
@@ -302,21 +302,27 @@ LOD generator
 
 
 This panel (:numref:`Fig. %s <LODgeneratorFIG>`) consents to generate Levels of Details (LODs) of a selected mesh. 
-This type of tool is useful to manage large and detailed datasets, such as a mesh from photogrammetry or a mesh obtained with a laser scanner.
+This type of tool helps manage large and detailed datasets, such as a mesh obtained through photogrammetry, or mesh from laser scanner. 
 
-To use this tool user needs to first indicate the *LOD0*, the mesh with the highest level of detail within the Blender file. 
-First, select the object. 
-Second, press the *LOD 0 (set as)* button to indicate this object as the LOD 0.
+To use this tool the user needs to first indicate the *LOD0* object, that is the mesh with the highest level of detail within the *.blend* file. 
+To do this, first select the object and, then press the *LOD 0 (set as)* button to designate it as the *LOD 0* object.
 
-Before generating multiple LODs user must follow some necessary steps: first, set the number of LOD by adding the correct number under the *LOD 0 (set as)* button; 
-second, flag the *Pad* and/or the *Scene light* option to activate the paddin ratio for the LOD and/or the scene light baking;
-third, set the *decimation ratio*; 
-fourth, set the *resolution of the baked texture*; 
-fifth, within the section *LOD cluster(s) export*, indicate the *path of the folder* where LOD will be saved (**NB**: before closing the path windows remember to uncheck *relative path* within the settings. 
-Alternatively, it is possible to paste the entire path within the empty line). 
-After setting these options, by pressing the *generate* button LODs will be created in the desired folder. 
+Before generating LODs some steps need to be follow:
 
-If necessary, the *LOD generator tool* permits to create a group of LODs, by clicking on the *LOD clusters* button, and remove it, by pressing the *X* button. 
+- set the number of LOD by adding the correct number under the *LOD 0 (set as)* button; 
+- select the *Pad* option to activate the *Paddin ratio* for LOD creation; 
+- set the *Decimation ratio*; 
+- set the *Resolution* of the baked texture; 
+- indicate the path of the folder where LOD(s) will be saved.
+
+ .. admonition:: Remember
+
+ Before closing the path window, it is recommended to uncheck the *relative path* option in the export window settings. 
+ Alternatively, within the export panel of 3DSC, it is possible to directly paste the entire path into the empty field and then confirm by pressing the *Enter* button.
+
+After all these options have been set, pressing the *generate* button will create LODs in the desired folder. 
+
+If necessary, *LOD generator* tool permits to create a group of LODs, by clicking on the *LOD clusters* button, and remove it, by pressing the *X* button. 
 
 The *FBX* button allows to export LODs’ cluster in FBX format in the folder previously indicated. 
 

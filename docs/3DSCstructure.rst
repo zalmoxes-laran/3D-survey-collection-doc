@@ -180,7 +180,8 @@ For example, this option will be useful with tiles that need to be textured with
 
 
 The Exporter tool of 3DSC allows also to export instanced objects. 
-To export this type of objects it is necessary to: 
+To export this type of objects it is necessary to:
+ 
 - place in x=0, y=0, z=0 the instanced object with location, scale, and rotation applied (*ctrl+a* command within the viewport of Blender); 
 - select all the objects to be exported and then select the object in 0,0,0; 
 - click the *Coordinates* button in the *Exporters* panel of 3DSC;

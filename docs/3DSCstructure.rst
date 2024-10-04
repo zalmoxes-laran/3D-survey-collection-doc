@@ -273,7 +273,7 @@ This procedure could help user to manage both the texture phase (outside of Blen
  Before using this tool, it’s necessary to control the scale of each 3D object that must be segmented.
  To control the scale of a 3D object it is recommend to check the scale value in the *Scale* panel, located within the *Item* tab, on the *Sidebar* of Blender. 
  If the 3D object is the result of a 3D survey, it must match its real dimensions. 
- If the scale values of the 3D object are not equal to 1 (in XYZ), the user must modify the scale and apply the transformation (*ctrl+a*->*scale*, or *ctrl+a* -> *all transforms*). 
+ If the scale values of the 3D object are not equal to 1 (in XYZ), the user must modify the scale and apply the transformation (*ctrl+a* -> *Scale*, or *ctrl+a* -> *All transforms*). 
    
 
 
@@ -281,7 +281,7 @@ To set a regular grid, useful to segment a 3D object with the *Segmentation* too
 Before generating the *Cutter grid*, user can adjust the extent of each tile of the grid by changing the *Area value (m2)* on the right side of the *Set up cutter* panel.
 
 After pressing the *Cutter set* button, if the dimension of the grid does not correctly fit the dimension of the 3D object, user can: select all the tiles of the grid (on the outliner of Blender, every tile of the grid is automatically named as *cutter* followed by a consecutive number *.001*, such as *cutter.001*) and scale them using the scale command of Blender (in this case, the reference point for the scaling action is automatically placed, by the add-on, on the lower left corner of the grid). 
-It is strongly recommended to use *Top Orthographic* view to set the position of the *Cutter grid*.
+It is strongly recommended to use *Top Orthographic* view of Blender to set the position of the *Cutter grid*.
 
 After clicking on the *Cutter set* button, a grid will appear in the viewport of Blender. 
 The grid will fully cover the entire XY-plane extension of the mesh that needs to be cut. 

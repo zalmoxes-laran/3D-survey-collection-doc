@@ -1,7 +1,8 @@
 3D Survey Collection (v. 1.6.0) Structure
 =====================================
 
-3DSC is composed of several independent panels placed on the sidebar of Blender, within the tab named *3DSC*. Panels can easily be arranged by grabbing them from the top right corner. 
+3DSC is composed of several independent panels placed on the sidebar of Blender, within the tab named *3DSC*. 
+Panels can easily be arranged by grabbing them from the top right corner. 
 
 .. contents::
    :local:
@@ -26,7 +27,7 @@ Shifting
 
    Shifting panel
 
-This panel (:numref:`Fig. %s <ShiftingFIG>`), which is directly linked to the *Importers* panel, represents the shifting values (expressed with X, Y, Z) of an object (for example a 2D/3D survey) imported in Blender. Shifting values indicate the translation of an imported 2D survey or 3D object respect to absolute coordinates. On the lower part of the panel, the line “EPSG” indicates the Reference System (RS) whom 2D and 3D objects, imported in the Blender file, will refer to. 
+This panel (:numref:`Fig. %s <ShiftingFIG>`), which is directly linked to the *Importers* panel, represents the shifting values (expressed with X, Y, Z) of an object (for example a 2D/3D survey) imported in Blender. Shifting values indicate the translation of an imported 2D survey or 3D object respect to absolute coordinates. On the lower part of the panel, the line *EPSG* indicates the Reference System (RS) whom 2D and 3D objects, imported in the Blender file, will refer to. 
 
 .. admonition:: Remember
 
@@ -37,7 +38,8 @@ To insert shift values in Blender two modes are available: manual and automatic.
 
 **Manual** mode implies that user insert manually both the coordinates and the EPSG code.
 
-On the contrary, **Automatic** mode (RECOMMENDED) implies that a “SHIFT.txt” file is automatically read by 3DSC (**ONLY** if the file is placed in the folder where the *.blend* file is saved) and, instantly, *shift coordinates* will appear within the *Shift values* lines. To use this automatic mode, press the *import shift coordinated from file*, on the right corner of the panel, and locate the *SHIFT.txt* file.  
+On the contrary, **Automatic** mode (RECOMMENDED) implies that a *SHIFT.txt* file is automatically read by 3DSC (**ONLY** if the file is placed in the folder where the *.blend* file is saved) and, instantly, *shift coordinates* will appear within the *Shift values* lines. 
+To use this automatic mode, press the *import shift coordinated from file*, on the right corner of the panel, and locate the *SHIFT.txt* file.  
 
 .. admonition:: Remember
 
@@ -46,7 +48,7 @@ On the contrary, **Automatic** mode (RECOMMENDED) implies that a “SHIFT.txt”
    EPSG::3004 2392800.00 5069900.00 0 
 
 
-By pressing the *Export Shift values* button, the shift panel allows to export shift coordinates (.txt format) for different purposes. 
+By pressing the *Export Shift values* button, the shift panel allows to export shift coordinates (*.txt* format) for different purposes. 
 
 In order to easily use georeferenced data within Blender it is necessary to set the same SHIFT coordinates also in BlenderGIS (RECOMMENDED). 
 As already mentioned for 3DSC, this important step for BlenderGis can be accomplished in two ways: manual and automatic.
@@ -181,7 +183,7 @@ For example, this option will be useful with tiles that need to be textured with
 
 The Exporter tool of 3DSC allows also to export instanced objects. 
 To export this type of objects it is necessary to:
- 
+
 - place in x=0, y=0, z=0 the instanced object with location, scale, and rotation applied (*ctrl+a* command within the viewport of Blender); 
 - select all the objects to be exported and then select the object in 0,0,0; 
 - click the *Coordinates* button in the *Exporters* panel of 3DSC;

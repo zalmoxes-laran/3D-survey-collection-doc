@@ -315,8 +315,7 @@ Before generating LODs some steps need to be follow:
 - set the *Resolution* of the baked texture; 
 - indicate the path of the folder where LOD(s) will be saved.
 
-
- .. admonition:: Remember
+.. admonition:: Remember
 
  Before closing the path window, it is recommended to uncheck the *relative path* option in the export window settings. 
  Alternatively, within the export panel of 3DSC, it is possible to directly paste the entire path into the empty field and then confirm by pressing the *Enter* button.

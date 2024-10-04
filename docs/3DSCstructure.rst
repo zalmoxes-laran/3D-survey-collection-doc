@@ -212,13 +212,16 @@ Quick Utils
 
 .. _Quick_UtilsFIG:
 
-.. figure:: img/QuickUtils.png
+.. figure:: img/QuickUtils.jpg
    :width: 400
    :align: center 
 
    Quick Utils panel
 
 This panel (:numref:`Fig. %s <Quick_UtilsFIG>`) permits to customize some features of the 3D objects with a series of batch processes that can assist users organize objects within the Blender file.  
+
+The *CircumCenter* button allows user to create a circle starting from 3 points. 
+This function works only in edit mode and only if points are associated to the *XY plane* (only if they have the same Z value). 
 
 The *Rename 4 GameEngines* button allows to automatically modify the name of a list of selected objects by adding the prefix *OB_actual name of the object*, which stands for *OB(JECT)_*.
 
@@ -241,6 +244,9 @@ By clicking on the *Metalness 0* button 3DSC will change the Roughness value to 
 The *Batch legacy material conversion* tool allows to convert a simple diffuse material into a Principles BSDF. 
 First, select single or multiple objects. 
 Second, press on the *Diffuse 2 Principled* button. 
+
+The *Invert x and y* button inverts the coordinates of the object’s origin. 
+This function works only in object mode, and it does not affect the Z value. 
 
 
 .. _Segmentation:

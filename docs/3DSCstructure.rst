@@ -1,4 +1,4 @@
-3D Survey Collection (v. 1.6.0) Structure
+3D Survey Collection (v. 1.6.1) Structure
 =====================================
 
 3DSC is composed of several independent panels placed on the sidebar of Blender, within the tab named *3DSC*. 
@@ -59,7 +59,7 @@ As already mentioned for 3DSC, this important step for BlenderGis can be accompl
    :width: 400
    :align: center
 
-   *Geoscene* panel, within the *View* tab, on the sidebar of Blender
+   The *Geoscene* panel of BlenderGIS
 
 **Manual** mode implies that user manually inserts data (coordinates and EPSG) within the *Preferences* of BlenderGIS. 
 Then, to confirm this information, user must set the RS and the shift coordinates in the *View* tab, located on the Sidebar of Blender, within the panel *Geoscene* (:numref:`Fig. %s <Shifting_02FIG>`). 
@@ -134,7 +134,7 @@ The option *shifting coordinates*, if selected, allow to import georeferenced da
 
 .. admonition:: Remember
 
-   By defautl, when objects are imported into Blender using the *Importer* tool of 3DSC, geometries are displayed as *Bounds*. 
+   By default, when objects are imported into Blender using the *Importer* tool of 3DSC, geometries are displayed as *Bounds*. 
    To change this display mode, select the *Object* tab, in the Blender's *Properties* panel, then, in the *Viewport Display* panel, select *Display as* -> *Textured* to visualize the objects with their materials.
 
 
@@ -312,7 +312,7 @@ The following steps need to be completed to use the script.
    :width: 400
    :align: center 
 
-   How to reach the download button of the script (3DSC for Metashpe) within the Extended Matrix site
+   How to reach the download button of the script *3DSC for Metashpe* within the Extended Matrix webpage
 
 
 Download the script (3DSC for Metashape) from GitHub. 
@@ -326,7 +326,9 @@ In GitHub , to download the script the user must click on the *Code* green-butto
    :width: 400
    :align: center 
 
-   GitHub web page where the user can download the 3DSC for Metashape script. The red rectangle highlights the button that allows to download the zip folder of the script. The yellow rectangle highlights the file which contains instructions.
+   GitHub webpage where the user can download the *3DSC for Metashape* script. 
+   The red rectangle highlights the button that allows to download the zip folder of the script. 
+   The yellow rectangle highlights the file which contains instructions.
 
 Within the unzip-folder (the user must unzip the folder to use the script) the *readme.md* file contains the useful instructions to correctly use the script in Metashape.
 

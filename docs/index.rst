@@ -34,4 +34,5 @@ Contents
    :numbered: 5
 
    usage
+   changeLog
    3DSCstructure

@@ -341,6 +341,12 @@ In GitHub , to download the script the user must click on the *Code* green-butto
 Within the unzip-folder (the user must unzip the folder to use the script) the *readme.md* file contains the useful instructions to correctly use the script in Metashape.
 
 
+.. admonition:: Remember
+
+ When textures are created outside Blender and may later be re-imported and modified within Blender, it is recommended to save them as *.png* instead of *.jpg* to avoid texture data loss.
+ While this approach may increase file size (in terms of data storage), it will help preserve the quality and prevent information loss.
+
+
 .. _LODgenerator:
 
 LOD generator

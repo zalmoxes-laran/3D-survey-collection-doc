@@ -128,7 +128,10 @@ The options *Shift coordinates* and *Has header*, respectively on the top and on
 
 
 By clicking on the *Multiple objs* button 3DSC allows to import several objects with a single command. 
-In the import window, user must: first, locate the appropriate file; second, select the correct options on the right side of the window (default option allow to successfully import the obj file). If the obj file are not *Z Up* and *Y Forward* oriented, user can choose the correct orientation by exploring the corresponding drop-down menu (:numref:`Fig. %s <ImportersFIG_03>`). 
+In the import window, user must: 
+
+- locate the appropriate file; 
+- select the correct options on the right side of the window (default option allow to successfully import the obj file). If the obj file are not *Z Up* and *Y Forward* oriented, user can choose the correct orientation by exploring the corresponding drop-down menu (:numref:`Fig. %s <ImportersFIG_03>`). 
 The option *shifting coordinates*, if selected, allow to import georeferenced data with an associated *SHIFT.txt* file. 
 
 
@@ -136,6 +139,11 @@ The option *shifting coordinates*, if selected, allow to import georeferenced da
 
    By default, when objects are imported into Blender using the *Importer* tool of 3DSC, geometries are displayed as *Bounds*. 
    To change this display mode, select the *Object* tab, in the Blender's *Properties* panel, then, in the *Viewport Display* panel, select *Display as* -> *Textured* to visualize the objects with their materials.
+
+.. admonition:: Remember
+
+   It is recommended to import objects without textures if they need to be textured later outside Blender.
+
 
 
 

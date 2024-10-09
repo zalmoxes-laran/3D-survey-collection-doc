@@ -629,14 +629,14 @@ Here is what generally occurs during this phase witihn GIMP/Photoshop:
 - *Open Image Editor*: GIMP or Photoshop launches with two instances; one displaying the active camera's view and the other showing the undistorted image.
 
 - *Copy/Paste Textures*: 
-  - Use *CTRL+A* and *CTRL+C* to select and copy the entire undistorted image.
-  - Paste it onto the canvas that represents the 3D model.
+  * Use *CTRL+A* and *CTRL+C* to select and copy the entire undistorted image.
+  * Paste it onto the canvas that represents the 3D model.
 
 - *Clone Brush Tool*: Utilize the clone brush to remove unnecessary parts of the photograph and make chromatic adjustments. This ensures that the newly applied texture blends seamlessly with the existing textures.
 
 - *Finalizing Texture*: Once the texture editing is complete:
-  - Disable the background layer in the image editor to isolate the new texture.
-  - Save the new texture by overwriting the existing file or as a new file to be used as a patch.
+  * Disable the background layer in the image editor to isolate the new texture.
+  * Save the new texture by overwriting the existing file or as a new file to be used as a patch.
 
 - *Apply New Texture in Blender*: Back in Blender, the *Apply Paint* function transfers the edited texture onto the 3D model.
 

@@ -6,11 +6,11 @@ Download - Install
 Download the installation folder
 --------------------------------
 
-The installation folder of the EMtools add-on are available at the following links:
+The installation folder of the 3DSC add-on are available at the following links:
 
 - `LTS version <https://github.com/zalmoxes-laran/3D-survey-collection>`_.
 
-The two version of the EMtools add-on are also available at the `Download <https://www.extendedmatrix.org/download>`_ section of the Extended Matrix website.
+The two version of the 3DSC add-on are also available at the `Download <https://www.extendedmatrix.org/download>`_ section of the Extended Matrix website.
 
 
 
@@ -19,7 +19,7 @@ Install 3DSC in Blender
 --------------------------
 
 
-In Blender it is possible to install EMtools by following the general steps useful for the default installation of an add-on:
+In Blender it is possible to install 3DSC by following the general steps useful for the default installation of an add-on:
 
 - download the zip folder of the add-on;
 

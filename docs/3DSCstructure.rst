@@ -590,20 +590,21 @@ The *Setup Scene* section initializes the scene for photogrammetric texture edit
 Within the *Folder with Undistorted Images* section the user can assign a directory to indicate where undistorted images are stored before using them during the texture painting.
 
 The *Set Selected Cam(s) As* section includes several buttons: 
-  - *Lens*: Select the type of lens used to capture your images.
-  - *Focal Length*: Input the focal length of the camera lens.
-  - *Apply*: Save your configured camera settings.
-  - *Temporary Merge*: Combine selected meshes for collective texturing.
-  - *Respawn Meshes*: Separate previously merged meshes back to their original state.
 
-The "Temporary Merge" function allows users to temporarily join two mesh objects in the scene. 
+- *Lens*: Select the type of lens used to capture your images.
+- *Focal Length*: Input the focal length of the camera lens.
+- *Apply*: Save your configured camera settings.
+- *Temporary Merge*: Combine selected meshes for collective texturing.
+- *Respawn Meshes*: Separate previously merged meshes back to their original state.
+
+The *Temporary Merge* function allows users to temporarily join two mesh objects in the scene. 
 This feature is particularly useful for tasks that require meshes to be combined, such as texture painting to correct imperfections. For instance, users can utilize a clone stamp to transfer texture from one part of a mesh to another, effectively treating the meshes as a single unit. 
 This can also be useful for creating a single UV unwrap atlas for multiple objects. 
 After the necessary operations are completed, the "Respawn" button can be used to separate the meshes and return them to their original state.
 
 The *Visual Mode* section inlcudes two functions: 
-  - *Better Cams*: Enhance camera visualization for easier editing.
-  - *Disable Better Cams*: Revert to the standard camera view.
+- *Better Cams*: Enhance camera visualization for easier editing.
+- *Disable Better Cams*: Revert to the standard camera view.
 
 
 The *Active Cam* section displays the camera that is currently being used for editing.
@@ -628,14 +629,14 @@ Here is what generally occurs during this phase witihn GIMP/Photoshop:
 - *Open Image Editor*: GIMP or Photoshop launches with two instances; one displaying the active camera's view and the other showing the undistorted image.
 
 - *Copy/Paste Textures*: 
-   - Use *CTRL+A* and *CTRL+C* to select and copy the entire undistorted image.
-   - Paste it onto the canvas that represents the 3D model.
+  - Use *CTRL+A* and *CTRL+C* to select and copy the entire undistorted image.
+  - Paste it onto the canvas that represents the 3D model.
 
 - *Clone Brush Tool*: Utilize the clone brush to remove unnecessary parts of the photograph and make chromatic adjustments. This ensures that the newly applied texture blends seamlessly with the existing textures.
 
 - *Finalizing Texture*: Once the texture editing is complete:
-   - Disable the background layer in the image editor to isolate the new texture.
-   - Save the new texture by overwriting the existing file or as a new file to be used as a patch.
+  - Disable the background layer in the image editor to isolate the new texture.
+  - Save the new texture by overwriting the existing file or as a new file to be used as a patch.
 
 - *Apply New Texture in Blender*: Back in Blender, the *Apply Paint* function transfers the edited texture onto the 3D model.
 

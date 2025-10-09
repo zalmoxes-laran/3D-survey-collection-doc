@@ -84,13 +84,13 @@ Create the "canvas" - a uniform mesh with constant polygon density:
 3. Format: **Wavefront OBJ**
 4. Navigate to your EM project structure:
    
-   ``05_RB/05.03_Model_Library/[YourModelName]/meshmono/``
+   ``05_RB/03_Model_Library/[YourModelName]/meshmono/``
    
    Create the subfolders if they don't exist:
    
    .. code-block:: text
 
-      05_RB/05.03_Model_Library/[YourModelName]/
+      05_RB/03_Model_Library/[YourModelName]/
       ├── meshmono/          # Single decimated mesh (this export)
       ├── meshpoly/          # Segmented tiles (created later)
       └── meshpolytex/       # Textured tiles (final output)
@@ -119,7 +119,7 @@ Phase 2: Mesh Segmentation (Blender + 3DSC)
 1. Open Blender
 2. Install 3D Survey Collection add-on if not already installed
 3. **Import > 3DSC > Import OBJ (Ant File Importer)**
-4. Navigate to ``05_RB/05.03_Model_Library/[YourModelName]/meshmono/``
+4. Navigate to ``05_RB/03_Model_Library/[YourModelName]/meshmono/``
 5. Select the OBJ file
 
 .. figure:: img/blender_import_3dsc.png
@@ -193,7 +193,7 @@ After segmentation, some tiles may contain unwanted floating fragments:
 
 1. Select all tile objects
 2. Open **3DSC > Export** panel
-3. Set export folder to ``05_RB/05.03_Model_Library/[YourModelName]/meshpoly/``
+3. Set export folder to ``05_RB/03_Model_Library/[YourModelName]/meshpoly/``
 4. **Uncheck "Relative Path"** in export settings
 5. Click **OBJ Export Batch**
 6. Monitor progress in system console
@@ -234,8 +234,8 @@ Create a clean Metashape project for texturing:
 
    - **Raw photos**: ``05_RB/05.01_RAW/photos/``
    - **Metashape projects**: ``05_RB/05.02_PROCESSING/metashape/``
-   - **Import tiles from**: ``05_RB/05.03_Model_Library/[ModelName]/meshpoly/``
-   - **Export textures to**: ``05_RB/05.03_Model_Library/[ModelName]/meshpolytex/``
+   - **Import tiles from**: ``05_RB/03_Model_Library/[ModelName]/meshpoly/``
+   - **Export textures to**: ``05_RB/03_Model_Library/[ModelName]/meshpolytex/``
 
 .. admonition:: Photo Selection Strategy
 
@@ -264,7 +264,7 @@ Create a clean Metashape project for texturing:
 
 1. In Metashape, go to **Tools > Run Script**
 2. Select ``import_multiple_models.py``
-3. When prompted, select the ``05_RB/05.03_Model_Library/[ModelName]/meshpoly/`` folder
+3. When prompted, select the ``05_RB/03_Model_Library/[ModelName]/meshpoly/`` folder
 4. The script will:
    
    - Create one chunk per tile
@@ -337,7 +337,7 @@ Result: **6 textures at 4096×4096 px** per 100 m² tile
 
 1. **Tools > Run Script**
 2. Select ``export_multiple_models.py``
-3. Set export folder to ``05_RB/05.03_Model_Library/[ModelName]/meshpolytex/``
+3. Set export folder to ``05_RB/03_Model_Library/[ModelName]/meshpolytex/``
 4. If using georeferenced coordinates, provide shift file
 5. The script exports:
    
@@ -367,7 +367,7 @@ Phase 4: LOD Generation (Blender + 3DSC)
 
 1. Open new Blender file (or continue from previous)
 2. **Import > 3DSC > Import OBJ (Ant File Importer)**
-3. Navigate to ``05_RB/05.03_Model_Library/[ModelName]/meshpolytex/``
+3. Navigate to ``05_RB/03_Model_Library/[ModelName]/meshpolytex/``
 4. Import all tiles
 
 .. figure:: img/import_textured.png
@@ -501,14 +501,14 @@ After LOD generation, organize your Blender file:
 **5.2 Save as RB File**
 
 1. **File > Save As**
-2. Navigate to ``05_RB/05.03_Model_Library/[ModelName]/``
+2. Navigate to ``05_RB/03_Model_Library/[ModelName]/``
 3. Name convention: ``[ModelName]_RB.blend``
    
    Example: ``SeriePola_RB.blend``
 
 4. Final location:
    
-   ``05_RB/05.03_Model_Library/[ModelName]/[ModelName]_RB.blend``
+   ``05_RB/03_Model_Library/[ModelName]/[ModelName]_RB.blend``
 
 5. This file is now ready for:
    
@@ -530,7 +530,7 @@ After LOD generation, organize your Blender file:
    
    .. code-block:: text
    
-      05_RB/05.03_Model_Library/[ModelName]/
+      05_RB/03_Model_Library/[ModelName]/
       ├── meshmono/              # Decimated canvas
       ├── meshpoly/              # Segmented tiles (untextured)
       ├── meshpolytex/           # Textured tiles
@@ -587,7 +587,7 @@ The RB file serves as a base for stratigraphic documentation in the Source-Based
 4. **File > Link** (not Import!) the RB file
 5. In Link dialog:
    
-   - Navigate to: ``05_RB/05.03_Model_Library/[ModelName]/[ModelName]_RB.blend``
+   - Navigate to: ``05_RB/03_Model_Library/[ModelName]/[ModelName]_RB.blend``
    - Open the .blend file
    - Go to **Collection**
    - Select **RB** collection (contains all LODs)
@@ -704,7 +704,7 @@ The Digital Replica workflow integrates with the EM structure as follows:
    │   │       ├── segmentation.blend    # Intermediate segmentation work
    │   │       └── LOD_generation.blend  # LOD processing file
    │   │
-   │   └── 05.03_Model_Library/           # ★ Processed 3D models (final outputs)
+   │   └── 03_Model_Library/           # ★ Processed 3D models (final outputs)
    │       └── [ModelName]/               # One subfolder per model
    │           ├── meshmono/              # ★ Decimated canvas (1000 poly/m²)
    │           │   ├── canvas.obj
@@ -740,8 +740,8 @@ The Digital Replica workflow integrates with the EM structure as follows:
    - **Original photos**: ``05_RB/05.01_RAW/photos/``
    - **Metashape projects**: ``05_RB/05.02_PROCESSING/metashape/``
    - **Work Blender files**: ``05_RB/05.02_PROCESSING/blender/``
-   - **All mesh outputs**: ``05_RB/05.03_Model_Library/[ModelName]/``
-   - **Final RB file**: ``05_RB/05.03_Model_Library/[ModelName]/[ModelName]_RB.blend``
+   - **All mesh outputs**: ``05_RB/03_Model_Library/[ModelName]/``
+   - **Final RB file**: ``05_RB/03_Model_Library/[ModelName]/[ModelName]_RB.blend``
    - **EM annotation project**: ``07_SB/[ModelName]_EM.blend``
 
 Folder Naming Convention
@@ -749,7 +749,7 @@ Folder Naming Convention
 
 When working in teams, the numeric prefixes (05 → 03, etc.) help verbally communicate paths:
 
-- "Put it in zero-five, zero-three" = ``05_RB/05.03_Model_Library/``
+- "Put it in zero-five, zero-three" = ``05_RB/03_Model_Library/``
 - "Check zero-five, zero-two for the Metashape file" = ``05_RB/05.02_PROCESSING/``
 
 This system ensures clear communication even over phone or video calls.
@@ -912,7 +912,7 @@ Project Organization
 - Download template: https://github.com/zalmoxes-laran/ExtendedMatrix/raw/refs/heads/EM_1.5_dev/07_FolderTree/EM_FolderTree_v1.5.zip
 - Keep raw photos in ``05_RB/05.01_RAW/photos/``
 - Save all Metashape projects in ``05_RB/05.02_PROCESSING/metashape/``
-- Organize outputs in ``05_RB/05.03_Model_Library/[ModelName]/``
+- Organize outputs in ``05_RB/03_Model_Library/[ModelName]/``
 - Use numeric prefixes for verbal communication (e.g., "zero-five, zero-three")
 - Name files descriptively and consistently within each folder
 - Keep backups at each major phase

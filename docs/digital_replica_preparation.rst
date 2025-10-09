@@ -978,8 +978,8 @@ Once your Digital Replica is complete, you can prepare it for scientific publica
    For questions and support:
    
    - **3DSC GitHub Issues**: https://github.com/zalmoxes-laran/3D-survey-collection/issues
-   - **Extended Matrix Forum**: https://www.extendedmatrix.org/forum
-   - **Email**: info@extendedmatrix.org
+   - **Extended Matrix Forum**: https://t.me/UserGroupEM
+   - **Email**: emanuel.demetrescu at cnr.it
 
 ---
 

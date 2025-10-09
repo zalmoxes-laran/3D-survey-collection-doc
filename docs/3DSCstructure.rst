@@ -346,6 +346,11 @@ Within the unzip-folder (the user must unzip the folder to use the script) the *
  When textures are created outside Blender and may later be re-imported and modified within Blender, it is recommended to save them as *.png* instead of *.jpg* to avoid texture data loss.
  While this approach may increase file size (in terms of data storage), it will help preserve the quality and prevent information loss.
 
+.. seealso::
+
+   **Complete Workflow**: For a complete end-to-end workflow from photogrammetry 
+   to stratigraphic annotation using LOD Generator, Segmentation, and other 3DSC tools, 
+   see :doc:`digital_replica_preparation`.
 
 .. _LODgenerator:
 

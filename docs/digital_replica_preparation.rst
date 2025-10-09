@@ -206,7 +206,7 @@ After segmentation, some tiles may contain unwanted floating fragments:
 
 .. admonition:: Best Practice
 
-   Save your Blender work file to ``05_RB/05.02_PROCESSING/blender/`` 
+   Save your Blender work file to ``05_RB/02_PROCESSING/blender/`` 
    with a descriptive name like ``[ModelName]_segmentation.blend`` before exporting.
    This preserves your segmentation work for future reference.
 
@@ -217,11 +217,11 @@ Phase 3: High-Resolution Texturing (Metashape + 3DSC Scripts)
 
 Create a clean Metashape project for texturing:
 
-1. Open original Metashape project (located in ``05_RB/05.02_PROCESSING/metashape/``)
+1. Open original Metashape project (located in ``05_RB/02_PROCESSING/metashape/``)
 2. **File > Save As** with a new name in the same folder:
    
-   - Original: ``05_RB/05.02_PROCESSING/metashape/project.psx``
-   - New: ``05_RB/05.02_PROCESSING/metashape/project_texturing.psx``
+   - Original: ``05_RB/02_PROCESSING/metashape/project.psx``
+   - New: ``05_RB/02_PROCESSING/metashape/project_texturing.psx``
 
 3. Optional: Remove unnecessary chunks to simplify
 4. Ensure you have:
@@ -232,8 +232,8 @@ Create a clean Metashape project for texturing:
 
 .. admonition:: EM Structure Locations
 
-   - **Raw photos**: ``05_RB/05.01_RAW/photos/``
-   - **Metashape projects**: ``05_RB/05.02_PROCESSING/metashape/``
+   - **Raw photos**: ``05_RB/01_RAW/photos/``
+   - **Metashape projects**: ``05_RB/02_PROCESSING/metashape/``
    - **Import tiles from**: ``05_RB/03_Model_Library/[ModelName]/meshpoly/``
    - **Export textures to**: ``05_RB/03_Model_Library/[ModelName]/meshpolytex/``
 
@@ -688,13 +688,13 @@ The Digital Replica workflow integrates with the EM structure as follows:
    ├── 03_Documentation/                  # New documentation produced
    ├── 04_Texts/                          # Reports, articles, management docs
    ├── 05_RB/                             # Reality-Based Data ★ MAIN FOLDER FOR THIS WORKFLOW
-   │   ├── 05.01_RAW/                     # Raw sensor data
+   │   ├── 01_RAW/                     # Raw sensor data
    │   │   └── photos/                    # ★ Original photogrammetry images
    │   │       ├── IMG_0001.jpg
    │   │       ├── IMG_0002.jpg
    │   │       └── ...
    │   │
-   │   ├── 05.02_PROCESSING/              # Pre/post-processing files
+   │   ├── 02_PROCESSING/              # Pre/post-processing files
    │   │   ├── metashape/                 # ★ Metashape project files
    │   │   │   ├── project.psx           # Main photogrammetric project
    │   │   │   ├── project_texturing.psx # Texturing project
@@ -737,9 +737,9 @@ The Digital Replica workflow integrates with the EM structure as follows:
 
 .. admonition:: Key Locations for Digital Replica Workflow
 
-   - **Original photos**: ``05_RB/05.01_RAW/photos/``
-   - **Metashape projects**: ``05_RB/05.02_PROCESSING/metashape/``
-   - **Work Blender files**: ``05_RB/05.02_PROCESSING/blender/``
+   - **Original photos**: ``05_RB/01_RAW/photos/``
+   - **Metashape projects**: ``05_RB/02_PROCESSING/metashape/``
+   - **Work Blender files**: ``05_RB/02_PROCESSING/blender/``
    - **All mesh outputs**: ``05_RB/03_Model_Library/[ModelName]/``
    - **Final RB file**: ``05_RB/03_Model_Library/[ModelName]/[ModelName]_RB.blend``
    - **EM annotation project**: ``07_SB/[ModelName]_EM.blend``
@@ -750,7 +750,7 @@ Folder Naming Convention
 When working in teams, the numeric prefixes (05 → 03, etc.) help verbally communicate paths:
 
 - "Put it in zero-five, zero-three" = ``05_RB/03_Model_Library/``
-- "Check zero-five, zero-two for the Metashape file" = ``05_RB/05.02_PROCESSING/``
+- "Check zero-five, zero-two for the Metashape file" = ``05_RB/02_PROCESSING/``
 
 This system ensures clear communication even over phone or video calls.
 
@@ -910,8 +910,8 @@ Project Organization
 
 - Use the **Extended Matrix standard folder structure** (EM 1.5)
 - Download template: https://github.com/zalmoxes-laran/ExtendedMatrix/raw/refs/heads/EM_1.5_dev/07_FolderTree/EM_FolderTree_v1.5.zip
-- Keep raw photos in ``05_RB/05.01_RAW/photos/``
-- Save all Metashape projects in ``05_RB/05.02_PROCESSING/metashape/``
+- Keep raw photos in ``05_RB/01_RAW/photos/``
+- Save all Metashape projects in ``05_RB/02_PROCESSING/metashape/``
 - Organize outputs in ``05_RB/03_Model_Library/[ModelName]/``
 - Use numeric prefixes for verbal communication (e.g., "zero-five, zero-three")
 - Name files descriptively and consistently within each folder

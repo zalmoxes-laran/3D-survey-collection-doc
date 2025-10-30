@@ -36,3 +36,4 @@ Contents
    usage
    changeLog
    3DSCstructure
+   TSM_documentation

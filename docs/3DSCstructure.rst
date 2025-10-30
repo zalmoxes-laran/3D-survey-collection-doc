@@ -265,6 +265,8 @@ The *Invert x and y* button inverts the coordinates of the object’s origin.
 This function works only in object mode, and it does not affect the Z value. 
 
 
+.. include:: TSM_documentation.rst
+
 .. _Segmentation:
 
 Segmentation

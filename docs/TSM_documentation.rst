@@ -218,44 +218,68 @@ TSM systems can be organized by:
 Complete Workflow Example
 --------------------------
 
-**Scenario:** Texturing a photogrammetric model of a Roman wall section
+**Scenario:** Texturing a virtual reconstruction with chronologically-consistent building orientations
 
-1. **Preparation:**
-   
-   - Import the photogrammetric mesh
-   - Create an empty object at the center of the wall section
-   - Adjust the empty's rotation to align with the wall's main axes
+When modeling a virtual reconstruction, it is common practice to texture entire groups of buildings that share a particular orientation, typically related to the chronological period of the monuments. Changes in historical periods often correspond to changes in urban orientation and alignment.
 
-2. **TSM Creation:**
+**Case Study:** Republican and Imperial phases of a Roman archaeological site
+
+1. **Analysis Phase:**
    
-   - Select the empty object
-   - Set plane size to 4.0 meters (appropriate for a wall section)
-   - Keep "Faces Inward" unchecked (projecting outward onto the wall)
+   - Identify buildings with Republican-era orientation (e.g., aligned North-South at 15° deviation)
+   - Identify buildings with Imperial-era orientation (e.g., aligned with the later street grid at 8° deviation)
+   - Note that each chronological phase has distinct architectural alignments
+
+2. **TSM Creation for Republican Phase:**
+   
+   - Create an empty object at the site center
+   - Rotate the empty to match the Republican-era building orientation (15° deviation)
+   - Set plane size to 5.0 meters (appropriate for typical building facade height)
+   - Keep "Faces Inward" unchecked
    - Click "Create New TSM"
-   - Add description: "Severan period east wall"
+   - Add description: "Republican phase - North-South orientation 15°"
 
-3. **UV Setup:**
+3. **TSM Creation for Imperial Phase:**
    
-   - Select the wall mesh
-   - Create a new UV map named "TSM_Projection"
-   - Select this UV layer in the dropdown
+   - Create another empty object
+   - Rotate to match the Imperial-era street grid orientation (8° deviation)
+   - Set plane size to 6.0 meters (larger Imperial buildings)
+   - Click "Create New TSM"
+   - Add description: "Imperial phase - Street grid orientation 8°"
 
-4. **Apply Mapping:**
+4. **Applying Textures to Republican Buildings:**
    
-   - Select the TSM from the list
+   - Select first Republican-era building mesh
+   - Create UV map named "TSM_Republican"
+   - Select the Republican TSM from the list
    - Click "Apply TSM Mapping"
-   - The UV Project modifier is added with 6 projectors
+   - Repeat for all Republican-era structures
 
-5. **Fine-tuning:**
+5. **Applying Textures to Imperial Buildings:**
    
-   - Adjust the TSM scale (X, Y, Z) to better fit the wall dimensions
-   - The UV projection updates automatically
-   - Add textures to the material using the projected UVs
+   - Select first Imperial-era building mesh
+   - Create UV map named "TSM_Imperial"
+   - Select the Imperial TSM from the list
+   - Click "Apply TSM Mapping"
+   - Repeat for all Imperial-era structures
 
-6. **Documentation:**
+6. **Period-Specific Fine-tuning:**
    
-   - Export the modified mesh with the TSM_UVProject modifier applied
-   - The projection setup can be reused for similar wall sections
+   - Adjust Republican TSM scale for smaller, earlier construction techniques
+   - Adjust Imperial TSM scale for larger, monumental architecture
+   - The UV projections update automatically across all buildings using each system
+
+7. **Advantages of this Approach:**
+   
+   - Consistent texture orientation within each chronological phase
+   - Easy to modify all buildings of a specific period simultaneously
+   - Clear documentation of which buildings belong to which phase
+   - Efficient workflow for large-scale virtual reconstructions
+   - Supports the Extended Matrix methodology for stratigraphic reconstruction
+
+.. admonition:: Best Practice for Virtual Reconstructions
+
+   Create distinct TSM systems for each chronological phase or building orientation in your reconstruction. This approach maintains consistency within each period while clearly distinguishing between different historical layers. The TSM description field becomes a valuable tool for documenting the chronological attribution of building groups.
 
 
 .. _TSM_Notes:

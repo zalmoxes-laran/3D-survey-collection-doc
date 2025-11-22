@@ -37,3 +37,4 @@ Contents
    changeLog
    3DSCstructure
    TSM_documentation
+   3DSC4Metashape

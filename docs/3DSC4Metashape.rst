@@ -4,7 +4,7 @@
 3DSC for Metashape
 =============================
 
-**3DSC for Metashape** is a Python script toolkit that integrates Agisoft Metashape with the 3D Survey Collection (3DSC) workflow in Blender. It enables high-resolution texture generation on segmented photogrammetric models using the **Demetrescu-d'Annibale texture resolution formula** published in `Demetrescu et Alii 2026 <https://doi.org/10.3390/rs18020203>` 
+**3DSC for Metashape** is a Python script toolkit that integrates Agisoft Metashape with the 3D Survey Collection (3DSC) workflow in Blender. It enables high-resolution texture generation on segmented photogrammetric models using the **Demetrescu-d'Annibale texture resolution formula** published in ``Demetrescu et Alii 2026 <https://doi.org/10.3390/rs18020203>`` 
 
 .. contents:: Table of Contents
    :local:
@@ -46,7 +46,7 @@ Installation
 
 3. In Metashape, go to **Tools > Run Script**
 
-4. Navigate to the extracted folder and select ``3DSC_MS_GUI_FIXED.py``
+4. Navigate to the extracted folder and select ``3DSC_MS_GUI.py``
 
 5. The **3DSC Metashape Tools** menu will appear in the Metashape menu bar
 
@@ -58,7 +58,7 @@ Installation
 
 .. admonition:: Single-File Solution
 
-   Version 2.1 consolidates all functionality into one file: ``3DSC_MS_GUI_FIXED.py``
+   Version 2.1 consolidates all functionality into one file: ``3DSC_MS_GUI.py``
    
    Previous multi-script versions (import_multiple_models.py, texturize_it.py, etc.) 
    are deprecated and can be removed.

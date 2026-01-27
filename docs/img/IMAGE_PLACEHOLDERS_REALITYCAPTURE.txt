@@ -1,0 +1,62 @@
+==============================================
+IMAGE PLACEHOLDERS FOR REALITYCAPTURE SECTION
+==============================================
+
+The following images are referenced in 3DSC4RealityCapture.rst
+and need to be captured as screenshots:
+
+1. RealityCapture_panel_placeholder.png
+   - Screenshot of: RealityCapture Integration panel in Blender 3DSC sidebar
+   - Content: Show all settings fields and buttons
+
+2. RealityCapture_settings_placeholder.png
+   - Screenshot of: Settings configuration area with paths filled in
+   - Content: RC Executable Path, Project Path, Exchange Folder
+
+3. RealityCapture_rcbox_import_placeholder.png
+   - Screenshot of: Imported reconstruction region as 3D box in Blender
+   - Content: Show the box geometry in viewport
+
+4. RealityCapture_lod_collections_placeholder.png
+   - Screenshot of: LOD objects organized into collections in Outliner
+   - Content: Show LOD0, LOD1, LOD2 collections with objects
+
+5. RealityCapture_workflow_complete_placeholder.png
+   - Screenshot of: Complete workflow result in Blender
+   - Content: Organized scene with imported RC data
+
+6. RC_multisensor_project_structure_placeholder.png
+   - Screenshot of: RealityCapture interface showing multiple projects
+   - Content: Project browser or workspace view
+
+7. RC_control_points_placeholder.png
+   - Screenshot of: Control points in RealityCapture
+   - Content: Control points visible on laser/photo alignment
+
+8. RC_export_component_placeholder.png
+   - Screenshot of: Export Component menu in RealityCapture
+   - Content: Workflow menu with Export Component highlighted
+
+9. RC_merge_component_placeholder.png
+   - Screenshot of: Merge Component dialog in RealityCapture
+   - Content: Dialog asking "with images?" 
+
+10. RC_alignment_settings_placeholder.png
+    - Screenshot of: Alignment settings panel in RealityCapture
+    - Content: Show the recommended parameter values
+
+==============================================
+INSTRUCTIONS
+==============================================
+
+1. Capture each screenshot following the descriptions above
+2. Save as PNG format with the exact filename listed
+3. Recommended dimensions: 400-800px width
+4. Remove the _placeholder suffix when replacing with actual images
+5. Update the .rst file to reference the new filenames (remove _placeholder)
+
+Example:
+  - Capture screenshot
+  - Save as: RealityCapture_panel.png (without _placeholder)
+  - Edit .rst: change "RealityCapture_panel_placeholder.png" to "RealityCapture_panel.png"
+

@@ -6,8 +6,8 @@ project = '3D Survey Collection'
 copyright = '2024, Emanuel Demetrescu'
 author = 'Emanuel Demetrescu'
 
-release = '1.6'
-version = '1.6.0'
+release = '1.7'
+version = '1.7.0'
 
 # -- General configuration
 

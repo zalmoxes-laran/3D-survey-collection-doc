@@ -98,9 +98,15 @@ Importers
 
 
 
-This panel (:numref:`Fig. %s <ImportersFIG>`) allows to import in Blender three different types of data: coordinates, objects and cameras.
+This panel (:numref:`Fig. %s <ImportersFIG>`) allows importing three data categories in Blender: points, objects, and cameras.
 
-By clicking the *Coordinates* button user can import a 2D survey (*.csv* or *.txt*) in relative or absolute coordinates. 
+In the current UI, the main buttons are displayed in a flat layout:
+
+- *Points as Empty Objects*
+- *Multiple objs*
+- *Agisoft XML CAMS* (visible only when *Enable Experimental Features* is active)
+
+Each command also includes a *?* button that opens a contextual help popup with an extended description and a link to online documentation.
 
 .. _ImportersFIG_02:
 
@@ -110,12 +116,10 @@ By clicking the *Coordinates* button user can import a 2D survey (*.csv* or *.tx
 
    Option of the Importers panel
 
-In the import window, user must: first, locate the appropriate file; second, after pressing the *Toggle Region* button (the one with a gear on the icon, placed on the right side of the window) associate the first 4 columns of the coordinates file with the equivalent values (name, X, Y, Z) of the selected file (*.csv* or *.txt*) and define the separator (comma, space, semicolon, :numref:`Fig. %s <ImportersFIG_02>`). 
+By clicking the *Points as Empty Objects* button, users can import a 2D/3D point file (*.csv* or *.txt*) as Empty objects in relative or absolute coordinates.
+In the import window, users must: first, locate the appropriate file; second, after pressing the *Toggle Region* button (gear icon on the right side), associate the first 4 columns to name/X/Y/Z and define the separator (comma, space, semicolon, :numref:`Fig. %s <ImportersFIG_02>`).
 
-In the first case, by clicking the *Coordinates* button user can import in Blender 2D point (such as .csv files) of both relative and absolute coordinates. 
-On the menu which appears on the right side of the window, user can associate the first 4 columns of the coordinates with the correspondent values (name, X, Y, Z) and then define the separator (comma, space, semicolon). 
-To visualize absolute coordinates within Blender, user must flag *Shift coordinates* button and 3DSC will automatically shift the file.
-The options *Shift coordinates* and *Has header*, respectively on the top and on the lower part of the right side of the *Toggle Region* window, allow to: force 3DSC to consider the SHIFT coordinates (if the 2D survey is georeferenced and if the SHIFT has previously set up on 3DSC and BlenderGis) and ignore the first line of the selected file (if a header is presented). 
+The options *Shift coordinates* and *Has header* allow to: apply SHIFT values to georeferenced data (when SHIFT has been configured in 3DSC/BlenderGIS) and ignore the first line if the source file has a header.
 
 
 .. _ImportersFIG_03:
@@ -127,12 +131,15 @@ The options *Shift coordinates* and *Has header*, respectively on the top and on
    Option of the Importers panel related to objects
 
 
-By clicking on the *Multiple objs* button 3DSC allows to import several objects with a single command. 
-In the import window, user must: 
+By clicking on the *Multiple objs* button, 3DSC imports several OBJ objects with a single command.
+In the import window, users must:
 
-- locate the appropriate file; 
-- select the correct options on the right side of the window (default option allow to successfully import the obj file). If the obj file are not *Z Up* and *Y Forward* oriented, user can choose the correct orientation by exploring the corresponding drop-down menu (:numref:`Fig. %s <ImportersFIG_03>`). 
-The option *shifting coordinates*, if selected, allow to import georeferenced data with an associated *SHIFT.txt* file. 
+- locate the appropriate file;
+- select the correct options on the right side (default options generally work for standard OBJ files). If files are not *Z Up* and *Y Forward*, choose the correct orientation from the drop-down menus (:numref:`Fig. %s <ImportersFIG_03>`).
+
+In the current importer workflow, coordinate shifting is not available for *Multiple objs*.
+
+The *Agisoft XML CAMS* command is currently experimental and is displayed only when experimental features are enabled.
 
 
 .. admonition:: Remember

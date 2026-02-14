@@ -1,8 +1,9 @@
-3D Survey Collection (v. 1.6.1) Structure
+3D Survey Collection (v. 1.7.0) Structure
 =====================================
 
-3DSC is composed of several independent panels placed on the sidebar of Blender, within the tab named *3DSC*. 
-Panels can easily be arranged by grabbing them from the top right corner. 
+3DSC is an end-to-end toolkit for georeferenced 3D survey workflows in Blender.
+From import and QA to LOD, optimization, and export, it supports a complete operational pipeline with contextual help per tool.
+Panels are organized in the *3DSC* tab of the Blender sidebar and can be rearranged from their top-right handle.
 
 .. contents::
    :local:

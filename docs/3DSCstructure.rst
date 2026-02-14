@@ -242,35 +242,55 @@ Quick Utils
 
    Quick Utils panel
 
-This panel (:numref:`Fig. %s <Quick_UtilsFIG>`) permits to customize some features of the 3D objects with a series of batch processes that can assist users organize objects within the Blender file.  
+This panel (:numref:`Fig. %s <Quick_UtilsFIG>`) contains miscellaneous utility commands for cleaning and preparing objects before downstream operations.
 
-The *CircumCenter* button allows user to create a circle starting from 3 points. 
-This function works only in edit mode and only if points are associated to the *XY plane* (only if they have the same Z value). 
+The Quick Utils panel includes:
 
-The *Rename 4 GameEngines* button allows to automatically modify the name of a list of selected objects by adding the prefix *OB_actual name of the object*, which stands for *OB(JECT)_*.
+- *Vertex Merge by Distance*
+- *Rename 4 GameEngines*
+- *Invert x and y*
+- *Remove selected suffix (if any)*
+- *Batch material settings*
+- *Batch legacy material conversion*
 
-The *Remove selected suffix (if any)* tool allows user to organize the list of objects in the scene by simply removing the selected suffix (.001, .002, .003). 
-First, to use this tool it is necessary to select the objects to be cleaned and then add the prefix *OB_* by clicking on the *Rename 4 GameEngine* button. 
-Second, select the suffix to be clean and then press on the *X* button.
+**Vertex Merge by Distance**
 
-The *Batch material settings* tool consents to automatically change four characteristics of the material of a mesh. 
-First, select single or multiple objects. 
-Second, select the option to change (*opaque*, *transparent*, *roughness*, *Metalness*) in the material. 
+Merges near-duplicate vertices on selected meshes.
 
-By clicking on the *opaque* button 3DSC will change the Blend mode of the material (located in: *Material Properties*, *Viewport Display*, *Settings*, *Blend Mode*) into *Opaque*.
+**Rename 4 GameEngines**
 
-By clicking on the *transparent* button 3DSC will change the Blend mode of the material (located in: *Material Properties*, *Viewport Display*, *Settings*, *Blend Mode*) into *Alpha mode*. 
+Renames selected objects using a game-engine oriented naming convention.
 
-By clicking on the *Roughness 1* button 3DSC will change the Roughness value to 1 within the Principled BSDF node.
+**Invert x and y**
 
-By clicking on the *Metalness 0* button 3DSC will change the Roughness value to 0 within the Principled BSDF node.
+Swaps X and Y coordinates of selected objects while preserving Z.
+This is useful when total-station point datasets are imported with swapped XY axes.
 
-The *Batch legacy material conversion* tool allows to convert a simple diffuse material into a Principles BSDF. 
-First, select single or multiple objects. 
-Second, press on the *Diffuse 2 Principled* button. 
+**Remove selected suffix (if any)**
 
-The *Invert x and y* button inverts the coordinates of the object’s origin. 
-This function works only in object mode, and it does not affect the Z value. 
+Removes selected suffixes (*.001*, *.002*, *.003*) from object names in batch.
+
+**Batch material settings**
+
+Changes material parameters on selected objects:
+
+- *opaque*: sets material Blend Mode to *Opaque*;
+- *transparent*: sets material Blend Mode to *Alpha Blend*;
+- *Roughness 1*: sets Principled BSDF roughness to 1;
+- *Metalness 0*: sets Principled BSDF metallic value to 0.
+
+**Batch legacy material conversion**
+
+The *Diffuse 2 Principled* command converts legacy diffuse-style materials into Principled BSDF-based materials.
+
+**Additional root-level utility panels**
+
+The following utility panels are available as separate root-level panels in the 3DSC sidebar:
+
+- *Rotation Constrained*
+- *Circle from 3 Points*
+- *Alignment Orientation*
+- *Texture Smart Mapping*
 
 
 .. _Segmentation:

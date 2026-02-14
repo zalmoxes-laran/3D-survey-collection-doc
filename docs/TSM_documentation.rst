@@ -11,7 +11,7 @@ Texture Smart Mapping (TSM)
 
    Texture Smart Mapping panel
 
-The **Texture Smart Mapping** (TSM) panel (:numref:`Fig. %s <TSM_FIG>`) is a sub-panel within the *Quick Utils* section. It provides an efficient workflow for applying texture projections to 3D meshes using a standardized cubic projection system with 6 oriented planes.
+The **Texture Smart Mapping** (TSM) panel (:numref:`Fig. %s <TSM_FIG>`) is a dedicated root-level panel in the *3DSC* sidebar. It provides an efficient workflow for applying texture projections to 3D meshes using a standardized cubic projection system with 6 oriented planes.
 
 This tool is particularly useful for:
 

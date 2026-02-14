@@ -307,6 +307,37 @@ Segmentation
    Segmentation panel
 
 
+The Segmentation panel is centered on cutter-based splitting workflows.
+
+.. _segmentation-cutter-set:
+
+**Cutter set + m2**
+
+- *Cutter set* generates a cutter grid based on the active mesh extent and the selected square meters value (*m2*).
+- Before creation, if the active object scale is not *1,1,1*, the tool shows a warning popup and can apply scale automatically.
+- Generated cutters are organized in the root collection named *_cutter*.
+- Cutters are moved to *_cutter* (not duplicated in the source object collection).
+
+**Cutter availability**
+
+- The panel shows the number of cutters currently available in scene.
+- A *Delete all cutters* command removes all cutter meshes from *_cutter*.
+
+.. _segmentation-cut-modes:
+
+**Multi-cutter / Mono-cutter**
+
+- *Multi-cutter* (main workflow): the active target mesh is cut by selected cutter objects; if no cutters are selected, all cutters available in *_cutter* are used automatically.
+- *Mono-cutter* (advanced workflow): one active cutter mesh projects cuts on selected non-cutter meshes.
+
+Both modes are enabled only when cutters are available.
+
+**Pre-cut topology check**
+
+Before segmentation, target meshes can run a basic topology cleanup (merge/remove doubled vertices) to reduce knife projection issues.
+The panel includes a toggle (*Topology pre-clean before cut*) to enable/disable this step depending on model quality and performance needs.
+
+
 .. 
 This panel (:numref:`Fig. %s <SegmentationFIG>`) allows to use a set of tools to segment a 3D object in tiles. 
 This procedure could help user to manage both the texture phase (outside of Blender) and the LODs creation of a high-resolution 3D object (such as, photogrammetric dataset or 3D scans).
@@ -694,4 +725,3 @@ Texture mixer
 .. _Texture_mixerFIG:
 
 |
-

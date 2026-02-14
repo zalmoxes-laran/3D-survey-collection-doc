@@ -148,7 +148,7 @@ The LOD Cutter tool divides the mesh into manageable tiles:
    
       The grid size should account for both horizontal and vertical surfaces. For architectural models with walls, use smaller tiles (~60 m²) to account for the Z dimension.
 
-4. Click **Set Cutter** to generate cutting grid
+4. Click **Cutter set** to generate the cutting grid
 5. Adjust grid if needed
 
 .. figure:: img/lod_cutter_grid.png
@@ -159,15 +159,17 @@ The LOD Cutter tool divides the mesh into manageable tiles:
 
 **2.3 Execute Multi-Cutter**
 
-1. Select all cutters (grid elements) and the mesh
-2. Open **Window > Toggle System Console** (to monitor progress)
-3. **Save your .blend file first!**
-4. Click **Multi-Cutter** button
+1. Select the target mesh (active object)
+2. Optional: also select only the cutters you want to use
+3. Open **Window > Toggle System Console** (to monitor progress)
+4. **Save your .blend file first!**
+5. Click **Multi-Cutter** button
 
 The tool will:
+- Use selected cutters, or automatically use all cutters in ``_cutter`` if none are selected
 - Cut the mesh into separate objects
 - Assign unique names to each tile
-- Remove cutting objects
+- Keep cutter objects available for additional segmentation passes
 
 .. figure:: img/multicutter_result.png
    :width: 800

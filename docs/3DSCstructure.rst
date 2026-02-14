@@ -546,9 +546,26 @@ By clicking on the *Textures* button the add-on returns some statistics on the t
 
 By clicking on the *MeanRes* button the add-on returns a summary of all the statistical values (*Geometry*, *Texture* and *MeanRes*) concerning the selected 3D object (*area* and *number of polygons*, *number of materials*, *resolution of the texutre*, *number of texture per resolution*, *mean resolution per texture* - mm/pixel and *mean resolution per polygons* - :math:`poly/m^2`).
 
+**Robust statistics mode**
+
+- The inspector now handles meshes without materials/textures without crashing.
+- In default mode, unsupported data are skipped and reported in the result (for example: missing materials or missing image textures).
+
+**Strict mode**
+
+- If *Strict mode* is enabled, *Textures* and *MeanRes* fail when required texture/material data are missing.
+- Use this mode for QA workflows where incomplete data must be treated as blocking.
+
+**Export behavior**
+
+- *MeanRes* no longer forces file export by default.
+- Enable *Prompt export after MeanRes* to open the export dialog automatically after the analysis.
+- Use the dedicated *Export Stats* button to save the current statistics table to CSV on demand.
+
 |
 
 .. _ColorCorrection:
+.. _color-correction:
 
 Color Correction
 ----------------
@@ -565,7 +582,9 @@ This panel allows the user to apply a material color correction to one or multip
    *Color Correction* panel
 
 
-To start the procedure, it is necessary to select one or multiple objects and then press *create cc setup* within the *Color Correction* panel. 
+To start the procedure, select one or multiple objects and press *create cc setup*.
+The setup is non-destructive and uses a shared CC node group across selected materials.
+Node discovery is robust: materials are resolved by shader type and graph connections (not by fixed node names).
 
 
 .. _ColorCorrection02FIG:
@@ -614,13 +633,22 @@ Below the *RGB*, *BC*, and *HS* buttons, three additional buttons allow to chang
 
 To display these three temporary results, select one of the options (*original*, *cc_node*, or *cc_image*) and then press the *Set view mode* button. 
 
+.. _color-correction-bake-apply:
+
 The *bake* button allows to bake all the changes made to the original texture, using Blender’s internal bake function. 
 These changes can be automatically saved by pressing the *save* button. 
 
 The *apply cc* button consents to use the new-modified material. 
-In this case *EM tools* will automatically replace the original material with the new one. 
+In this case *EM tools* promotes the baked *cc_image* and keeps a backup reference to the original texture for rollback.
 
 By pressing the *remove cc setup* button, located at the top of the *Color Correction* panel, the user can easily restore the original material. 
+
+.. _color-correction-troubleshooting:
+
+**Troubleshooting**
+
+- Renamed image/BSDF nodes are supported.
+- Materials without a valid Principled/Diffuse color pipeline are skipped and reported.
 
 
 

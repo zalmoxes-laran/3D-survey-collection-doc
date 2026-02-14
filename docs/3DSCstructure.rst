@@ -535,16 +535,22 @@ Model Inspector
    :width: 800
    :align: center 
 
-   Model Inspector panel (*Geometry* statistics on the left, *Textures* statistics in the center, *MeanRes* statistics on the right)
+   Model Inspector panel (*Geometry*, *Textures*, *MeanRes* plus Strict/Export controls)
 
 
 This panel consists of three main parts (:numref:`Fig. %s <Model_Inspector00FIG>`): *Geometry*, *Texture* and *MeanRes*.
 
+Current UI layout:
+
+- first row: analysis buttons (*Geometry*, *Textures*, *MeanRes*);
+- second row: behavior toggles (*Strict mode*, *Prompt export after MeanRes*);
+- third row: dedicated *Export Stats* button.
+
 By clicking on the *Geometry* button the add-on returns some statistics on the geometry of the selected 3D object (*area* and *number of polygons*).
 
-By clicking on the *Textures* button the add-on returns some statistics on the texture of the selected 3D object (*number of materials*, *resolution of the texutre*, *number of texture per resolution*).
+By clicking on the *Textures* button the add-on returns some statistics on the texture of the selected 3D object (*number of materials*, *texture resolution*, *number of textures per resolution*).
 
-By clicking on the *MeanRes* button the add-on returns a summary of all the statistical values (*Geometry*, *Texture* and *MeanRes*) concerning the selected 3D object (*area* and *number of polygons*, *number of materials*, *resolution of the texutre*, *number of texture per resolution*, *mean resolution per texture* - mm/pixel and *mean resolution per polygons* - :math:`poly/m^2`).
+By clicking on the *MeanRes* button the add-on returns a summary of all statistical values (*Geometry*, *Texture* and *MeanRes*) concerning the selected object(s): *area*, *polygon count*, *material/texture distribution*, *mean texture resolution* (mm/pixel) and *mean polygon density* (:math:`poly/m^2`).
 
 **Robust statistics mode**
 

@@ -14,6 +14,7 @@ New Features:
 Improvements:
 -------------
 
+- Cesium VTK Tiles Workflow: Added a full Cesium export pipeline with VTK dependency checks/install actions, native quadtree/octree split backend (3D Tiles 1.1), multi-mesh batch export, parent tileset stitching, auto/custom TEMP workspace, and live progress/statistics reporting in the panel.
 - Quick Utils UI Refactor: Advanced utility tools (Rotation Constrained, Circle from 3 Points, Alignment Orientation, Texture Smart Mapping) are now root-level panels in the 3DSC sidebar, while Quick Utils keeps miscellaneous commands in a dedicated panel.
 - Segmentation Workflow Update: Cutter grids are centralized in the ``_cutter`` root collection, Multi-cutter now supports selected-cutter subsets with automatic fallback to all available cutters, and docs/help links now include dedicated segmentation anchors.
 - Color Correction Hardening: node lookup is now robust against renamed nodes (graph/type-based), fixing the ``'bool' object has no attribute 'name'`` crash. The apply flow now keeps an original-texture backup while promoting baked ``cc_image`` output.

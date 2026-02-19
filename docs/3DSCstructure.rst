@@ -229,12 +229,12 @@ This process may be slower with big *obj* file(s).
 The option *use collection gerarchy* consents to apply collection gerarchy for creating a tree of subfolders useful for Game Engines.
 
 
-.. _CesiumVTKTiles:
+.. _CesiumTiles:
 
-Cesium VTK Tiles
-----------------
+Cesium Tiles
+------------
 
-The *Cesium VTK Tiles* panel exports selected mesh data to Cesium 3D Tiles with two backends:
+The *Cesium Tiles* panel exports selected mesh data to Cesium 3D Tiles with two backends:
 
 - *Native Split* (recommended): performs quadtree/octree splitting directly in Blender and writes 3D Tiles 1.1 hierarchy.
 - *VTK Writer*: uses ``vtkCesium3DTilesWriter`` when available in the Blender Python environment.

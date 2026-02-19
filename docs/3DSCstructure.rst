@@ -298,7 +298,7 @@ With *Native Split* backend, two hierarchy layouts are available:
 - *Single JSON*;
 - *External sub-tilesets* (nested references).
 
-In external mode, output follows a TempluMare-like structure with grouped subtree folders and local tile content (for example ``Data/c00/tileset.json`` plus multiple ``f*.glb`` files in the same subtree folder).
+In external mode, output follows a structure with grouped subtree folders and local tile content (for example ``Data/c00/tileset.json`` plus multiple ``f*.glb`` files in the same subtree folder).
 
 **Tileset Stitcher**
 

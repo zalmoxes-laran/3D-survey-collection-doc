@@ -122,6 +122,12 @@ In the import window, users must: first, locate the appropriate file; second, af
 
 The options *Shift coordinates* and *Has header* allow to: apply SHIFT values to georeferenced data (when SHIFT has been configured in 3DSC/BlenderGIS) and ignore the first line if the source file has a header.
 
+For a full end-to-end walk-through of the point importer (including
+the typical total station / GPS mixed-survey workflow and a
+step-by-step recipe for **georeferencing local total station points
+onto GPS control points**), see the dedicated recipe
+:ref:`import-point-data`.
+
 
 .. _ImportersFIG_03:
 

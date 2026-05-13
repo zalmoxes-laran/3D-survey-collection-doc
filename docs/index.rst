@@ -41,3 +41,4 @@ Contents
    3DSC4Metashape
    cad_import
    batch_obj_import
+   import_points

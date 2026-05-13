@@ -299,6 +299,8 @@ Utility Tools
   Will generate Level of Detail (LOD) versions directly in Metashape.
 
 
+.. _prepare-survey-metashape:
+
 Complete Workflow Example
 ==========================
 

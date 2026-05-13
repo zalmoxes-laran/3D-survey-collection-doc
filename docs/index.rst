@@ -39,3 +39,4 @@ Contents
    TSM_documentation
    3DSC4RealityCapture
    3DSC4Metashape
+   cad_import

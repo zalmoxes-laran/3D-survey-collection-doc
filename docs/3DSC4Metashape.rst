@@ -58,7 +58,7 @@ Installation
 
 .. admonition:: Single-File Solution
 
-   Version 2.1 consolidates all functionality into one file: ``3DSC_MS_GUI.py``
+   Version 1.5.2 consolidates all functionality into one file: ``3DSC_MS_GUI.py``
    
    Previous multi-script versions (import_multiple_models.py, texturize_it.py, etc.) 
    are deprecated and can be removed.
@@ -517,7 +517,7 @@ Common Issues and Solutions
 
 **Solution:**
 
-- Update to ``3DSC_MS_GUI.py`` version 2.1 or later
+- Update to ``3DSC_MS_GUI.py`` version 1.5.2 or later
 - Latest version automatically handles both integers and decimals
 
 **Issue: "messageBox() takes exactly 1 argument (2 given)"**
@@ -577,7 +577,7 @@ Common Issues and Solutions
 **Solutions:**
 
 1. Verify Metashape Professional license (Standard doesn't support Python)
-2. **Tools > Run Script** → select ``3DSC_MS_GUI_FIXED.py``
+2. **Tools > Run Script** → select ``3DSC_MS_GUI.py``
 3. Check Metashape console (F8) for error messages
 4. Try restarting Metashape
 
@@ -747,21 +747,21 @@ Python API Reference
 Version History
 ===============
 
-**Version 2.1** (Current)
-  - Single-file architecture (``3DSC_MS_GUI_FIXED.py``)
+**Version 1.5.2** (Current)
+  - Single-file architecture (``3DSC_MS_GUI.py``)
   - LOCAL coordinate system support
   - Fixed messageBox API errors
   - Float parsing for SHIFT.txt
   - iPad feature experimental (disabled by default)
 
-**Version 2.0**
+**Version 1.5.1**
   - Graphical user interface
   - Extended texture support (200m² limit)
   - Tiled model import/export
   - iPad AR camera import (experimental)
   - Improved error handling
 
-**Version 1.x**
+**Legacy multi-script**
   - Individual Python scripts
   - Basic import/export functionality
   - Original texture formula implementation

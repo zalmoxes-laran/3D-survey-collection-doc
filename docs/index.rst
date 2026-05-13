@@ -40,3 +40,4 @@ Contents
    3DSC4RealityCapture
    3DSC4Metashape
    cad_import
+   batch_obj_import

@@ -1,2 +1,10 @@
 
 .DS_Store
+
+# Sphinx build outputs
+docs/_build/
+docs/_build_check/
+docs/_build_*/
+
+# Cowork local work notes
+.cowork-work/

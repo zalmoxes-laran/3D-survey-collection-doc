@@ -138,7 +138,9 @@ In the import window, users must:
 - locate the appropriate file;
 - select the correct options on the right side (default options generally work for standard OBJ files). If files are not *Z Up* and *Y Forward*, choose the correct orientation from the drop-down menus (:numref:`Fig. %s <ImportersFIG_03>`).
 
-In the current importer workflow, coordinate shifting is not available for *Multiple objs*.
+For a full end-to-end walk-through of the batch import (including the
+``Shift coordinates`` option, georeferenced datasets and common
+troubleshooting), see the dedicated recipe :ref:`import-batch-obj`.
 
 The *Agisoft XML CAMS* command is currently experimental and is displayed only when experimental features are enabled.
 

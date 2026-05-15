@@ -10,6 +10,12 @@ level. Use this recipe when an archaeological or architectural dataset
 is delivered as a set of tiles or as a series of textured objects that
 must coexist in the same Blender scene.
 
+.. seealso::
+
+   For the rationale behind coordinate shifting (why georeferenced
+   meshes need a scene-level offset, when to enable it and when not
+   to), see :ref:`shift-coordinates`.
+
 This page is the canonical tutorial for the **Batch OBJ Import**
 button exposed by the *Importers* panel of 3DSC. The short description
 of the button in the panel reference (:ref:`Importers`) covers the UI;

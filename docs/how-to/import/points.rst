@@ -12,6 +12,12 @@ as the rest of the Blender scene, while purely local datasets can be
 imported as-is and georeferenced manually with the recipe at the
 bottom of this page.
 
+.. seealso::
+
+   For the rationale behind coordinate shifting (why Blender needs a
+   scene-level offset for georeferenced data, when to enable it and
+   when to leave it off), see :ref:`shift-coordinates`.
+
 This page is the canonical tutorial for the **Points as Empty
 Objects** button exposed by the *Importers* panel of 3DSC. The short
 description of the button in the panel reference (:ref:`Importers`)

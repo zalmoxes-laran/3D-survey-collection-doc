@@ -13,5 +13,6 @@ choices.
    :maxdepth: 1
    :caption: Explanation
 
-   digital-replica-rationale
+   shift-coordinates
    texture-resolution-formula
+   digital-replica-rationale

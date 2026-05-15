@@ -3,6 +3,13 @@
 Shifting
 ========
 
+.. seealso::
+
+   This page is the **parameter reference** for the Shifting panel.
+   For the rationale behind coordinate shifting (why georeferenced
+   data needs an origin offset in Blender), see
+   :ref:`shift-coordinates`.
+
 .. _ShiftingFIG:
 
 .. figure:: /img/Shifting.jpg

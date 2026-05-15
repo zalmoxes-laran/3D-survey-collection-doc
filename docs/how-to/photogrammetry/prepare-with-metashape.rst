@@ -78,6 +78,13 @@ SHIFT.txt Configuration
 
 The **SHIFT.txt** file controls coordinate transformation during import and export operations.
 
+.. seealso::
+
+   For the rationale behind coordinate shifting (why georeferenced
+   data needs an origin offset in Blender, single-precision float
+   limits, when to use it and when not to), see
+   :ref:`shift-coordinates`.
+
 File Format
 -----------
 

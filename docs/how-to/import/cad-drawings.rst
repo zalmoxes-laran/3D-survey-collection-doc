@@ -11,6 +11,11 @@ DXF will be correctly anchored to the local Blender origin defined by
 3DSC (and, transitively, by the EM Tools Georeferencing panel when both
 add-ons are active).
 
+.. seealso::
+
+   For the rationale behind coordinate shifting (why absolute-coordinate
+   CAD data needs to be offset on import), see :ref:`shift-coordinates`.
+
 When to use this recipe
 -----------------------
 
@@ -38,26 +43,23 @@ installer. Install ``ezdxf`` once per Blender major version.
 How the geographic shift is applied
 -----------------------------------
 
-The DXF importer reads three scene-level scalars set by 3DSC:
+The DXF importer reads three scene-level scalars set by 3DSC
+(``scene.BL_x_shift``, ``scene.BL_y_shift``, ``scene.BL_z_shift``) and
+subtracts them from the absolute DXF coordinates of each imported
+entity (LINE, CIRCLE, ARC, POLYLINE, HATCH, TEXT) before instantiating
+the Blender geometry. The result is that geometries land in the same
+local frame as the rest of your scene.
 
-- ``scene.BL_x_shift`` — Easting shift
-- ``scene.BL_y_shift`` — Northing shift
-- ``scene.BL_z_shift`` — Elevation shift
-
-For each imported entity (LINE, CIRCLE, ARC, POLYLINE, HATCH, TEXT)
-the importer subtracts these values from the absolute DXF coordinates
-before instantiating the Blender geometry. The result is that
-geometries land in the same local frame as the rest of your scene.
-
-In other words, if your DXF stores absolute Italian UTM coordinates
+Worked example: if your DXF stores absolute Italian UTM coordinates
 (e.g. ``X = 312500.0``) and your scene shift is
 ``BL_x_shift = 312000.0``, the line will be created at Blender
 ``X = 500.0`` — comfortable for the viewport and aligned with any
 photogrammetric model that was imported with the same shift.
 
-You can toggle the shift off entirely (``Shift Coordinates`` checkbox
-in the import dialog) when the DXF is already in local coordinates,
-or for sanity-check passes.
+Toggle the shift off (``Shift Coordinates`` checkbox in the import
+dialog) when the DXF is already in local coordinates, or for
+sanity-check passes. See :ref:`shift-coordinates` for the full
+rationale.
 
 Step-by-step workflow
 ---------------------

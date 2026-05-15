@@ -60,7 +60,6 @@ behind 3DSC's integration with the Extended Matrix Framework ecosystem.
    :hidden:
    :caption: Legacy entries (to be migrated)
 
-   3DSCstructure
    3DSC4Metashape
    3DSC4RealityCapture
    digital_replica_preparation

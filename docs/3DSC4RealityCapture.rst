@@ -587,7 +587,7 @@ Credits and License
 
    **Related Documentation:**
 
-   - :doc:`3DSCstructure` - 3DSC Blender Add-on structure
+   - :doc:`reference/panels/index` - 3DSC Blender Add-on panels reference
    - :doc:`3DSC4Metashape` - Metashape integration tools
    - :doc:`reference/tools/tsm` - Texture Smart Mapping system
 

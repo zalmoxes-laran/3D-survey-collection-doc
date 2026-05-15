@@ -65,8 +65,5 @@ behind 3DSC's integration with the Extended Matrix Framework ecosystem.
    3DSC4RealityCapture
    digital_replica_preparation
    TSM_documentation
-   cad_import
-   batch_obj_import
-   import_points
    usage
    changeLog

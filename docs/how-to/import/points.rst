@@ -67,7 +67,7 @@ Basic workflow — Importing points (with SHIFT)
 
 .. TODO: screenshot — Importers panel with the "Points as Empty Objects" button highlighted, plus the file-browser options panel (column mapping, separator, Shift coordinates, Has header)
 
-.. image:: _static/tutorials/import_points/01_panel.png
+.. image:: /_static/tutorials/import_points/01_panel.png
    :width: 480
    :align: center
    :alt: 3DSC Importers panel and the Points as Empty Objects dialog
@@ -154,7 +154,7 @@ but two are sufficient when the planimetry is roughly horizontal.
 
 .. TODO: GIF — full georeferencing workflow (parent → cursor-to-selected → selection-to-cursor → rotate → unparent keep)
 
-.. image:: _static/tutorials/import_points/georef_workflow.gif
+.. image:: /_static/tutorials/import_points/georef_workflow.gif
    :width: 540
    :align: center
    :alt: End-to-end georeferencing of total station points onto GPS points
@@ -223,7 +223,7 @@ but two are sufficient when the planimetry is roughly horizontal.
 
 .. TODO: screenshot — final aligned state in the viewport, with the two common points overlapping and the rest of the total station block in place
 
-.. image:: _static/tutorials/import_points/02_aligned.png
+.. image:: /_static/tutorials/import_points/02_aligned.png
    :width: 480
    :align: center
    :alt: Total station points after alignment, overlapping the GPS control pair

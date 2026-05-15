@@ -11,3 +11,7 @@ photogrammetric models, CAD drawings — into Blender via 3DSC.
 .. toctree::
    :maxdepth: 1
 
+   points
+   photogrammetric-models
+   cad-drawings
+

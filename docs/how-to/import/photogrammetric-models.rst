@@ -59,7 +59,7 @@ Step-by-step workflow
 
 .. TODO: screenshot — Importers panel with the Batch OBJ Import (Multiple objs) button highlighted
 
-.. image:: _static/tutorials/batch_obj/01_panel.png
+.. image:: /_static/tutorials/batch_obj/01_panel.png
    :width: 480
    :align: center
    :alt: 3DSC Importers panel with the Batch OBJ Import button
@@ -74,7 +74,7 @@ Step-by-step workflow
 
 .. TODO: screenshot — File browser opened on a sample tiles/ folder, with the right-side options panel expanded
 
-.. image:: _static/tutorials/batch_obj/02_filebrowser.png
+.. image:: /_static/tutorials/batch_obj/02_filebrowser.png
    :width: 480
    :align: center
    :alt: Blender file browser with the Batch OBJ Import options panel expanded
@@ -99,7 +99,7 @@ Step-by-step workflow
 
 .. TODO: screenshot — Right-side options panel highlighting Shift coordinates checkbox and axis dropdowns
 
-.. image:: _static/tutorials/batch_obj/03_options.png
+.. image:: /_static/tutorials/batch_obj/03_options.png
    :width: 480
    :align: center
    :alt: Batch OBJ Import options — shift checkbox and axis settings
@@ -124,7 +124,7 @@ After a successful import you will find, in the Blender Outliner:
 
 .. TODO: screenshot — Blender Outliner showing the new collection populated with imported meshes
 
-.. image:: _static/tutorials/batch_obj/04_outliner.png
+.. image:: /_static/tutorials/batch_obj/04_outliner.png
    :width: 480
    :align: center
    :alt: Blender Outliner after a Batch OBJ Import, showing the new collection

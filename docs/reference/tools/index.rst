@@ -12,5 +12,6 @@ Mapping (TSM) toolset.
    :maxdepth: 1
 
    metashape-tool
+   realitycapture-tool
    tsm
 

@@ -12,3 +12,4 @@ chunk handling, alignment, and texturing.
    :maxdepth: 1
 
    prepare-with-metashape
+   prepare-with-realitycapture

@@ -56,8 +56,3 @@ Want to understand the design?
 Read the :ref:`explanation` — concepts, architecture, and the rationale
 behind 3DSC's integration with the Extended Matrix Framework ecosystem.
 
-.. toctree::
-   :hidden:
-   :caption: Legacy entries (to be migrated)
-
-   digital_replica_preparation

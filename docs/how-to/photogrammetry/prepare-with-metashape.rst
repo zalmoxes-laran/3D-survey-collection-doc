@@ -365,7 +365,7 @@ Integration with Extended Matrix
 .. seealso::
 
    For the complete Digital Replica workflow, see
-   :doc:`/digital_replica_preparation`.
+   :doc:`/how-to/digital-replica/index`.
 
 
 Troubleshooting
@@ -492,7 +492,7 @@ Performance Optimization
    - :doc:`/reference/tools/metashape-tool` — parameters, formula, Python API
    - :doc:`/reference/panels/index` — 3DSC Blender Add-on panels reference
    - :doc:`/reference/tools/tsm` — Texture Smart Mapping system
-   - :doc:`/digital_replica_preparation` — Complete digital replica workflow
+   - :doc:`/how-to/digital-replica/index` — Complete digital replica workflow
    - `Agisoft Metashape Python API <https://www.agisoft.com/pdf/metashape_python_api_2_0_0.pdf>`_
    - `Extended Matrix Framework <https://www.extendedmatrix.org>`_
    - `3DSC GitHub Repository <https://github.com/zalmoxes-laran/3D-survey-collection>`_

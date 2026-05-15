@@ -13,3 +13,5 @@ choices.
    :maxdepth: 1
    :caption: Explanation
 
+   digital-replica-rationale
+   texture-resolution-formula

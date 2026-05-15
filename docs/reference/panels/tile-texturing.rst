@@ -45,4 +45,4 @@ Within the unzip-folder (the user must unzip the folder to use the script) the *
 
    **Complete Workflow**: For a complete end-to-end workflow from photogrammetry
    to stratigraphic annotation using LOD Generator, Segmentation, and other 3DSC tools,
-   see :doc:`/digital_replica_preparation`.
+   see :doc:`/how-to/digital-replica/index`.

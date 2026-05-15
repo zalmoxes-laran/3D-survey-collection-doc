@@ -24,5 +24,6 @@ the canonical source for parameters, behaviors, and tool capabilities.
    :maxdepth: 1
    :caption: Appendix
 
+   file-locations
    changelog
 

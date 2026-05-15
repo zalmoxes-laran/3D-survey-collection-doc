@@ -64,27 +64,9 @@ Texturing Tools
 **Texturize Models**
   Applies automatic texturing using the Demetrescu-d'Annibale formula.
 
-  **Formula:**
-
-  .. math::
-
-     N_{\text{tex}} = \frac{(10000 / r_{\text{texel}})^2}{t_{\text{res}}^2 \times ratio}
-
-  Where:
-
-  - :math:`r_{\text{texel}}` = target resolution in mm/texel (default: 1.26 mm)
-  - :math:`t_{\text{res}}` = texture resolution in pixels (default: 4096)
-  - :math:`ratio` = surface coverage ratio (default: 0.6)
-
-  **Example Calculation:**
-
-  For a 100 m² tile with 1.26 mm/texel resolution:
-
-  .. math::
-
-     N_{\text{tex}} = \frac{(10000 / 1.26)^2}{4096^2 \times 0.6} \approx 6
-
-  **Result:** 6 textures at 4096×4096 pixels
+  For the full formula derivation, worked example and rationale, see
+  :ref:`texture-resolution-formula`. The script implements the formula with
+  the defaults listed below.
 
   **Automatic Configuration:**
 
@@ -159,63 +141,18 @@ Utility Tools
 Texture Resolution Formula
 ==========================
 
-The **Demetrescu-d'Annibale formula** calculates texture requirements based on:
+The **Demetrescu-d'Annibale formula** drives the texturing script. The full
+derivation, worked example, reference table and rationale live in the
+explanation section as the single source of truth:
 
-**Input Parameters:**
+- :ref:`texture-resolution-formula`
 
-- ``x_res_a_terra``: Target ground resolution in mm (default: 1.26 mm/texel)
-- ``tex``: Texture resolution in pixels (default: 4096)
-- ``ratio``: Coverage efficiency factor (default: 0.6)
-- ``area_model``: Mesh surface area in m²
+The implementation here calls the formula with the variables:
 
-**Calculation:**
-
-.. code-block:: python
-
-   numtex = pow((10000 / x_res_a_terra), 2) / (tex * tex * ratio)
-   numtex_x_area = (numtex * area_model) / 100
-   tex_num = max(1, round(numtex_x_area, 0))
-
-**Example Values:**
-
-.. list-table::
-   :widths: 20 20 20 20 20
-   :header-rows: 1
-
-   * - Area (m²)
-     - Textures (4096px)
-     - Total Pixels
-     - Est. File Size
-     - Resolution
-   * - 10
-     - 1
-     - 16.7 MP
-     - 15 MB
-     - 1.26 mm/px
-   * - 50
-     - 3
-     - 50.3 MP
-     - 45 MB
-     - 1.26 mm/px
-   * - 100
-     - 6
-     - 100.6 MP
-     - 90 MB
-     - 1.26 mm/px
-   * - 200
-     - 12 (capped)
-     - 201.3 MP
-     - 180 MB
-     - 1.26 mm/px
-
-.. admonition:: Formula Rationale
-
-   The formula is calibrated for:
-
-   - **Archaeological documentation**: Sufficient detail to identify tool marks, inscriptions
-   - **VR applications**: Balance between visual quality and performance
-   - **Real-time engines**: Texture sizes compatible with game engines
-   - **Storage efficiency**: Avoids excessive file sizes for typical projects
+- ``x_res_a_terra`` → target ground resolution in mm (default: 1.26 mm/texel)
+- ``tex`` → texture page resolution in pixels (default: 4096)
+- ``ratio`` → surface coverage efficiency factor (default: 0.6)
+- ``area_model`` → mesh surface area in m² (computed from the imported mesh)
 
 
 Python API Reference
@@ -338,7 +275,8 @@ If you use 3DSC for Metashape in your research, please cite:
    - :doc:`/how-to/photogrammetry/prepare-with-metashape` — workflow walkthrough
    - :doc:`/reference/panels/index` — 3DSC Blender Add-on panels reference
    - :doc:`/reference/tools/tsm` — Texture Smart Mapping system
-   - :doc:`/digital_replica_preparation` — Complete digital replica workflow
+   - :doc:`/how-to/digital-replica/index` — Complete digital replica workflow
+   - :doc:`/explanation/texture-resolution-formula` — Formula derivation and rationale
    - `Agisoft Metashape Python API <https://www.agisoft.com/pdf/metashape_python_api_2_0_0.pdf>`_
    - `Extended Matrix Framework <https://www.extendedmatrix.org>`_
    - `3DSC GitHub Repository <https://github.com/zalmoxes-laran/3D-survey-collection>`_

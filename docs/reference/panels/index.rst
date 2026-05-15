@@ -32,3 +32,10 @@ its parameters, buttons, and behaviors.
    color-correction
    photogrammetry-paint
    texture-mixer
+   model-patch-tool
+   camera-to-unreal
+   orthogonal-render
+   laser-slicer
+   alignment-orientation
+   circle-from-3-points
+   rotation-constrained

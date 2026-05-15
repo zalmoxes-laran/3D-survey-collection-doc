@@ -77,3 +77,90 @@ The *Agisoft XML CAMS* command is currently experimental and is displayed only w
 .. admonition:: Remember
 
    It is recommended to import objects without textures if they need to be textured later outside Blender.
+
+
+.. _importers-dxf:
+
+DXF Import (subpanel)
+---------------------
+
+The **DXF Import** subpanel (``DXF_PT_ImportPanel``, parented to
+``VIEW3D_PT_Import_ToolBar``) imports DXF geometry into Blender while
+applying the SHIFT values configured in the :ref:`Shifting` panel — the
+typical case being CAD plans drawn in real-world coordinates that
+otherwise sit far away from the Blender origin.
+
+The subpanel requires the Python module ``ezdxf``. If ``ezdxf`` is not
+available, the subpanel displays an installation flow instead of the
+import button.
+
+UI states
+^^^^^^^^^
+
+``ezdxf`` installed
+   The subpanel shows:
+
+   - *Import DXF File* — opens the DXF importer dialog.
+   - ``ezdxf version: <version>`` — reports the detected version.
+   - A read-only box showing the current SHIFT values (``X``, ``Y``,
+     ``Z``) so the user can verify them before importing.
+
+``ezdxf`` missing
+   The subpanel shows:
+
+   - An error label with the diagnostic message.
+   - *Reload Python Paths* — re-scans ``sys.path`` after a manual
+     install.
+   - *Install ezdxf module* — installs ``ezdxf`` via the 3DSC external
+     module installer.
+   - A tip suggesting a Blender restart after installation.
+
+Operators
+^^^^^^^^^
+
+``import_dxf.button`` — *Import DXF File*
+   Opens the DXF import dialog. SHIFT values from the :ref:`Shifting`
+   panel are applied automatically.
+
+``import_file.dxf_3dsc`` — *Import DXF with Shift*
+   The underlying File Import operator (registered with a file
+   extension filter for ``.dxf``).
+
+``import_dxf.reload_modules`` — *Reload Python Paths*
+   Re-imports ``ezdxf`` after a fresh install without restarting
+   Blender.
+
+
+.. _importers-linked-lod:
+
+Linked LOD Import (subpanel)
+----------------------------
+
+The **Linked LOD Import** subpanel (``DXF_PT_ImportLinkedLODPanel``,
+parented to ``VIEW3D_PT_Import_ToolBar``) imports linked meshes with
+LOD-suffixed names from one or more ``.blend`` libraries. It is the
+recommended way to assemble large scenes from external LOD libraries
+without duplicating mesh data in the current file.
+
+Operators
+^^^^^^^^^
+
+``import_linked.lod`` — *Import Linked LOD Meshes*
+   Opens the library browser and imports the selected meshes as linked
+   data blocks. A confirmation dialog
+   (``wm.import_linked_lod_confirm_dialog``) warns that the operation
+   may take a while on large libraries.
+
+``import_file.linked_lod`` — *Import Linked LOD*
+   The underlying File Import operator used to pick the source
+   ``.blend`` file.
+
+Typical workflow
+^^^^^^^^^^^^^^^^
+
+#. Press *Import Linked LOD Meshes*.
+#. Select the ``.blend`` library that contains the LOD meshes.
+#. Confirm the operation in the dialog.
+#. The meshes appear as linked objects in the current scene; their LOD
+   level is read from the name suffix and is handled by the
+   :ref:`lod-manager` panel.

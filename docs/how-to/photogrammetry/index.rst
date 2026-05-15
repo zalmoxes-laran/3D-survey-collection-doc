@@ -11,3 +11,4 @@ chunk handling, alignment, and texturing.
 .. toctree::
    :maxdepth: 1
 
+   prepare-with-metashape

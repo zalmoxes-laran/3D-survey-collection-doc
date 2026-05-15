@@ -11,5 +11,6 @@ Mapping (TSM) toolset.
 .. toctree::
    :maxdepth: 1
 
+   metashape-tool
    tsm
 

@@ -799,7 +799,7 @@ If you use 3DSC for Metashape in your research, please cite:
    **Related Tools:**
    
    - :doc:`3DSCstructure` - 3DSC Blender Add-on documentation
-   - :doc:`TSM_documentation` - Texture Smart Mapping system
+   - :doc:`reference/tools/tsm` - Texture Smart Mapping system
    - :doc:`digital_replica_preparation` - Complete digital replica workflow
    
    **External Resources:**

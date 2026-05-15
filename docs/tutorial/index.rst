@@ -13,3 +13,5 @@ you open 3DSC.
    :maxdepth: 1
    :caption: Tutorial
 
+   quickstart
+

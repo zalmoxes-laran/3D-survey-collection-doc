@@ -589,7 +589,7 @@ Credits and License
 
    - :doc:`3DSCstructure` - 3DSC Blender Add-on structure
    - :doc:`3DSC4Metashape` - Metashape integration tools
-   - :doc:`TSM_documentation` - Texture Smart Mapping system
+   - :doc:`reference/tools/tsm` - Texture Smart Mapping system
 
    **External Resources:**
 

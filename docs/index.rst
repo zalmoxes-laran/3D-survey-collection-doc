@@ -64,6 +64,3 @@ behind 3DSC's integration with the Extended Matrix Framework ecosystem.
    3DSC4Metashape
    3DSC4RealityCapture
    digital_replica_preparation
-   TSM_documentation
-   usage
-   changeLog

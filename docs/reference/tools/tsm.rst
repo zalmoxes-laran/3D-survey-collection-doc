@@ -5,7 +5,7 @@ Texture Smart Mapping (TSM)
 
 .. _TSM_FIG:
 
-.. figure:: img/TSM_panel.png
+.. figure:: /img/TSM_panel.png
    :width: 400
    :align: center 
 
@@ -32,7 +32,7 @@ Creating a TSM System
 
 .. _TSM_CreateFIG:
 
-.. figure:: img/TSM_create.png
+.. figure:: /img/TSM_create.png
    :width: 400
    :align: center 
 
@@ -71,7 +71,7 @@ TSM Systems List
 
 .. _TSM_ListFIG:
 
-.. figure:: img/TSM_list.png
+.. figure:: /img/TSM_list.png
    :width: 400
    :align: center 
 
@@ -110,7 +110,7 @@ Applying UV Project Mapping
 
 .. _TSM_ApplyFIG:
 
-.. figure:: img/TSM_apply.png
+.. figure:: /img/TSM_apply.png
    :width: 400
    :align: center 
 

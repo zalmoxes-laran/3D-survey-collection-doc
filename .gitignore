@@ -8,3 +8,4 @@ docs/_build_*/
 
 # Cowork local work notes
 .cowork-work/
+/.ed_workfiles

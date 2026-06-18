@@ -3,8 +3,8 @@
 # -- Project information
 
 project = '3D Survey Collection'
-copyright = '2023, Emanuel Demetrescu'
-author = 'Emanuel Demetrescu'
+copyright = '2023, Simone Berto'
+author = 'Simone Berto'
 
 release = '1.5'
 version = '1.5.4'

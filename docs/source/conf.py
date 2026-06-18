@@ -36,3 +36,13 @@ epub_show_urls = 'footnote'
 
 # Enable numref
 numfig = True
+# -- PDF (LaTeX) cover -------------------------------------------------
+# Make explicit that this is the *documentation*, credited to its own
+# author(s) (4th tuple field = the name printed on the PDF cover), so it
+# is not mistaken for the software's author.
+latex_documents = [
+    ('index', '3DSurveyCollection.tex',
+     f'{project} Documentation',
+     'Documentation written by Simone Berto',
+     'manual'),
+]

@@ -47,9 +47,12 @@ Installation
 
 **Installation Steps:**
 
-1. Download the **3DSC for Metashape** package from GitHub:
+1. Download the latest **3DSC for Metashape** release from GitHub:
 
-   https://github.com/[repository]/3DSC-for-Metashape
+   `github.com/zalmoxes-laran/3DSC_Metashape/releases <https://github.com/zalmoxes-laran/3DSC_Metashape/releases>`__
+
+   (Pick the newest tagged release — the source-archive ``.zip`` is
+   what you want.)
 
 2. Extract the ZIP file to a known location (e.g., Desktop or Documents)
 

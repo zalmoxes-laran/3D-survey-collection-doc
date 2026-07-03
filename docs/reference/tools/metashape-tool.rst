@@ -263,10 +263,10 @@ If you use 3DSC for Metashape in your research, please cite:
 
   Demetrescu, E. (2025). *3DSC for Metashape: High-Resolution Texture Generation
   for Segmented Photogrammetric Models*. Extended Matrix Project.
-  https://github.com/[repository]/3DSC-for-Metashape
+  https://github.com/zalmoxes-laran/3DSC_Metashape
 
 **Part of:**
-  Extended Matrix Framework
+  Extended Matrix Ecosystem
   https://www.extendedmatrix.org
 
 

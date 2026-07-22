@@ -36,6 +36,30 @@ engine. The workflow lets you:
 
    *Complete workflow from Blender segmentation to Metashape texturing*
 
+.. admonition:: Follow along with an open dataset
+   :class: tip
+
+   This walkthrough uses a **freely downloadable dataset** so you can
+   reproduce every step yourself:
+
+   **Segni (RM): Acropoli. Rilievo fotogrammetrico** —
+   `zenodo.org/records/7463167 <https://zenodo.org/records/7463167>`__
+   (DOI `10.5281/zenodo.7463167 <https://doi.org/10.5281/zenodo.7463167>`__,
+   licensed CC-BY-NC-SA 4.0).
+
+   To follow the tutorial you mainly need:
+
+   - ``Segni_Acropoli_Canon6D_24mm.rar`` and/or ``Segni_Acropoli_drone.rar`` —
+     the source photographs
+   - ``Segni_Acropoli_soluzione_fotogrammetrica.xml`` — the ready-made
+     photogrammetric solution (aligned cameras + sparse cloud). Import this to
+     **skip the long alignment** and jump straight to building the mesh.
+   - the accompanying ``.txt`` file — the coordinate **shift** for the site
+   - ``Segni_Acropoli_RB.zip`` — the Reality-Based package, showing the target
+     Extended Matrix ``05_RB`` folder structure
+
+   Throughout the example the site is referred to as *Segni Acropolis*.
+
 Installation
 ============
 
@@ -70,7 +94,8 @@ Installation
 
 .. admonition:: Single-File Solution
 
-   Version 1.5.2 consolidates all functionality into one file: ``3DSC_MS_GUI.py``
+   Version 1.7.0 consolidates all functionality into one file: ``3DSC_MS_GUI.py``
+   (the version number is aligned with the 3DSC Blender extension).
 
    Previous multi-script versions (import_multiple_models.py, texturize_it.py, etc.)
    are deprecated and can be removed.
@@ -183,13 +208,48 @@ Selection Guide
    All 6 import/export tools in 3DSC for Metashape support both LOCAL and EPSG options.
 
 
-Complete Workflow Example
-==========================
+Two ways to segment: pick your workflow
+========================================
 
-This example demonstrates the complete pipeline from Blender segmentation to textured model export.
+The tiles you texture in Metashape can be cut in **two different places**.
+Both are fully supported; choose the one that fits your project.
+
+.. list-table::
+   :widths: 20 40 40
+   :header-rows: 1
+
+   * - Workflow
+     - Segment in…
+     - Choose it when…
+   * - **A — Blender-first**
+     - Blender (3DSC Segmentation panel)
+     - You already work in Blender, want manual control over cut lines, or the
+       mesh is already decimated/cleaned there.
+   * - **B — Metashape-first**
+     - Metashape (guided Workflow STEP1–STEP5)
+     - You want to stay in Metashape, start from the raw high-resolution mesh,
+       and let the tool cut, texture, LOD and export in one guided pipeline.
+
+Both paths converge on the same textured tiles and the same Extended Matrix
+``05_RB`` folder structure. **STEP0 — loading a global shift — is optional and
+applies to either workflow** (see *SHIFT.txt Configuration* above and the
+*Shift* menu).
+
+
+Workflow A — Segment in Blender (Blender-first)
+===============================================
+
+This path demonstrates the pipeline from Blender segmentation to textured
+model export.
 
 Phase 1: Model Preparation in Blender
 --------------------------------------
+
+.. note::
+
+   The mechanics of the Blender panels are not repeated here. For the
+   Segmentation panel see :ref:`segmentation`; for LOD creation see
+   :ref:`lod-generator` and :ref:`lod-manager`.
 
 **1.1 Segment High-Resolution Mesh**
 
@@ -319,7 +379,8 @@ Phase 3: LOD Generation in Blender
 
 **3.2 Create LOD Structure**
 
-Using 3DSC LOD Generator:
+Using 3DSC LOD Generator (see :ref:`lod-generator` and :ref:`lod-manager` for
+the full panel reference):
 
 1. Select all imported tiles
 2. **3DSC > LOD Generator**
@@ -341,6 +402,155 @@ Using 3DSC LOD Generator:
    :align: center
 
    *LOD collection structure in Blender*
+
+
+Workflow B — Segment in Metashape (Metashape-first)
+===================================================
+
+In this path you never leave Metashape: the guided **Workflow** menu takes a
+single high-resolution mesh and cuts, textures, LODs and exports it as blocks.
+The menu is organised as an optional **STEP0** plus five numbered steps
+**STEP1–STEP5**.
+
+.. figure:: ../../img/metashape/ms_workflow_menu.png
+   :width: 400
+   :align: center
+
+   *The 3DSC Metashape Tools > Workflow menu (STEP1–STEP5)*
+
+Before you start (prerequisite)
+-------------------------------
+
+Prepare the source mesh with Metashape's **own** tools — this is not a 3DSC
+command, which is why the guided workflow begins at STEP1:
+
+1. Align the photos and build the sparse cloud (or import a ready-made
+   solution — with the Segni dataset, import
+   ``Segni_Acropoli_soluzione_fotogrammetrica.xml`` to skip alignment).
+2. Build the mesh at **full resolution** (dense/arbitrary surface).
+
+.. admonition:: Which mesh do I start from?
+   :class: important
+
+   **Start from the full-resolution, untextured mesh** — do *not* decimate it
+   by hand first.
+
+   - **STEP1** turns that master into **LOD0 ≈ 10 000 polygons/m²** (the tool
+     default). LOD0 is the "hero" geometry you cut, texture and deliver.
+   - The **texture (STEP3) comes from the photographs**, projected onto the
+     surface — not from the geometry. So 10 000 poly/m² (roughly 1 cm
+     triangles) is already dense enough; there is no benefit to texturing the
+     ultra-high-resolution mesh.
+   - **Normal maps are *not* baked onto LOD0.** They are generated in
+     **STEP4** for the lighter LOD1/LOD2 copies, so those keep the visual
+     detail of LOD0 with fewer polygons.
+
+   If you *already* have a mesh at ~10 000 poly/m², answer **No** to the STEP1
+   "create a decimated copy" prompt to use the current mesh as LOD0.
+
+STEP0 (optional): Load Global Shift
+-----------------------------------
+
+If the model is georeferenced (or you want a consistent local origin), load
+the shift once and it is reused by every export:
+
+1. **3DSC Metashape Tools > Shift > STEP0 - Load Global Shift File (optional)**
+2. Select the ``shift.txt`` (``CRS X Y Z`` — see *SHIFT.txt Configuration*
+   above). For the Segni dataset, use the ``.txt`` shift shipped with the
+   record.
+3. The active shift is shown in the menu as *Current Shift → …*.
+
+.. figure:: ../../img/metashape/ms_shift_menu.png
+   :width: 400
+   :align: center
+
+   *STEP0: the Shift menu after loading the site shift*
+
+Skip this step entirely for a purely local model with no origin offset.
+
+STEP1: Prepare or Flag LOD0
+---------------------------
+
+1. Select the chunk that holds the high-resolution mesh.
+2. **3DSC Metashape Tools > Workflow > STEP1 Prepare or Flag LOD0**.
+3. When asked to *create a decimated LOD0 copy*:
+
+   - **Yes** (recommended) → enter the target density (default **10000**
+     polygons/m²). The tool copies the chunk and decimates it to LOD0.
+   - **No** → the current mesh is flagged as LOD0 as-is.
+
+STEP2: Cut Mesh into Blocks
+---------------------------
+
+1. **3DSC Metashape Tools > Workflow > STEP2 Cut Mesh into Blocks (Options)**.
+2. In the options dialog set:
+
+   - **Block plan area (m²)** — target size per block (e.g. 80)
+   - **Run STEP1 now** — leave on if you have not already run STEP1
+   - **Output mode** — *one chunk per block* (recommended)
+   - **Grid naming** — names blocks ``block_xNNN_yNNN``
+   - **Output folder** — where the ``*_workflow_blocks`` folder is written
+
+3. Run it. The tool builds a tiled model at that block size and creates one
+   chunk per block.
+
+.. figure:: ../../img/metashape/ms_step2_cut_dialog.png
+   :width: 700
+   :align: center
+
+   *STEP2: the Cut Mesh into Blocks options dialog*
+
+.. figure:: ../../img/metashape/ms_step2_blocks_chunks.png
+   :width: 800
+   :align: center
+
+   *STEP2 result: one chunk per block in the Metashape workspace*
+
+STEP3: Texturize Blocks
+-----------------------
+
+1. **3DSC Metashape Tools > Workflow > STEP3 Texturize Workflow Blocks**.
+2. The tool textures every block chunk with the Demetrescu-d'Annibale formula
+   (4096 px pages, resolution sized per block area) and marks them as
+   textured. Progress is printed to the console.
+
+.. figure:: ../../img/metashape/ms_step3_texturize_console.png
+   :width: 700
+   :align: center
+
+   *STEP3: texture calculation and progress in the console*
+
+STEP4 (optional, experimental): Generate LODs + Normal Maps
+-----------------------------------------------------------
+
+1. **3DSC Metashape Tools > Workflow > STEP4 Generate LODs + Normal Maps
+   (Experimental)**.
+2. Enter the LOD1 and LOD2 decimation ratios (defaults 0.5 and 0.25).
+3. Optionally build normal maps and preserve borders (availability depends on
+   your Metashape API version).
+
+This produces LOD1/LOD2 copies of each block; the normal maps let the lighter
+LODs preserve LOD0's surface detail.
+
+STEP5: Export Blocks
+--------------------
+
+1. **3DSC Metashape Tools > Workflow > STEP5 Export Workflow Blocks**.
+2. In the export dialog choose the destination folder (e.g.
+   ``05_RB/03_Model_Library/Segni_Acropolis/meshpolytex/``), whether to apply
+   the shift, and whether to export UV + textures.
+3. Blocks that were not textured in STEP3 are refused, so you cannot export an
+   untextured result by mistake. A ``shift.txt`` is written alongside the
+   output when a shift is used.
+
+.. figure:: ../../img/metashape/ms_step5_export_folder.png
+   :width: 700
+   :align: center
+
+   *STEP5: exported textured blocks and their shift.txt*
+
+From here you can bring the blocks into Blender for annotation exactly as in
+Workflow A, Phase 3.
 
 
 Integration with Extended Matrix
@@ -400,7 +610,7 @@ Common Issues and Solutions
 
 **Solution:**
 
-- Update to ``3DSC_MS_GUI.py`` version 1.5.2 or later
+- Update to ``3DSC_MS_GUI.py`` version 1.7.0 or later
 - Latest version automatically handles both integers and decimals
 
 **Issue: "messageBox() takes exactly 1 argument (2 given)"**

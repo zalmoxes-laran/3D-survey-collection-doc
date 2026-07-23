@@ -514,11 +514,14 @@ STEP2: Cut Mesh into Blocks
    - **Output one chunk per block?** — *Yes* (recommended)
    - **Output folder** — where the ``*_workflow_blocks`` folder is written
 
-3. Run it. The tool overlays a regular **XY grid** of square cells on the mesh
-   footprint and clips one block per cell (via the chunk region), then imports
-   each block as its own chunk. Empty cells are skipped. This mirrors the 3DSC
-   Blender "Cutter" — the block plan area sets the real footprint size of each
-   tile.
+3. Run it. The tool uses Metashape's native **Block Model** (``buildModel``
+   with ``split_in_blocks``): the mesh is built already divided into separate
+   spatial block meshes of side ``sqrt(area)`` metres, exported to the output
+   folder. With *one chunk per block* each is then re-imported as its own
+   chunk; otherwise the block meshes are just left on disk (handy to verify
+   them or clean them in Blender first). This mirrors the 3DSC Blender
+   "Cutter" — the split happens at build time, so blocks are genuinely
+   distinct pieces.
 
 .. figure:: ../../img/metashape/ms_step2_cut_dialog.png
    :width: 700

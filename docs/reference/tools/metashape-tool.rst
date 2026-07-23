@@ -154,12 +154,14 @@ Export Tools
 
 **Cut Giant Mesh into Blocks (with Shift)**
   Segments a large mesh **directly in Metashape** (no Blender round-trip
-  required). It cuts the mesh on a regular **XY grid** of square-footprint
-  cells whose side is ``sqrt(block area)`` — mirroring the 3DSC Blender
-  "Cutter". Each cell is produced by setting the chunk *region* to the cell's
-  bounding box and exporting the model with ``clip_to_boundary`` enabled, so
-  every block is a true spatial slice of the original mesh. Empty cells are
-  skipped automatically.
+  required) using Metashape's native **Block Model**: ``buildModel`` is called
+  with ``split_in_blocks=True`` and ``blocks_size`` (in metres, = ``sqrt(block
+  area)``), so the mesh is built already divided into **separate spatial block
+  meshes** and exported to the output folder (``export_blocks=True``). This is
+  the native equivalent of the 3DSC Blender "Cutter"; because the split happens
+  at build time it produces genuinely distinct pieces. The tool re-tiles the
+  existing mesh (``source_data=ModelData``) when possible, falling back to
+  rebuilding from depth maps.
 
   **Prompts (native Metashape dialogs):**
 
@@ -168,8 +170,9 @@ Export Tools
   - **Output one chunk per block?** — recommended *Yes*
   - **Output folder** for the generated ``*_workflow_blocks`` directory
 
-  Grid naming and temporary-file handling use sensible defaults (grid naming
-  on, no cleanup).
+  Block file names come from Metashape's block export. With *one chunk per
+  block* off, the block meshes are left on disk (files-only mode) for
+  verification or Blender cleaning.
 
   This tool is STEP2 of the guided workflow below.
 

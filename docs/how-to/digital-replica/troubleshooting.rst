@@ -69,7 +69,7 @@ Common Issues and Solutions
 
 ---
 
-**Issue**: Texture resolution lower than expected (>1.2mm/texel)
+**Issue**: Texture resolution lower than expected (>1.26 mm²/texel)
 
 **Solution**:
 

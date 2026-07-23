@@ -77,7 +77,7 @@ Before finalizing each phase, verify:
 
 **Phase 3 (Texturing)** — see :doc:`phase-3-texturing`:
 
-- [ ] Texture resolution ~1.2 mm/texel
+- [ ] Texture resolution ~1.26 mm²/texel
 - [ ] No missing textures
 - [ ] Minimal color seams between textures
 - [ ] PNG format (not JPG) for quality

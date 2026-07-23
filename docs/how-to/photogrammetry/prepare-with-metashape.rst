@@ -26,7 +26,7 @@ engine. The workflow lets you:
 
 - Import segmented mesh tiles from Blender into Metashape
 - Automatically calculate optimal texture resolution based on model area
-- Apply high-resolution textures (1.26 mm/texel) to multiple tiles
+- Apply high-resolution textures (1.26 mm²/texel) to multiple tiles
 - Export textured models with coordinate transformation support
 - Maintain Extended Matrix (EM) folder structure compatibility
 
@@ -435,18 +435,33 @@ command, which is why the guided workflow begins at STEP1:
    **Start from the full-resolution, untextured mesh** — do *not* decimate it
    by hand first.
 
-   - **STEP1** turns that master into **LOD0 ≈ 10 000 polygons/m²** (the tool
-     default). LOD0 is the "hero" geometry you cut, texture and deliver.
+   - **STEP1** derives **LOD0** from that master by decimating a copy to a
+     target density you choose. LOD0 is the "hero" geometry you cut, texture
+     and deliver.
    - The **texture (STEP3) comes from the photographs**, projected onto the
-     surface — not from the geometry. So 10 000 poly/m² (roughly 1 cm
-     triangles) is already dense enough; there is no benefit to texturing the
+     surface — not from the geometry — so LOD0 does not need the full mesh
+     density to look good; there is no benefit to texturing the
      ultra-high-resolution mesh.
    - **Normal maps are *not* baked onto LOD0.** They are generated in
      **STEP4** for the lighter LOD1/LOD2 copies, so those keep the visual
      detail of LOD0 with fewer polygons.
 
-   If you *already* have a mesh at ~10 000 poly/m², answer **No** to the STEP1
-   "create a decimated copy" prompt to use the current mesh as LOD0.
+   .. important::
+
+      The density is **polygons per m² of 3D surface** (walls, roof, terrain —
+      *not* ground footprint). Aerial/large-area meshes often already sit
+      around 1 000–3 000 poly/m², so a value like 10 000 is **above** the
+      native density and would not decimate anything. STEP1 shows the current
+      face count and density and offers it as the default — enter a **lower**
+      value to actually reduce the mesh (if the target is at or above the
+      current count, STEP1 reports that no decimation was performed).
+
+   This mirrors the published pipeline (`Demetrescu et al. 2026
+   <https://doi.org/10.3390/rs18020203>`__): a dense mesh built by Poisson
+   surface reconstruction is decimated with feature- and boundary-preserving
+   edge-collapse before tiling. In the Amba Aradam replica the delivered tiles
+   ranged roughly 1 000–5 400 triangles/m² depending on context — a sensible
+   target range for LOD0.
 
 STEP0 (optional): Load Global Shift
 -----------------------------------
@@ -475,9 +490,17 @@ STEP1: Prepare or Flag LOD0
 2. **3DSC Metashape Tools > Workflow > STEP1 Prepare or Flag LOD0**.
 3. When asked to *create a decimated LOD0 copy*:
 
-   - **Yes** (recommended) → enter the target density (default **10000**
-     polygons/m²). The tool copies the chunk and decimates it to LOD0.
+   - **Yes** (recommended) → the prompt shows the mesh's current face count and
+     density and pre-fills it as the default. Enter a **lower** poly/m² to
+     reduce; the tool copies the chunk and decimates the copy to LOD0. A value
+     at or above the current density leaves the mesh unchanged (STEP1 tells you
+     so).
    - **No** → the current mesh is flagged as LOD0 as-is.
+
+   Either way the **full-resolution mesh is preserved**: with *Yes* the
+   original stays as a separate high-resolution chunk (kept as the normal-map
+   source and for archival); with *No* the full-resolution mesh simply becomes
+   LOD0.
 
 STEP2: Cut Mesh into Blocks
 ---------------------------

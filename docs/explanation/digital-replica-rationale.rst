@@ -22,7 +22,7 @@ The Digital Replica workflow creates optimized 3D models (called "canvas")
 with:
 
 - **Constant mesh density**: 1,000 or 10,000 polygons/m²
-- **High-resolution textures**: 1.2 mm/texel using the
+- **High-resolution textures**: 1.26 mm²/texel using the
   :doc:`Demetrescu-d'Annibale formula <texture-resolution-formula>`
 - **Multiple LODs** (Levels of Detail) for efficient real-time visualization
 - **Optimized structure** for stratigraphic annotation projects

@@ -118,7 +118,7 @@ Texturing Tools
 
 .. admonition:: Texture Resolution Rationale
 
-   The 1.26 mm/texel resolution provides:
+   The 1.26 mm²/texel target density provides:
 
    - Sufficient detail for VR visualization
    - Recognition of most archaeological features
@@ -195,7 +195,12 @@ guided workflow's first tool command is STEP1.
 
 **STEP1 — Prepare or Flag LOD0**
   Flags the active chunk's mesh as LOD0, or optionally creates a decimated
-  LOD0 copy at a chosen polygon density (polygons per m², default 10000).
+  LOD0 copy at a chosen polygon density (polygons per m² of 3D surface). The
+  prompt reports the mesh's current face count and density and offers it as the
+  default; enter a **lower** value to reduce. A target at or above the current
+  count performs no decimation (reported back to you). The **full-resolution
+  mesh is always preserved** — the decimated LOD0 is made on a copy, and the
+  original is kept as the high-resolution source.
 
 **STEP2 — Cut Mesh into Blocks (Options)**
   Same as *Cut Giant Mesh into Blocks* above; opens the options dialog and
@@ -242,18 +247,25 @@ Utility Tools
 Texture Resolution Formula
 ==========================
 
-The **Demetrescu-d'Annibale formula** drives the texturing script. The full
-derivation, worked example, reference table and rationale live in the
-explanation section as the single source of truth:
+The **Demetrescu-d'Annibale formula** drives the texturing script. It was
+published as Equation (1) in `Demetrescu et al. 2026
+<https://doi.org/10.3390/rs18020203>`__. The full derivation, worked example,
+reference table and rationale live in the explanation section as the single
+source of truth:
 
 - :ref:`texture-resolution-formula`
 
-The implementation here calls the formula with the variables:
+The implementation here calls the formula with the variables (published
+notation → code name):
 
-- ``x_res_a_terra`` → target ground resolution in mm (default: 1.26 mm/texel)
-- ``tex`` → texture page resolution in pixels (default: 4096)
-- ``ratio`` → surface coverage efficiency factor (default: 0.6)
-- ``area_model`` → mesh surface area in m² (computed from the imported mesh)
+- :math:`r_{\text{target}}` → ``x_res_a_terra`` — target texture density
+  (default: 1.26 mm²/texel)
+- :math:`s_{\text{tex}}` → ``tex_size`` — texture atlas dimension in pixels
+  (default: 4096)
+- :math:`r_{\text{uv}}` → ``ratio`` — UV-space utilization efficiency
+  (default: 0.6)
+- :math:`A_{\text{tile}}` → ``area_model`` — tile surface area in m², from
+  ``chunk.model.area()``
 
 
 Python API Reference

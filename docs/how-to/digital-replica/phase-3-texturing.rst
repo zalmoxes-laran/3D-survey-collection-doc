@@ -50,26 +50,23 @@ Create a clean Metashape project for texturing:
    - Avoid blurred images
    - Ensure consistent lighting
 
-**3.2 Install 3DSC for Metashape Scripts**
+**3.2 Install 3DSC for Metashape**
 
 1. Download **3DSC for Metashape** from GitHub:
 
-   https://github.com/[repository-link]/3DSC-for-Metashape
+   `github.com/zalmoxes-laran/3DSC_Metashape <https://github.com/zalmoxes-laran/3DSC_Metashape>`__
 
 2. Extract to a known location (e.g., Desktop)
-3. The package contains several Python scripts:
-
-   - ``import_multiple_models.py`` - Import mesh tiles
-   - ``texturize_it.py`` - Automatic texturing
-   - ``export_multiple_models.py`` - Export textured results
-   - ``rename_chunks.py`` - Utility script
+3. In Metashape, go to **Tools > Run Script** and select the single file
+   ``3DSC_MS_GUI.py``. The **3DSC Metashape Tools** menu appears in the menu
+   bar. (All functionality is now consolidated in this one file; the old
+   individual scripts are deprecated.)
 
 **3.3 Import Mesh Tiles**
 
-1. In Metashape, go to **Tools > Run Script**
-2. Select ``import_multiple_models.py``
-3. When prompted, select the ``05_RB/03_Model_Library/[ModelName]/meshpoly/`` folder
-4. The script will:
+1. **3DSC Metashape Tools > Import > Import Multiple Models**
+2. When prompted, select the ``05_RB/03_Model_Library/[ModelName]/meshpoly/`` folder
+3. The tool will:
 
    - Create one chunk per tile
    - Import each OBJ into its chunk
@@ -83,16 +80,15 @@ Create a clean Metashape project for texturing:
 
 .. note::
 
-   The script reads all OBJ files from the selected folder. Ensure only the
+   The tool reads all OBJ files from the selected folder. Ensure only the
    segmented tiles are present in meshpoly/ before running the import.
 
 **3.4 Automatic Texturing**
 
 Now apply high-resolution textures using the texture formula:
 
-1. **Tools > Run Script**
-2. Select ``texturize_it.py``
-3. The script calculates the optimal number of textures per tile using the
+1. **3DSC Metashape Tools > Texturing > Texturize Models**
+2. The tool calculates the optimal number of textures per tile using the
    **Demetrescu-d'Annibale texture resolution formula**. For a complete
    derivation and worked examples, see
    :doc:`/explanation/texture-resolution-formula`.
@@ -117,11 +113,11 @@ Now apply high-resolution textures using the texture formula:
 
 **3.5 Export Textured Tiles**
 
-1. **Tools > Run Script**
-2. Select ``export_multiple_models.py``
-3. Set export folder to ``05_RB/03_Model_Library/[ModelName]/meshpolytex/``
-4. If using georeferenced coordinates, provide shift file
-5. The script exports:
+1. **3DSC Metashape Tools > Export > Export Multiple Models**
+2. Set export folder to ``05_RB/03_Model_Library/[ModelName]/meshpolytex/``
+3. If using georeferenced coordinates, provide a shift file (or load it once
+   via **Shift > STEP0 - Load Global Shift File**)
+4. The tool exports:
 
    - OBJ files (mesh geometry)
    - MTL files (material definitions)

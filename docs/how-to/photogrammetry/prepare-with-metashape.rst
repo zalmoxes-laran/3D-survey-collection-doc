@@ -506,16 +506,19 @@ STEP2: Cut Mesh into Blocks
 ---------------------------
 
 1. **3DSC Metashape Tools > Workflow > STEP2 Cut Mesh into Blocks (Options)**.
-2. In the options dialog set:
+2. Answer the native prompts:
 
-   - **Block plan area (m²)** — target size per block (e.g. 80)
-   - **Run STEP1 now** — leave on if you have not already run STEP1
-   - **Output mode** — *one chunk per block* (recommended)
-   - **Grid naming** — names blocks ``block_xNNN_yNNN``
+   - **Block plan area (m²)** — target footprint per block (e.g. 80 → ~8.9 m
+     square cells)
+   - **Run STEP1 now** — leave *Yes* if you have not already run STEP1
+   - **Output one chunk per block?** — *Yes* (recommended)
    - **Output folder** — where the ``*_workflow_blocks`` folder is written
 
-3. Run it. The tool builds a tiled model at that block size and creates one
-   chunk per block.
+3. Run it. The tool overlays a regular **XY grid** of square cells on the mesh
+   footprint and clips one block per cell (via the chunk region), then imports
+   each block as its own chunk. Empty cells are skipped. This mirrors the 3DSC
+   Blender "Cutter" — the block plan area sets the real footprint size of each
+   tile.
 
 .. figure:: ../../img/metashape/ms_step2_cut_dialog.png
    :width: 700

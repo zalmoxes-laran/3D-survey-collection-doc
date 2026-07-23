@@ -154,21 +154,30 @@ Export Tools
 
 **Cut Giant Mesh into Blocks (with Shift)**
   Segments a large mesh **directly in Metashape** (no Blender round-trip
-  required). Internally builds a tiled model sized from a target block area
-  (m²) and exports each tile as an OBJ block.
+  required). It cuts the mesh on a regular **XY grid** of square-footprint
+  cells whose side is ``sqrt(block area)`` — mirroring the 3DSC Blender
+  "Cutter". Each cell is produced by setting the chunk *region* to the cell's
+  bounding box and exporting the model with ``clip_to_boundary`` enabled, so
+  every block is a true spatial slice of the original mesh. Empty cells are
+  skipped automatically.
 
-  **Options dialog:**
+  **Prompts (native Metashape dialogs):**
 
   - **Block plan area (m²)** — target size per block (default 80)
   - **Run STEP1 now** — prepare/flag LOD0 before cutting
-  - **Output mode** — one chunk per block (recommended) or all blocks in one chunk
-  - **Grid naming** — name blocks ``block_xNNN_yNNN`` instead of ``block_NNNN``
-  - **Export temporary PNG textures** during the cut (slower)
-  - **Delete temporary files** after block import
-  - **Rebuild tiled model** with the current area settings
+  - **Output one chunk per block?** — recommended *Yes*
   - **Output folder** for the generated ``*_workflow_blocks`` directory
 
+  Grid naming and temporary-file handling use sensible defaults (grid naming
+  on, no cleanup).
+
   This tool is STEP2 of the guided workflow below.
+
+  .. note::
+
+     The dialogs are native Metashape prompts on purpose. Earlier builds used a
+     tkinter window, which crashes Metashape on macOS (Tk cannot share the Qt
+     event loop). If you are extending the tool, do not reintroduce tkinter.
 
 **Workflow Export Blocks (Textured First)**
   Exports the blocks produced by the guided workflow, enforcing that each

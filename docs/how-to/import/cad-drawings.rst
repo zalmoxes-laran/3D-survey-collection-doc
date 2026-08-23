@@ -122,7 +122,7 @@ metadata first, then the scene's shift values — in that order.
 Related recipes
 ---------------
 
-- `EM Tools — Georeferencing panel <https://docs.extendedmatrix.org/projects/EM-tools/en/latest/panels/georeferencing.html>`_
+- `EM Tools — Georeferencing panel <https://docs.extendedmatrix.org/projects/EM-tools/en/1.5/panels/georeferencing.html>`_
   — sets EPSG and shift, the contract this importer honours.
 - ``3DSC4Metashape`` — explains the canonical ``SHIFT.txt`` format and
   how 3DSC reads it on photogrammetric import.

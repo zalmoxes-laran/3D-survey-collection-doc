@@ -6,7 +6,8 @@ Import
 ======
 
 Recipes for bringing external survey data — total-station points,
-photogrammetric models, CAD drawings — into Blender via 3DSC.
+photogrammetric models, CAD drawings, geophysical depth slices — into
+Blender via 3DSC.
 
 .. toctree::
    :maxdepth: 1
@@ -14,4 +15,5 @@ photogrammetric models, CAD drawings — into Blender via 3DSC.
    points
    photogrammetric-models
    cad-drawings
+   gpr-slices
 

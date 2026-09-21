@@ -14,5 +14,6 @@ choices.
    :caption: Explanation
 
    shift-coordinates
+   gpr-slice-representation
    texture-resolution-formula
    digital-replica-rationale

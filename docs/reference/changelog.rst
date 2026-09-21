@@ -6,6 +6,8 @@ Change Log
 New Features:
 -------------
 
+- GPR Slices Import: A new panel ingests ground penetrating radar depth slices — either one CSV grid per slice or one image per slice, with the depth read from the file name or the header — and places them in the scene at the depth they were measured at. Slices are represented as textured surfaces with the unsurveyed cells transparent, so the irregular footprint of the survey is preserved; CSV input is converted once into a compact PNG cache plus a JSON manifest. When the dataset is in absolute coordinates and the scene has no shift, the importer proposes an editable origin offset instead of placing the data hundreds of kilometres from the world origin, and it warns when the dataset's EPSG code disagrees with the scene's. Slices can be draped on a declared photogrammetric walking surface, so a reading one metre down sits one metre below that point of the terrain; the draped surface is shared by the whole stack, which keeps a deep stack affordable under a heavy photogrammetric model. Provenance is recorded per slice, leaving the interpretation of anomalies to the archaeologist. See :ref:`import-gpr`, :ref:`gpr-slices` and :ref:`gpr-representation`.
+
 - Circumcenter Tool: A new tool that allows you to extract circumferences from three designated points on a mesh. This is particularly useful for reconstructing circular and curved elements such as columns and apses from fragmentary data.
 
 - Quick Utils – Flip X and Y Command: Added a function that enables you to invert the X and Y coordinates of selected elements. This is crucial when importing data from total stations where the X and Y axes are swapped. This adjustment is available in Quick Utils, through the dedicated Invert x and y panel.

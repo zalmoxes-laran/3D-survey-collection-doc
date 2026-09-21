@@ -21,6 +21,7 @@ its parameters, buttons, and behaviors.
 
    shifting
    importers
+   gpr-slices
    exporters
    cesium-tiles
    quick-utils

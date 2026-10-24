@@ -105,6 +105,10 @@ Step 2 — Render views
 *Render B/W Pass* (``render.orthogonal_views_bw``)
    An **additional** pass, described under *Black & white pass* below.
 
+*Fix scale of existing views* (``render.ortho_fix_view_scale``)
+   Gives views rendered with an older 3DSC their real size for CAD, without
+   rendering again. See *Using the views in CAD* below.
+
 Right under the buttons the panel shows the settings that decide how long the
 render takes — *Engine*, *Samples*, and for Cycles *Device* and *Denoise* —
 and they can be changed from there. They are also in the *Render Quality &
@@ -471,6 +475,27 @@ Files are written to a ``bw`` subfolder of the output folder, named
    into a plate template like the colour ones. On an unusual OCIO
    configuration where no greyscale look is available, the pass falls back to
    writing 8-bit greyscale files and warns that the transparency is lost.
+
+
+Using the views in CAD
+----------------------
+
+Every view comes out at **1:1**: each PNG knows how many metres it spans, so
+when you insert it in CAD (e.g. AutoCAD ▸ *Raster tools ▸ Insert*) it lands
+at its real size — just **accept the proposed values**, no rescaling by hand.
+
+Next to each PNG there is a small file with the same name and the ``.pgw``
+extension (a *world file*). It tells CAD the size of a pixel in metres and
+places the bottom-left corner of the image at (0, 0). **Keep it in the same
+folder as its PNG** when you copy or move the views.
+
+Views rendered before 3DSC 1.7 open in CAD at the wrong size. Select the
+object and press *Fix scale of existing views*: it corrects every view of
+that object already on disk — colour and B/W, all versions — and writes the
+missing ``.pgw`` files. The image itself is not touched. If the object was
+rendered by a much older 3DSC, the panel warns that it rebuilt the size from
+the object and the current *Frame Margin*: if you changed the margin after
+rendering, re-render instead.
 
 
 Templates and scales

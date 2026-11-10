@@ -24,236 +24,145 @@ end-to-end example, troubleshooting), see
 Tool Reference
 ==============
 
-The 3DSC Metashape Tools menu is organized into these categories:
-**Shift**, **Import**, **Texturing**, **Export**, **Workflow** and
-**Utility**.
+The **3DSC Metashape Tools** menu follows the order of the work: steps 0–8,
+then *Utility* and *Help*. Every panel opens without loading meshes; the
+measures it needs are taken on request and kept in the project.
 
-Shift Tools
+0 · Operator (ORCID)
+--------------------
+
+**ORCID iD** (optional, checked with ISO 7064 MOD 11-2) and **name**,
+remembered on this computer and written as the declared operator in the stamp
+of every export. **Ask again at every export** restores the old question at
+each export. Empty = anonymous: the stamp names the software only.
+
+1 · Shift
+---------
+
+Loads a ``SHIFT.txt`` (``CRS X Y Z``; ``LOCAL``/``NONE``/``LOCAL_CS`` or an
+``EPSG::`` code), shows the file and the values, **Clear** removes it. The
+shift is saved in the project (``doc.meta["3dsc_shift_line"]``) and shown in
+the menu. Every import and export uses it. See :ref:`shift-coordinates`.
+
+2 · Import
+----------
+
+**Models…**
+
+- files or a folder (OBJ, PLY, FBX, DAE, STL, 3DS, glTF); a ``SHIFT.txt`` in
+  the folder is offered as the shift;
+- **Shift** on/off (on by default);
+- **One chunk per model, from the master** or **All models in one chunk**;
+- **Master**: the chunk copied for every model. *Create master from the
+  active chunk* makes it: photos and tie points only
+  (``chunk.copy(items=[TiePointsData])``), flagged ``3dsc_master`` in its meta.
+
+**Photos from Another Project…** — brings a camera group, the selected, the
+enabled or all cameras of a chunk of another project into the active chunk,
+with calibration, marker projections, masks and camera reference; nothing is
+aligned.
+
+3 · Masters
 -----------
 
-The **Shift** submenu manages a *global coordinate shift* that is reused by
-every import and export operation, so you no longer need to drop a
-``SHIFT.txt`` file in each model folder.
+An inventory of the models of a chunk, then what is missing.
 
-**Load Global Shift File**
-  Loads a ``shift.txt`` (``CRS X Y Z``) and stores it as the active global
-  shift. Once loaded, every import/export uses it automatically unless a
-  local ``SHIFT.txt`` is found in the operated folder.
+- **Chunk** and **Reference chunk** (its surface is used when the chunk has
+  no mesh yet);
+- **Densities**: texturable (10 000 faces/m²) and tileable (1 000 faces/m²);
+- table: model, faces, faces/m², texture, part in the chain;
+- **Measure**: faces of every model and the surface of the lightest (kept in
+  ``3dsc_faces`` and ``3dsc_area_m2``);
+- report and **Make what is missing**: decimations from the highest model
+  (``decimateModel(model=…, replace_asset=False)``), listed and confirmed
+  first; the new models are ``M_texturable_<d>`` and ``M_tileable_<d>``.
 
-**Current Shift → …**
-  A live menu entry that previews the currently loaded shift
-  (``CRS X Y Z``). Selecting it shows the full value and the source file.
+Rules: the highest model is the one to clean; above the texturable density it
+is the geometric super master; when no model reaches it, the highest is kept
+for the tileset; LOD0 is made only from a denser model. A model within ±25 %
+of a target density counts as that master.
 
-**Clear Global Shift**
-  Removes the active global shift; operations fall back to per-folder
-  ``SHIFT.txt`` or to no shift.
+4 · Blocks
+----------
 
-.. note::
+- **Chunk** (its active model is cut) and **Block plan area** (m²; the side
+  is its square root);
+- **Grid orientation**: project grid · selected line · two markers · bearing
+  typed (degrees clockwise from grid north) · fit to the mesh (minimum-area
+  rectangle of the footprint) · north;
+- **Preview the grid in the view** / **Remove preview**: the cells holding
+  mesh as shapes of the group «3DSC grid preview»;
+- **Save this grid as the project grid** (``doc.meta["3dsc_grid"]``: grid
+  CRS, origin, side, bearing);
+- **Small tiles under (faces)**: merged into the largest neighbour or flagged;
+- **Output**: the blocks as models of one new chunk (``<chunk>_blocks``) ·
+  one chunk per block · files only; **Master** for the new chunk(s);
+- **Folder**: ``<chunk>_workflow_blocks`` with the blocks, ``metadata.xml``
+  and, for a turned grid, ``grid_crs.wkt``.
 
-   **Shift resolution order** for any import/export: (1) a ``.txt`` file
-   found in the operated folder, then (2) the global shift loaded from the
-   Shift menu, then (3) no shift. See
-   :doc:`/how-to/photogrammetry/prepare-with-metashape` for configuration.
+The cut is Metashape's Block Model (``buildModel(split_in_blocks=True,
+blocks_size=…)``). A turned grid is passed as ``blocks_crs`` — a local oblique
+Mercator (``Oblique_Mercator``, EPSG method 9815) centred on the site with
+scale 1 — and ``blocks_origin``; the chunk's own coordinate system and
+transform are never changed. Blocks are named ``block_xNNN_yNNN`` from their
+cell, counted from the grid origin, so the project grid gives the same names
+in every epoch. The cut stops when two blocks are identical or the blocks add
+up to more than 1.5 × the faces of the source.
 
-Import Tools
-------------
-
-**Import Multiple Models**
-  Imports multiple OBJ/PLY/DAE files, creating one chunk per model.
-
-  **Workflow:**
-
-  1. Prepare a folder with segmented mesh tiles from Blender
-  2. Add SHIFT.txt if coordinate transformation is needed
-  3. **3DSC Metashape Tools > Import > Import Multiple Models**
-  4. Select the folder containing models
-  5. Script creates one chunk per tile
-
-  **Features:**
-
-  - Supports OBJ, PLY, and COLLADA (DAE) formats
-  - Reads SHIFT.txt automatically if present
-  - Maintains original file names as chunk labels
-  - Copies sparse point cloud from first chunk (if available)
-
-**Import Single Model with Shift**
-  Imports a single 3D model with optional coordinate transformation.
-
-  **Use Case:** Import individual models or test SHIFT.txt configuration
-
-**Import Tiled Models**
-  Reimports previously exported tiled models and rebuilds the tiled model structure.
-
-  **Use Case:** Round-trip workflow for tiled model editing
-
-
-Texturing Tools
----------------
-
-**Texturize Models**
-  Applies automatic texturing using the Demetrescu-d'Annibale formula.
-
-  For the full formula derivation, worked example and rationale, see
-  :ref:`texture-resolution-formula`. The script implements the formula with
-  the defaults listed below.
-
-  **Automatic Configuration:**
-
-  - Texture size: 4096×4096 px
-  - UV mapping mode: Generic
-  - Blending mode: Mosaic
-  - Hole filling: Enabled
-  - Ghosting filter: Enabled
-
-**Texturize Models (200m² limit)**
-  Extended texturing mode for larger models (up to 200 m²).
-
-  **Features:**
-
-  - Caps at 12 textures maximum
-  - Prevents excessive texture generation for very large tiles
-  - Uses same formula but with area constraint
-
-  **Recommendation:** Use for architectural documentation or large archaeological features
-
-.. admonition:: Texture Resolution Rationale
-
-   The 1.26 mm²/texel target density provides:
-
-   - Sufficient detail for VR visualization
-   - Recognition of most archaeological features
-   - Balanced file size vs. quality
-   - Compatibility with real-time engines (Unreal, Unity, Godot)
-
-
-Export Tools
-------------
-
-**Export Multiple Models**
-  Exports all chunks as individual textured OBJ files.
-
-  **Workflow:**
-
-  1. Complete texturing of all chunks
-  2. **3DSC Metashape Tools > Export > Export Multiple Models**
-  3. Select destination folder
-  4. Add SHIFT.txt if coordinate transformation is needed
-  5. Script exports OBJ + MTL + textures
-
-  **Output Files:**
-
-  - ``model_mt.obj`` - Mesh geometry
-  - ``model_mt.mtl`` - Material definition
-  - ``model_mt_tex_0.jpg`` - Texture images (multiple if needed)
-
-**Export Single Model with Shift**
-  Exports the active chunk as a single textured OBJ file.
-
-**Export Tiled Models**
-  Exports Metashape tiled models as individual tile files.
-
-**Cut Giant Mesh into Blocks (with Shift)**
-  Segments a large mesh **directly in Metashape** (no Blender round-trip
-  required) using Metashape's native **Block Model**: ``buildModel`` is called
-  with ``split_in_blocks=True`` and ``blocks_size`` (in metres, = ``sqrt(block
-  area)``), so the mesh is built already divided into **separate spatial block
-  meshes** and exported to the output folder (``export_blocks=True``). This is
-  the native equivalent of the 3DSC Blender "Cutter"; because the split happens
-  at build time it produces genuinely distinct pieces. The tool re-tiles the
-  existing mesh (``source_data=ModelData``) when possible, falling back to
-  rebuilding from depth maps.
-
-  **Prompts (native Metashape dialogs):**
-
-  - **Block plan area (m²)** — target size per block (default 80)
-  - **Run STEP1 now** — prepare/flag LOD0 before cutting
-  - **Output one chunk per block?** — recommended *Yes*
-  - **Output folder** for the generated ``*_workflow_blocks`` directory
-
-  Block file names come from Metashape's block export. With *one chunk per
-  block* off, the block meshes are left on disk (files-only mode) for
-  verification or Blender cleaning.
-
-  This tool is STEP2 of the guided workflow below.
-
-  .. note::
-
-     The dialogs are native Metashape prompts on purpose. Earlier builds used a
-     tkinter window, which crashes Metashape on macOS (Tk cannot share the Qt
-     event loop). If you are extending the tool, do not reintroduce tkinter.
-
-**Workflow Export Blocks (Textured First)**
-  Exports the blocks produced by the guided workflow, enforcing that each
-  block has been textured first (STEP3). See *Guided Workflow* below.
-
-**Export Undistorted Images (Active Chunk)**
-  Exports undistorted copies of the active chunk's photos (using the initial
-  calibration) into a ``*_undistorted`` folder. Useful for re-texturing in
-  external engines or for archival of the corrected imagery.
-
-
-Guided Workflow (STEP1–STEP5)
--------------------------------
-
-The **Workflow** submenu chains the tools above into a repeatable
-"giant mesh → textured blocks" pipeline. It keeps internal state (LOD0
-chunk, generated block chunks, textured flags) so each step knows what the
-previous one produced.
-
-Two setup actions precede the numbered steps: the (optional) **STEP0** global
-shift (Shift menu) and the *prerequisite* of having a high-resolution mesh
-built with Metashape's own tools (align photos → build mesh). This is why the
-guided workflow's first tool command is STEP1.
-
-**STEP1 — Prepare or Flag LOD0**
-  Flags the active chunk's mesh as LOD0, or optionally creates a decimated
-  LOD0 copy at a chosen polygon density (polygons per m² of 3D surface). The
-  prompt reports the mesh's current face count and density and offers it as the
-  default; enter a **lower** value to reduce. A target at or above the current
-  count performs no decimation (reported back to you). The **full-resolution
-  mesh is always preserved** — the decimated LOD0 is made on a copy, and the
-  original is kept as the high-resolution source.
-
-**STEP2 — Cut Mesh into Blocks (Options)**
-  Same as *Cut Giant Mesh into Blocks* above; opens the options dialog and
-  produces one chunk per block (recommended).
-
-**STEP3 — Texturize Workflow Blocks**
-  Runs the Demetrescu-d'Annibale texturing on the block chunks generated in
-  STEP2 and marks them as textured.
-
-**STEP4 — Generate LODs + Normal Maps (Experimental)**
-  Creates LOD1/LOD2 decimated copies of each block (configurable ratios) and,
-  when supported by the Metashape API, builds normal maps and preserves
-  boundaries.
-
-**STEP5 — Export Workflow Blocks**
-  Exports the textured blocks to OBJ, optionally applying the shift and
-  writing a ``shift.txt`` alongside the output. Refuses to export blocks that
-  were not textured in STEP3.
-
-.. admonition:: Blender-first vs Metashape-first
-
-   The guided workflow lets you **segment in Metashape** instead of Blender.
-   Both approaches are valid; the walkthrough in
-   :doc:`/how-to/photogrammetry/prepare-with-metashape` documents them side by
-   side and explains when to prefer each.
-
-
-Utility Tools
+5 · Texturing
 -------------
 
-**Rename Chunks**
-  Renames all chunks sequentially (1_mt, 2_mt, 3_mt, etc.) for better organization.
+- **Texel** (1.26 mm), **Atlas** (2048/4096/8192 px), **UV ratio** (0.6),
+  **Max pages per chunk** (none by default);
+- one row per model: area, faces, pages, texel reached, memory (raw RGB);
+- *Select all*, *None*, *Untick masters*, *Measure*;
+- with many chunks: **Work in a new project** with the reference chunk and
+  the ticked ones (``Document.append`` + ``save``; the open project is
+  unchanged).
 
-  **Use Case:** After importing many tiles, simplify chunk management
+Each ticked model becomes the active one, then ``buildUV(page_count=…)`` and
+``buildTexture(MosaicBlending)``; the values used go to ``model.meta["3dsc_dd"]``.
 
-**LOD Generator**
-  *(Placeholder in the Utility menu — not yet implemented.)*
+6 · LODs + Normal Maps
+----------------------
 
-  In-Metashape LOD generation is currently available through
-  **Workflow > STEP4 Generate LODs + Normal Maps (Experimental)**, which
-  operates on the blocks produced by the guided workflow.
+LOD1 and LOD2 ratios (0.5 and 0.25): each block is decimated from its own
+faces. Blocks held as models get ``<block>_LOD1`` and ``<block>_LOD2`` in the
+same chunk.
+
+7 · Tileset
+-----------
+
+- **Chunk**, **Tiled model**, or *build it now* from the active model
+  (``buildTiledModel(source_data=ModelData)``, pixel size from the texel);
+- **Screen space error** (presets desktop 16 · web 24 · mobile 32);
+- **Tileset version** 1.1/1.0, **Textures** KTX2/JPEG, **Draco**,
+  **tileset transform**, **clip to boundary**, **folder depth**;
+- **Heights**: correction onto EGM2008 for this export only, from
+  Metashape's geoid or a JSON table ``{marker: N}``; marker heights become
+  H + N − Δdatum, then ``updateTransform``; markers and transform are put back
+  after the export;
+- **File** ``.3tz`` or folder.
+
+After the export the written file is read back: tiles per level, primitives
+per tile, size, root position (latitude, longitude, ellipsoidal height).
+
+8 · Export
+----------
+
+**Blocks** (textured, with LODs; OBJ with UV and textures), **Models** (one
+file per chunk), **Active model with shift**, **Undistorted images** of the
+active chunk. Every file is stamped (``<file>.stamp.json``, dtcstamp 0.1.3);
+the private address of the master in the project goes in
+``<file>.hints.json``.
+
+Utility and Help
+----------------
+
+**Rename Chunks…**: pattern with ``{n}``, ``{name}``, ``{model}``, start,
+digits, find/replace, preview; acts on the selected chunks or on all.
+**Flag LOD0** (the former STEP1). **Help**: this documentation; *About* with
+the rule and the references.
 
 
 Texture Resolution Formula
@@ -270,85 +179,61 @@ source of truth:
 The implementation here calls the formula with the variables (published
 notation → code name):
 
-- :math:`r_{\text{target}}` → ``x_res_a_terra`` — target texture density
-  (default: 1.26 mm²/texel)
-- :math:`s_{\text{tex}}` → ``tex_size`` — texture atlas dimension in pixels
+- :math:`r_{\text{target}}` → ``texel_mm`` — side of one texel on the
+  surface (default: 1.26 mm)
+- :math:`s_{\text{tex}}` → ``atlas_px`` — texture atlas dimension in pixels
   (default: 4096)
-- :math:`r_{\text{uv}}` → ``ratio`` — UV-space utilization efficiency
+- :math:`r_{\text{uv}}` → ``uv_ratio`` — UV-space utilization efficiency
   (default: 0.6)
-- :math:`A_{\text{tile}}` → ``area_model`` — tile surface area in m², from
-  ``chunk.model.area()``
+- :math:`A_{\text{tile}}` → ``area_m2`` — surface area of the model in m²,
+  from ``model.area()``
+
+The functions are in ``ms_dd.py``: ``pages_for(area)``, ``texel_for(area,
+pages)`` (the rule read backwards) and ``simulate(area, max_pages=…)``.
 
 
-Python API Reference
-====================
+Code Reference
+==============
 
-**Key Classes and Methods:**
+``3DSC_MS_GUI.py`` holds the menu and the work done in Metashape;
+``ms_panels.py`` the panels (PySide2). The logic that does not need Metashape
+lives in pure modules, tested with ``python3 -m unittest discover tests``:
 
-.. code-block:: python
+- ``ms_dd.py`` — the Demetrescu-D'Annibale rule and the master densities
+- ``ms_masters.py`` — the inventory of the masters
+- ``ms_grid.py`` — the turned grid: minimum-area rectangle, layout, oblique
+  Mercator definition, cell names
+- ``ms_blocks.py`` — checks, names and small tiles of a cut
+- ``ms_tileset.py`` — reading back an exported tileset
+- ``ms_appender.py`` (+ ``ms_append_ms.py``, ``ms_append_gui.py``) — photos
+  from another project
+- ``dtc_stamp_ms.py`` + ``vendor/dtcstamp.py`` — the stamp of every export
 
-   # Metashape Python API usage in 3DSC tools
-
-   import Metashape as ps
-
-   # Import model with shift
-   chunk.importModel(
-       path=model_path,
-       format=ps.ModelFormat.ModelFormatOBJ,
-       shift=ps.Vector([x, y, z]),
-       crs=ps.CoordinateSystem("EPSG::32633")  # optional
-   )
-
-   # Build UV mapping
-   chunk.buildUV(
-       mapping_mode=ps.GenericMapping,
-       page_count=6,  # number of texture pages
-       texture_size=4096
-   )
-
-   # Build texture
-   chunk.buildTexture(
-       blending_mode=ps.MosaicBlending,
-       texture_size=4096,
-       fill_holes=True,
-       ghosting_filter=True
-   )
-
-   # Export model
-   chunk.exportModel(
-       path=export_path,
-       format=ps.ModelFormat.ModelFormatOBJ,
-       shift=ps.Vector([x, y, z]),
-       crs=ps.CoordinateSystem("EPSG::32633"),  # optional
-       texture_format=ps.ImageFormat.ImageFormatJPEG,
-       save_texture=True,
-       save_uv=True,
-       save_normals=True
-   )
-
-**Coordinate System Handling:**
-
-.. code-block:: python
-
-   # Local coordinates (no CRS)
-   chunk.importModel(
-       path=model_path,
-       shift=ps.Vector([16000, 29000, 0])
-       # No crs parameter
-   )
-
-   # Geographic coordinates (with EPSG)
-   chunk.importModel(
-       path=model_path,
-       shift=ps.Vector([500000, 4500000, 0]),
-       crs=ps.CoordinateSystem("EPSG::32633")
-   )
+Notes measured on Metashape 2.3.2: a model built by Metashape has an identity
+``Model.transform`` and internal vertices, an imported one carries its own
+translation to geocentric coordinates; several models of one chunk are
+textured one at a time by making each the active model; block files cut with
+a custom ``blocks_crs`` have no ``metadata.xml``, so 3DSC exports each block
+model again in the chunk's coordinate system.
 
 
 Version History
 ===============
 
-**Version 1.7.0** (Current)
+**Unreleased** (after 1.7.0)
+  - Menu in steps 0–8 with panels; operator and shift remembered
+  - **Masters** as an inventory of the chain (geometric · texturable 10 000/m²
+    · tileable 1 000/m²), decimations confirmed before running
+  - **Blocks** on a grid turned with the monument (line, markers, bearing,
+    mesh), previewed in the view; one **project grid** for every epoch;
+    blocks as models of one chunk
+  - **Texturing** one model at a time; the 200 m² cap removed
+  - **Tileset** export with screen space error, EGM2008 heights for one
+    export, check read from the file
+  - Removed: Import Single/Multiple/Tiled Models, Export Tiled Models,
+    Texturize 200 m², LOD Generator, iPad import
+
+**Version 1.7.0**
   - Version numbering realigned with the 3DSC Blender extension (``dsc_tools``)
   - **Global Shift** menu — load a coordinate shift once and reuse it across
     all import/export operations

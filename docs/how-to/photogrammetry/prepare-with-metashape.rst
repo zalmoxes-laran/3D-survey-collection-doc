@@ -4,744 +4,489 @@
 Prepare a digital replica with Metashape
 ============================================
 
-This recipe describes the **3DSC for Metashape** workflow: a Python-script
-toolkit that integrates Agisoft Metashape with the 3D Survey Collection
-(3DSC) pipeline in Blender. It walks through installation, SHIFT.txt
-configuration, and a complete end-to-end example from Blender
-segmentation to high-resolution texture export.
+This recipe follows **3DSC for Metashape**, the companion of the 3D Survey
+Collection (3DSC) for Agisoft Metashape, from an aligned photogrammetric
+project to textured blocks, their levels of detail and a Cesium tileset. It
+is written for whoever documents a site and has to deliver a *digital
+replica*: a model whose geometry, texture and provenance can be checked.
 
-For the parameter catalogue, formula derivation, Python API, and version
-history, see the tool reference: :doc:`/reference/tools/metashape-tool`.
+The tool reference (parameters, formula, Python API) is
+:doc:`/reference/tools/metashape-tool`; the reasons behind the texture rule
+are in :doc:`/explanation/texture-resolution-formula`, those behind the shift
+in :ref:`shift-coordinates`.
 
 .. contents:: On this page
    :local:
    :depth: 2
 
-Overview
-========
 
-The 3DSC for Metashape tools bridge the gap between Blender's geometric
-segmentation capabilities and Metashape's photogrammetric texturing
-engine. The workflow lets you:
+The idea in one paragraph
+=========================
 
-- Import segmented mesh tiles from Blender into Metashape
-- Automatically calculate optimal texture resolution based on model area
-- Apply high-resolution textures (1.26 mm²/texel) to multiple tiles
-- Export textured models with coordinate transformation support
-- Maintain Extended Matrix (EM) folder structure compatibility
+A photogrammetric survey produces one heavy mesh. 3DSC for Metashape turns it
+into a **chain of masters** that differ only by density, each with a job:
 
-.. figure:: ../../img/3dsc_metashape_workflow.png
-   :width: 800
-   :align: center
+.. list-table::
+   :widths: 28 22 50
+   :header-rows: 1
 
-   *Complete workflow from Blender segmentation to Metashape texturing*
+   * - Master
+     - Density (faces/m²)
+     - What it is for
+   * - **Geometric super master**
+     - above 10 000
+     - kept aside: archive, 3D printing, measurement. It is the model you
+       **clean** (trees, scaffolding, noise); every lighter master is
+       derived from it and inherits the cleaning.
+   * - **Texturable master**
+     - 10 000
+     - the source of the **Cesium tileset** for the web and of the normal maps.
+   * - **Tileable master (LOD0)**
+     - 1 000
+     - cut into **blocks**, textured at about one millimetre per texel,
+       then reduced into LOD1, LOD2… for Blender and Extended Matrix.
+
+Two words are kept apart throughout: a **block** is a piece of mesh physically
+cut (one file per block); the **tileset** is Metashape's own quadtree,
+exported as 3D Tiles.
+
+.. Screenshot to add: the 3DSC Metashape Tools menu (steps 0–8, Utility, Help).
 
 .. admonition:: Follow along with an open dataset
    :class: tip
 
-   This walkthrough uses a **freely downloadable dataset** so you can
-   reproduce every step yourself:
+   This walkthrough can be reproduced with a **freely downloadable dataset**:
 
    **Segni (RM): Acropoli. Rilievo fotogrammetrico** —
    `zenodo.org/records/7463167 <https://zenodo.org/records/7463167>`__
    (DOI `10.5281/zenodo.7463167 <https://doi.org/10.5281/zenodo.7463167>`__,
    licensed CC-BY-NC-SA 4.0).
 
-   To follow the tutorial you mainly need:
+   You mainly need:
 
    - ``Segni_Acropoli_Canon6D_24mm.rar`` and/or ``Segni_Acropoli_drone.rar`` —
      the source photographs
    - ``Segni_Acropoli_soluzione_fotogrammetrica.xml`` — the ready-made
-     photogrammetric solution (aligned cameras + sparse cloud). Import this to
-     **skip the long alignment** and jump straight to building the mesh.
-   - the accompanying ``.txt`` file — the coordinate **shift** for the site
-   - ``Segni_Acropoli_RB.zip`` — the Reality-Based package, showing the target
+     photogrammetric solution (aligned cameras and tie points): import it to
+     **skip the long alignment**
+   - the accompanying ``.txt`` file — the coordinate **shift** of the site
+   - ``Segni_Acropoli_RB.zip`` — the Reality-Based package, showing the
      Extended Matrix ``05_RB`` folder structure
 
-   Throughout the example the site is referred to as *Segni Acropolis*.
 
 Installation
 ============
 
-**Requirements:**
+**Requirements**
 
-- Agisoft Metashape Professional (version 1.6 or later)
-- Python-enabled Metashape license
-- 3DSC Blender Add-on (for model preparation)
+- Agisoft Metashape **Professional** 2.x (developed and measured on 2.3.2);
+  the Standard edition has no Python
+- the 3DSC Blender extension, for the Blender side of the work
 
-**Installation Steps:**
+**Steps**
 
-1. Download the latest **3DSC for Metashape** release from GitHub:
-
+1. Download the latest release of **3DSC for Metashape** from
    `github.com/zalmoxes-laran/3DSC_Metashape/releases <https://github.com/zalmoxes-laran/3DSC_Metashape/releases>`__
+   (the source ``.zip`` of the newest tag) and extract it.
+2. Keep the files **together in one folder**: ``3DSC_MS_GUI.py`` loads the
+   modules beside it (the panels, the texture rule, the grid, the stamp…).
+3. In Metashape: **Tools › Run Script…** and choose ``3DSC_MS_GUI.py``.
+4. The **3DSC Metashape Tools** menu appears in the menu bar. Run the script
+   again after updating the files.
 
-   (Pick the newest tagged release — the source-archive ``.zip`` is
-   what you want.)
-
-2. Extract the ZIP file to a known location (e.g., Desktop or Documents)
-
-3. In Metashape, go to **Tools > Run Script**
-
-4. Navigate to the extracted folder and select ``3DSC_MS_GUI.py``
-
-5. The **3DSC Metashape Tools** menu will appear in the Metashape menu bar
-
-.. figure:: ../../img/3dsc_menu_metashape.png
-   :width: 400
-   :align: center
-
-   *3DSC Metashape Tools menu in Agisoft Metashape*
-
-.. admonition:: Single-File Solution
-
-   Version 1.7.0 consolidates all functionality into one file: ``3DSC_MS_GUI.py``
-   (the version number is aligned with the 3DSC Blender extension).
-
-   Previous multi-script versions (import_multiple_models.py, texturize_it.py, etc.)
-   are deprecated and can be removed.
-
-
-SHIFT.txt Configuration
-========================
-
-The **SHIFT.txt** file controls coordinate transformation during import and export operations.
-
-.. seealso::
-
-   For the rationale behind coordinate shifting (why georeferenced
-   data needs an origin offset in Blender, single-precision float
-   limits, when to use it and when not to), see
-   :ref:`shift-coordinates`.
-
-File Format
------------
-
-The SHIFT.txt file must be placed in the same folder as your 3D models with the following format:
-
-.. code-block:: text
-
-   CRS X Y Z
-
-Where:
-
-- **CRS**: Coordinate Reference System or special keyword
-- **X, Y, Z**: Shift values (can be integers or decimals)
-
-.. admonition:: Important
-
-   - Use **spaces** to separate values (not commas or tabs)
-   - File must contain exactly one line with 4 values
-   - Decimal values are supported: ``16000.0`` or ``16000`` both work
-
-Coordinate System Options
---------------------------
-
-**1. Local Coordinates (Non-Georeferenced)**
-
-For models in local coordinate systems without geographic reference:
-
-.. code-block:: text
-
-   LOCAL 16000.0 29000.0 0.0
-
-Alternative keywords: ``NONE``, ``LOCAL_CS``
-
-**Effect:** Applies translation shift only, without setting a coordinate system
-
-**Use Cases:**
-
-- Models exported from Blender with high local coordinates
-- Archaeological site models with arbitrary origin points
-- Models that need coordinate normalization for visualization
-
-
-**2. Geographic Coordinates (EPSG)**
-
-For georeferenced models with known coordinate systems:
-
-.. code-block:: text
-
-   EPSG::32633 500000.0 4500000.0 0.0
-
-**Effect:** Applies shift AND sets the coordinate reference system
-
-**Common EPSG Codes:**
-
-- ``EPSG::32633`` - UTM Zone 33N, WGS84
-- ``EPSG::32632`` - UTM Zone 32N, WGS84
-- ``EPSG::3004`` - Monte Mario / Italy zone 2
-- ``EPSG::4326`` - WGS84 Geographic (lat/lon)
-- ``EPSG::3857`` - Web Mercator (for web mapping)
-
-**Use Cases:**
-
-- Models for integration with GIS software (QGIS, ArcGIS)
-- Georeferenced archaeological sites
-- Urban planning and architectural documentation
-- Integration with cadastral or topographic data
-
-Selection Guide
----------------
+The menu follows the order of the work:
 
 .. list-table::
-   :widths: 40 30 30
+   :widths: 8 32 60
    :header-rows: 1
 
-   * - Situation
-     - SHIFT.txt Format
-     - Example
-   * - Blender export with local coords
-     - ``LOCAL``
-     - ``LOCAL 16000.0 29000.0 0.0``
-   * - High coordinates to normalize
-     - ``LOCAL``
-     - ``LOCAL 16000.0 29000.0 100.0``
-   * - Georeferenced UTM model
-     - ``EPSG::xxxxx``
-     - ``EPSG::32633 500000.0 4500000.0 0.0``
-   * - Export for GIS integration
-     - ``EPSG::xxxxx``
-     - ``EPSG::3004 1000000.0 2000000.0 0.0``
-
-.. admonition:: Remember
-
-   All 6 import/export tools in 3DSC for Metashape support both LOCAL and EPSG options.
-
-
-Two ways to segment: pick your workflow
-========================================
-
-The tiles you texture in Metashape can be cut in **two different places**.
-Both are fully supported; choose the one that fits your project.
-
-.. list-table::
-   :widths: 20 40 40
-   :header-rows: 1
-
-   * - Workflow
-     - Segment in…
-     - Choose it when…
-   * - **A — Blender-first**
-     - Blender (3DSC Segmentation panel)
-     - You already work in Blender, want manual control over cut lines, or the
-       mesh is already decimated/cleaned there.
-   * - **B — Metashape-first**
-     - Metashape (guided Workflow STEP1–STEP5)
-     - You want to stay in Metashape, start from the raw high-resolution mesh,
-       and let the tool cut, texture, LOD and export in one guided pipeline.
-
-Both paths converge on the same textured tiles and the same Extended Matrix
-``05_RB`` folder structure. **STEP0 — loading a global shift — is optional and
-applies to either workflow** (see *SHIFT.txt Configuration* above and the
-*Shift* menu).
+   * - Step
+     - Entry
+     - What it does
+   * - 0
+     - Operator (ORCID)…
+     - who runs the operations, written in the stamp of every export
+   * - 1
+     - Shift…
+     - one coordinate shift for every import and export, kept in the project
+   * - 2
+     - Import › Models… / Photos from Another Project…
+     - models into copies of the *master*; photos brought from another project
+   * - 3
+     - Masters…
+     - what the chunk has and lacks along the chain; makes what is missing
+   * - 4
+     - Blocks…
+     - cuts the tileable master on a grid turned with the monument
+   * - 5
+     - Texturing…
+     - the Demetrescu-D'Annibale rule, one model at a time
+   * - 6
+     - LODs + Normal Maps
+     - LOD1, LOD2… of every block
+   * - 7
+     - Tileset…
+     - Cesium 3D Tiles (``.3tz``) from the texturable master
+   * - 8
+     - Export ›
+     - blocks, models, the active model, undistorted images
+   * -
+     - Utility › Rename Chunks… · Help ›
+     - names that become file names; this documentation, rule and references
 
 
-Workflow A — Segment in Blender (Blender-first)
-===============================================
+Before you start: operator and shift
+====================================
 
-This path demonstrates the pipeline from Blender segmentation to textured
-model export.
+**Operator.** *0 · Operator (ORCID)…* asks once for your ORCID iD (optional)
+and name, checks the iD and remembers it on this computer. From then on every
+export is stamped with it, without asking again; tick «ask again at every
+export» if several people use the same machine. Left empty, the stamps name
+the software only.
 
-Phase 1: Model Preparation in Blender
---------------------------------------
+**Shift.** Georeferenced coordinates are too large for the single-precision
+numbers of Blender and of many viewers, so 3DSC works with a shift: a
+``SHIFT.txt`` with one line ``CRS X Y Z``.
 
-.. note::
+.. code-block:: text
 
-   The mechanics of the Blender panels are not repeated here. For the
-   Segmentation panel see :ref:`segmentation`; for LOD creation see
-   :ref:`lod-generator` and :ref:`lod-manager`.
+   EPSG::3004 2312000.0 4614000.0 0.0      georeferenced: shift and coordinate system
+   LOCAL 16000.0 29000.0 0.0               local: shift only (also NONE, LOCAL_CS)
 
-**1.1 Segment High-Resolution Mesh**
+*1 · Shift…* loads the file, shows its content and the numbers it read, and
+**saves the shift in the project**: it comes back when you reopen the
+``.psx``, and the menu shows it in brackets. *Clear* removes it. Use the same
+file Blender used for the site, so that both programs speak the same
+coordinates.
 
-Using 3DSC Blender Add-on:
+.. Screenshot to add: the Shift panel with the Segni shift loaded.
 
-1. Import decimated photogrammetric mesh (1000 poly/m²)
-2. Open **3DSC > Segmentation** panel
-3. Set **Area (m²)**: 100 (creates 100 m² tiles)
-4. Click **Cutter Set** to generate grid
-5. Adjust grid position if needed
-6. **Trim All** to segment mesh into tiles
 
-**1.2 Export Tiles**
+Workflow A — blocks cut in Blender
+==================================
 
-1. Select all segmented tiles
-2. **File > Export > Wavefront (.obj)**
-3. Save to Extended Matrix structure:
+Choose this path when the blocks are already cut in Blender (3DSC
+Segmentation panel), for instance because the cut lines follow walls or
+stratigraphic units drawn by hand.
 
-   ``05_RB/03_Model_Library/[ModelName]/meshpoly/``
-
-4. Export settings:
-
-   - Selection Only
-   - Objects as OBJ Objects
-   - Write Materials
-   - Write Normals (optional)
+**A.1 Cut and export in Blender.** See :ref:`segmentation`. Export the blocks
+as OBJ into ``05_RB/03_Model_Library/<Model>/meshpoly/``, with the site's
+``SHIFT.txt`` beside them.
 
 .. figure:: ../../img/blender_segmentation_export.png
    :width: 700
    :align: center
 
-   *Blender segmentation and export to meshpoly folder*
-
-
-Phase 2: Texturing in Metashape
---------------------------------
-
-**2.1 Prepare Metashape Project**
-
-1. Open photogrammetric project with:
-
-   - Aligned cameras
-   - Sparse point cloud
-   - Dense cloud (not required)
-   - Mesh (delete if present - we'll import tiles)
-
-2. **File > Save As** to create texturing project:
-
-   ``05_RB/02_PROCESSING/metashape/project_texturing.psx``
-
-**2.2 Import Segmented Tiles**
-
-1. **3DSC Metashape Tools > Import > Import Multiple Models**
-
-2. Navigate to ``05_RB/03_Model_Library/[ModelName]/meshpoly/``
-
-3. Select folder (will auto-detect OBJ files and SHIFT.txt if present)
-
-4. Metashape creates one chunk per tile
-
-.. figure:: ../../img/metashape_chunks_import.png
-   :width: 800
-   :align: center
-
-   *Metashape workspace after importing 25 tiles - one chunk per tile*
-
-**2.3 Apply Automatic Texturing**
-
-1. **3DSC Metashape Tools > Texturing > Texturize Models**
-
-2. Script processes all chunks automatically:
-
-   - Calculates optimal texture count per tile area
-   - Generates UV mapping
-   - Builds high-resolution textures
-   - Displays progress in console
-
-3. Wait for completion (can take 5-10 minutes per tile depending on photo count)
-
-.. figure:: ../../img/metashape_texturing_progress.png
-   :width: 700
-   :align: center
-
-   *Console output showing texture calculation and progress*
-
-**2.4 Verify Results**
-
-Check each chunk for:
-
-- Complete texture coverage
-- No visible seams
-- Proper color/lighting
-- Ghost artifacts (adjust photo selection if needed)
-
-**2.5 Export Textured Models**
-
-1. **3DSC Metashape Tools > Export > Export Multiple Models**
-
-2. Select destination folder:
-
-   ``05_RB/03_Model_Library/[ModelName]/meshpolytex/``
-
-3. Add SHIFT.txt if using coordinate transformation
-
-4. Metashape exports all chunks to OBJ format with textures
-
-.. figure:: ../../img/metashape_export_folder.png
-   :width: 700
-   :align: center
-
-   *meshpolytex folder with exported tiles and textures*
-
-
-Phase 3: LOD Generation in Blender
------------------------------------
-
-**3.1 Import Textured Tiles**
-
-1. Open Blender (new file or continue from Phase 1)
-2. **File > Import > Wavefront (.obj)**
-3. Navigate to ``meshpolytex/`` folder
-4. Select all textured OBJ files
-5. Import with:
-
-   - Split by Object
-   - Image Search (finds textures)
-
-**3.2 Create LOD Structure**
-
-Using 3DSC LOD Generator (see :ref:`lod-generator` and :ref:`lod-manager` for
-the full panel reference):
-
-1. Select all imported tiles
-2. **3DSC > LOD Generator**
-3. Set **LOD 0 (set as)** for reference model
-4. Configure:
-
-   - **Number of LODs**: 2 (LOD1, LOD2)
-   - **Decimation ratio**: 0.5 for LOD1, 0.25 for LOD2
-   - **Texture resolution**: 2048 for LOD1, 1024 for LOD2
-
-5. Set output folder:
-
-   ``05_RB/03_Model_Library/[ModelName]/[ModelName]_RB.blend``
-
-6. **Generate LODs**
-
-.. figure:: ../../img/lod_structure.png
-   :width: 600
-   :align: center
-
-   *LOD collection structure in Blender*
-
-
-Workflow B — Segment in Metashape (Metashape-first)
-===================================================
-
-In this path you never leave Metashape: the guided **Workflow** menu takes a
-single high-resolution mesh and cuts, textures, LODs and exports it as blocks.
-The menu is organised as an optional **STEP0** plus five numbered steps
-**STEP1–STEP5**.
-
-.. figure:: ../../img/metashape/ms_workflow_menu.png
-   :width: 400
-   :align: center
-
-   *The 3DSC Metashape Tools > Workflow menu (STEP1–STEP5)*
-
-Before you start (prerequisite)
--------------------------------
-
-Prepare the source mesh with Metashape's **own** tools — this is not a 3DSC
-command, which is why the guided workflow begins at STEP1:
-
-1. Align the photos and build the sparse cloud (or import a ready-made
-   solution — with the Segni dataset, import
-   ``Segni_Acropoli_soluzione_fotogrammetrica.xml`` to skip alignment).
-2. Build the mesh at **full resolution** (dense/arbitrary surface).
-
-.. admonition:: Which mesh do I start from?
-   :class: important
-
-   **Start from the full-resolution, untextured mesh** — do *not* decimate it
-   by hand first.
-
-   - **STEP1** derives **LOD0** from that master by decimating a copy to a
-     target density you choose. LOD0 is the "hero" geometry you cut, texture
-     and deliver.
-   - The **texture (STEP3) comes from the photographs**, projected onto the
-     surface — not from the geometry — so LOD0 does not need the full mesh
-     density to look good; there is no benefit to texturing the
-     ultra-high-resolution mesh.
-   - **Normal maps are *not* baked onto LOD0.** They are generated in
-     **STEP4** for the lighter LOD1/LOD2 copies, so those keep the visual
-     detail of LOD0 with fewer polygons.
-
-   .. important::
-
-      The density is **polygons per m² of 3D surface** (walls, roof, terrain —
-      *not* ground footprint). Aerial/large-area meshes often already sit
-      around 1 000–3 000 poly/m², so a value like 10 000 is **above** the
-      native density and would not decimate anything. STEP1 shows the current
-      face count and density and offers it as the default — enter a **lower**
-      value to actually reduce the mesh (if the target is at or above the
-      current count, STEP1 reports that no decimation was performed).
-
-   This mirrors the published pipeline (`Demetrescu et al. 2026
-   <https://doi.org/10.3390/rs18020203>`__): a dense mesh built by Poisson
-   surface reconstruction is decimated with feature- and boundary-preserving
-   edge-collapse before tiling. In the Amba Aradam replica the delivered tiles
-   ranged roughly 1 000–5 400 triangles/m² depending on context — a sensible
-   target range for LOD0.
-
-STEP0 (optional): Load Global Shift
------------------------------------
-
-If the model is georeferenced (or you want a consistent local origin), load
-the shift once and it is reused by every export:
-
-1. **3DSC Metashape Tools > Shift > STEP0 - Load Global Shift File (optional)**
-2. Select the ``shift.txt`` (``CRS X Y Z`` — see *SHIFT.txt Configuration*
-   above). For the Segni dataset, use the ``.txt`` shift shipped with the
-   record.
-3. The active shift is shown in the menu as *Current Shift → …*.
-
-.. figure:: ../../img/metashape/ms_shift_menu.png
-   :width: 400
-   :align: center
-
-   *STEP0: the Shift menu after loading the site shift*
-
-Skip this step entirely for a purely local model with no origin offset.
-
-STEP1: Prepare or Flag LOD0
----------------------------
-
-1. Select the chunk that holds the high-resolution mesh.
-2. **3DSC Metashape Tools > Workflow > STEP1 Prepare or Flag LOD0**.
-3. When asked to *create a decimated LOD0 copy*:
-
-   - **Yes** (recommended) → the prompt shows the mesh's current face count and
-     density and pre-fills it as the default. Enter a **lower** poly/m² to
-     reduce; the tool copies the chunk and decimates the copy to LOD0. A value
-     at or above the current density leaves the mesh unchanged (STEP1 tells you
-     so).
-   - **No** → the current mesh is flagged as LOD0 as-is.
-
-   Either way the **full-resolution mesh is preserved**: with *Yes* the
-   original stays as a separate high-resolution chunk (kept as the normal-map
-   source and for archival); with *No* the full-resolution mesh simply becomes
-   LOD0.
-
-STEP2: Cut Mesh into Blocks
----------------------------
-
-1. **3DSC Metashape Tools > Workflow > STEP2 Cut Mesh into Blocks (Options)**.
-2. Answer the native prompts:
-
-   - **Block plan area (m²)** — target footprint per block (e.g. 80 → ~8.9 m
-     square cells)
-   - **Run STEP1 now** — leave *Yes* if you have not already run STEP1
-   - **Output one chunk per block?** — *Yes* (recommended)
-   - **Output folder** — where the ``*_workflow_blocks`` folder is written
-
-3. Run it. The tool uses Metashape's native **Block Model** (``buildModel``
-   with ``split_in_blocks``): the mesh is built already divided into separate
-   spatial block meshes of side ``sqrt(area)`` metres, exported to the output
-   folder. With *one chunk per block* each is then re-imported as its own
-   chunk; otherwise the block meshes are just left on disk (handy to verify
-   them or clean them in Blender first). This mirrors the 3DSC Blender
-   "Cutter" — the split happens at build time, so blocks are genuinely
-   distinct pieces.
-
-.. figure:: ../../img/metashape/ms_step2_cut_dialog.png
-   :width: 700
-   :align: center
-
-   *STEP2: the Cut Mesh into Blocks options dialog*
-
-.. figure:: ../../img/metashape/ms_step2_blocks_chunks.png
-   :width: 800
-   :align: center
-
-   *STEP2 result: one chunk per block in the Metashape workspace*
-
-STEP3: Texturize Blocks
------------------------
-
-1. **3DSC Metashape Tools > Workflow > STEP3 Texturize Workflow Blocks**.
-2. The tool textures every block chunk with the Demetrescu-d'Annibale formula
-   (4096 px pages, resolution sized per block area) and marks them as
-   textured. Progress is printed to the console.
-
-.. figure:: ../../img/metashape/ms_step3_texturize_console.png
-   :width: 700
-   :align: center
-
-   *STEP3: texture calculation and progress in the console*
-
-STEP4 (optional, experimental): Generate LODs + Normal Maps
------------------------------------------------------------
-
-1. **3DSC Metashape Tools > Workflow > STEP4 Generate LODs + Normal Maps
-   (Experimental)**.
-2. Enter the LOD1 and LOD2 decimation ratios (defaults 0.5 and 0.25).
-3. Optionally build normal maps and preserve borders (availability depends on
-   your Metashape API version).
-
-This produces LOD1/LOD2 copies of each block; the normal maps let the lighter
-LODs preserve LOD0's surface detail.
-
-STEP5: Export Blocks
---------------------
-
-1. **3DSC Metashape Tools > Workflow > STEP5 Export Workflow Blocks**.
-2. In the export dialog choose the destination folder (e.g.
-   ``05_RB/03_Model_Library/Segni_Acropolis/meshpolytex/``), whether to apply
-   the shift, and whether to export UV + textures.
-3. Blocks that were not textured in STEP3 are refused, so you cannot export an
-   untextured result by mistake. A ``shift.txt`` is written alongside the
-   output when a shift is used.
-
-.. figure:: ../../img/metashape/ms_step5_export_folder.png
-   :width: 700
-   :align: center
-
-   *STEP5: exported textured blocks and their shift.txt*
-
-From here you can bring the blocks into Blender for annotation exactly as in
-Workflow A, Phase 3.
-
-
-Integration with Extended Matrix
-=================================
-
-**EM Folder Structure Integration:**
+   *Blender segmentation and export to the meshpoly folder*
+
+**A.2 Prepare the Metashape project.** Open the photogrammetric project
+(aligned cameras and tie points; a mesh is not needed) and save a copy for
+texturing, e.g. ``05_RB/02_PROCESSING/metashape/project_texturing.psx``.
+
+**A.3 Create the master.** Select the chunk of the photos and use
+*2 · Import › Models… › Create master from the active chunk*. The master is a
+copy holding **only the photos and the tie points**: every model imported
+later lands in a copy of it, so it can be textured from the photos without
+dragging depth maps, point clouds or other meshes along.
+
+**A.4 Import the blocks.** In the same panel add the files or the
+``meshpoly`` folder (a ``SHIFT.txt`` found there is offered as the shift),
+leave *Shift* ticked and choose:
+
+- **one chunk per model, from the master** — one chunk per block, as in
+  earlier versions;
+- **all models in one chunk** — lighter: one chunk holding every block as a
+  model of its own (see *Several models in one chunk* below).
+
+.. Screenshot to add: the Import panel with the meshpoly folder and the master.
+
+**A.5 Texture.** Go on with *Texturing* (below, B.5), then *Export › Blocks*
+to ``meshpolytex/``, and come back to Blender for the LODs (:ref:`lod-generator`,
+:ref:`lod-manager`).
+
+
+Workflow B — from the mesh to the blocks, in Metashape
+======================================================
+
+**B.0 Build and clean the high mesh.** With Metashape's own tools: align (or
+import the ready-made solution), build the mesh at high quality, then
+**clean it**: vegetation, scaffolding, people, noise at the edges. This is
+the moment to work on the geometry, because every lighter master will be
+decimated from this one and will inherit what you removed.
+
+B.1 Masters: what is there, what is missing
+-------------------------------------------
+
+*3 · Masters…* opens on the chunk and lists its models with their faces,
+density and part in the chain. Opening is instant: nothing is loaded. Press
+**Measure** once — it counts the faces of every model and measures the
+surface on the lightest one (decimations keep the surface), and keeps the
+numbers in the project. For a sense of the wait: 40.9 million faces take
+about 13 seconds on a recent Mac.
+
+The panel then writes, in plain words, what it found:
+
+- the **highest model is the one to clean**, the base of every decimation;
+  above 10 000 faces/m² it is the geometric super master;
+- if a model sits near **10 000/m²** it is the texturable master; if none
+  reaches that density, the highest is **kept for the tileset** — a
+  decimation removes detail, it never adds it;
+- if a model sits near **1 000/m²** it is the tileable master (LOD0);
+  otherwise it can be decimated from a denser one;
+- models lighter than LOD0 are marked as previews or LODs.
+
+*Make what is missing* lists the exact decimations (source, target faces)
+and asks before running them; the source model is never changed. When a
+chunk has no mesh yet, the **reference chunk** gives the surface, and the
+panel tells you how many faces each master will need.
+
+.. admonition:: An example: Templu Mare, 2015
+   :class: note
+
+   Three models of 40.9 M, 6.3 M and 0.6 M faces on about 6 040 m². The
+   panel says: clean the 40.9 M model and keep it for the tileset (6 800/m²,
+   no model reaches 10 000); the 6.3 M model is already LOD0 (1 041/m²);
+   the 0.6 M model is lighter than LOD0; nothing to make.
+
+.. Screenshot to add: the Masters panel after Measure, on a real chunk.
+
+Clean the high model again later? Run *Masters* again: the lighter masters of
+that level are replaced by new ones, decimated from the cleaned model.
+
+B.2 The master of the photos
+----------------------------
+
+As in A.3: *Import › Models… › Create master from the active chunk*, on the
+chunk of the photos. You need it once per photo set — once per epoch, if the
+site was surveyed more than once.
+
+B.3 Blocks on a grid turned with the monument
+---------------------------------------------
+
+*4 · Blocks…* cuts the active model of a chunk — normally the tileable
+master — into square blocks of the area you choose (80 m² gives blocks of
+8.94 m). Metashape's own block cut lays its grid on the north; a temple
+turned by 10° then wastes many half-empty blocks along its sides. 3DSC turns
+the grid with the monument and keeps it tight on the mesh.
+
+**Where the angle comes from.** In order of preference:
+
+- **Project grid** — the grid saved on an earlier cut (see B.4);
+- **Selected line** — draw a polyline along the walls (*Draw Polyline* in
+  the Model view), select it, and the grid takes its direction. This is the
+  most direct way to say «this is the axis of the building»;
+- **Two markers** along the axis;
+- **Bearing typed**, in degrees clockwise from the grid north;
+- **Fit to the mesh** — the narrowest rectangle around the footprint of the
+  mesh. It is right for a monument modelled on its own; when the mesh
+  includes the surrounding terrain, the terrain decides the rectangle and
+  the result says little about the building;
+- **North** — Metashape's default.
+
+**See it before cutting.** *Preview the grid in the view* draws the cells
+that hold mesh as orange outlines in the Model view, in a shape group called
+«3DSC grid preview», and writes the angle, where it comes from, and how many
+blocks it gives against a north grid. *Remove preview*, *Cancel* and the cut
+itself take the outlines away.
+
+.. Screenshot to add: the Templu Mare with the orange grid along the walls.
+
+**The project is never rotated.** The turned grid exists only inside the cut
+command (as the coordinate system of the block grid: a local oblique Mercator
+centred on the site, scale 1). The chunk keeps its coordinate system and its
+position: nothing rotated is ever saved, and the same settings always give
+the same blocks. The block files are then written in the chunk's coordinate
+system with the usual ``metadata.xml`` (plus ``grid_crs.wkt``, the grid used).
+
+**Small tiles.** Blocks with fewer faces than the threshold (2 000 by
+default) are merged into their largest neighbour, or only flagged. The cut
+stops, naming the files, if two blocks turn out identical or if all blocks
+add up to far more faces than the source.
+
+**Output.**
+
+- **the blocks as models of one new chunk** (default), copied from the
+  master: ``<chunk>_blocks`` holds ``block_x001_y001``, ``block_x001_y002``…
+- one chunk per block;
+- files only, to check or clean them in Blender first.
+
+B.4 More epochs, one grid
+-------------------------
+
+Tick **save this grid as the project grid** on the first cut. When you cut
+another chunk of the same site — another survey campaign, another
+interpretative hypothesis — choose **Project grid**: the cells are the same,
+and so are the names. ``block_x003_y002`` is the same piece of ground in 2013
+and in 2015, which makes the two epochs comparable block by block, in
+Metashape, in Blender and in Extended Matrix.
+
+B.5 Texturing: about one millimetre per texel
+---------------------------------------------
+
+*5 · Texturing…* lists **one row per model** (blocks of every chunk, masters,
+imported models) with its surface, the texture pages the rule asks for, the
+texel they give and the memory they take. Tick what to texture — *Untick
+masters* removes the master chunks; *Measure* fills the surfaces still
+unknown.
+
+The rule is the Demetrescu-D'Annibale formula (Demetrescu et al. 2026,
+`Remote Sensing 18, 203 <https://doi.org/10.3390/rs18020203>`__, Eq. 1):
 
 .. code-block:: text
 
-   05_RB/                              # Reality-Based Data
+   pages = round( area · (1000 / texel)² / (atlas² · UV ratio) )
+
+with a texel of **1.26 mm**, atlases of **4096 px** and a UV ratio of **0.6**
+(the share of each page the UV islands really fill). A 100 m² block needs
+6 pages. A large area needs no cap: set *Max pages per chunk* and the panel
+shows the coarser texel you accept instead; leave it empty and the texel stays
+at 1.26 mm with more pages. The values used are written in each model's
+metadata.
+
+**Several models in one chunk.** Metashape 2.x keeps several models in one
+chunk and textures them one at a time: each becomes the active model, gets its
+own UV pages and texture, and the others keep theirs. Measured on Templu Mare
+2015: two pieces textured in 26 and 16 seconds, each with its own texture,
+the models already in the chunk untouched. Separate chunks are needed only
+for different photos or alignments — that is, for different epochs.
+
+**Many chunks?** Above a dozen, the panel offers to save a **new project**
+holding the reference chunk and the ticked ones: texturing is lighter there,
+and the open project stays as it is.
+
+.. Screenshot to add: the Texturing panel with the simulation of a set of blocks.
+
+B.6 LODs and normal maps
+------------------------
+
+*6 · LODs + Normal Maps* asks for the LOD1 and LOD2 ratios (0.5 and 0.25 by
+default) and decimates **each block from its own faces**: LOD1 has half the
+faces of the LOD0 block, LOD2 a quarter. For blocks held as models of one
+chunk, the LODs are added to the same chunk (``block_x001_y001_LOD1``…).
+Normal maps let the lighter levels keep the surface detail of the
+texturable master.
+
+B.7 The Cesium tileset
+----------------------
+
+*7 · Tileset…* exports the tiled model of a chunk as **Cesium 3D Tiles**,
+directly in a ``.3tz`` archive or in a folder, or builds it first from the
+active model (the texturable master), at the texel of the rule.
+
+- **Screen space error** decides how many tiles a viewer draws at a given
+  distance: higher means fewer tiles, lighter scenes. Presets: desktop 16,
+  web 24, mobile 32. The same error can also be tuned later in the viewer.
+- Version 1.1 or 1.0, textures in KTX2 (compressed for the graphics card) or
+  JPEG, Draco geometry compression, tileset transform, folder depth, clip to
+  boundary shapes.
+- **Heights.** When the chunk's coordinate system has no vertical datum and
+  its markers carry heights, the panel says so: if those heights are
+  orthometric (levelling, benchmarks), the tileset would sit tens of metres
+  too low on the globe. The export can move them onto **EGM2008** for that
+  export only — marker heights, then the chunk's position — and puts
+  everything back exactly afterwards. The undulation N comes from
+  Metashape's EGM2008 geoid, if installed, or from a small table
+  ``{marker: N}``.
+- **Check.** After the export the file itself is read back: tiles per level,
+  primitives per tile (each one a draw call), size, and where the root sits
+  on the Earth.
+
+B.8 Export
+----------
+
+*8 · Export ›* writes the blocks (with their LODs, OBJ with textures), the
+models of the chunks one file each, the active model, or the undistorted
+photos of the active chunk, always with the shift of the project. Every file
+gets a ``<file>.stamp.json`` beside it: what Metashape recorded about the
+operations, the photos, the software and the operator.
+
+Typical destination: ``05_RB/03_Model_Library/<Model>/meshpolytex/``. From
+there the blocks go into Blender for annotation.
+
+
+Integration with Extended Matrix
+================================
+
+.. code-block:: text
+
+   05_RB/                              # Reality-Based data
    ├── 01_RAW/
-   │   └── photos/                     # Original photos
+   │   └── photos/                     # original photos
    ├── 02_PROCESSING/
    │   └── metashape/
-   │       ├── project.psx             # Original photogrammetric project
-   │       └── project_texturing.psx   # Texturing project (3DSC workflow)
+   │       ├── project.psx             # photogrammetric project
+   │       └── project_texturing.psx   # texturing project (3DSC)
    └── 03_Model_Library/
-       └── [ModelName]/
-           ├── meshpoly/               # Blender exports HERE
-           ├── meshpolytex/            # Metashape exports HERE
-           └── [ModelName]_RB.blend    # Final Reality-Based file
+       └── <Model>/
+           ├── meshpoly/               # blocks cut in Blender (Workflow A)
+           ├── meshpolytex/            # textured blocks from Metashape
+           └── <Model>_RB.blend        # the Reality-Based file
 
-**Workflow Position:**
-
-3DSC for Metashape sits between geometric preparation (Phase 1-2 of Digital Replica workflow) and stratigraphic annotation (Phase 6):
-
-1. **Phase 1-2**: High-res mesh → decimation → segmentation (Blender + 3DSC)
-2. **Phase 3**: Texturing tiles (Metashape + 3DSC for Metashape) ← **YOU ARE HERE**
-3. **Phase 4**: LOD generation (Blender + 3DSC)
-4. **Phase 6**: Stratigraphic annotation (Blender + Extended Matrix)
-
-.. seealso::
-
-   For the complete Digital Replica workflow, see
-   :doc:`/how-to/digital-replica/index`.
+In the Digital Replica workflow (:doc:`/how-to/digital-replica/index`) this
+page covers the masters, the cut and the texturing; Blender takes over for
+the LODs of Workflow A and for the stratigraphic annotation.
 
 
 Troubleshooting
 ===============
 
-Common Issues and Solutions
----------------------------
+**The menu does not appear.** Metashape Professional is needed (Standard has
+no Python). *Tools › Run Script…* on ``3DSC_MS_GUI.py``, with all the files
+of the release in the same folder; errors are in the console
+(*View › Console*).
 
-**Issue: "wrong crs definition string"**
+**«wrong crs definition string» when loading the shift.** The first word of
+``SHIFT.txt`` must be ``LOCAL`` (or ``NONE``, ``LOCAL_CS``) or a code such as
+``EPSG::32633``; the four values are separated by spaces.
 
-**Cause:** Invalid coordinate system specification in SHIFT.txt
+**Models land in the wrong place.** Check that Blender and Metashape use the
+same ``SHIFT.txt``, and that *Shift* is ticked in the Import panel. For a
+local model try ``LOCAL 0 0 0`` first.
 
-**Solution:**
+**Masters makes nothing.** Read its report: no model may be denser than the
+master you ask for (a decimation cannot add detail), or the models may not be
+measured yet.
 
-- For local coordinates, use: ``LOCAL 16000.0 29000.0 0.0``
-- For georeferenced, verify EPSG code: ``EPSG::32633 500000.0 4500000.0 0.0``
-- Check for typos in EPSG number
+**The rotated grid is not along the walls.** *Fit to the mesh* follows the
+footprint of the whole mesh, terrain included: draw a line along the walls
+and use *Selected line*, or pick two markers.
 
-**Issue: "invalid literal for int() with base 10: '16000.0'"**
+**«a rotated grid needs a projected CRS».** The chunk must be in a metric,
+projected coordinate system (UTM, Gauss-Boaga, Stereo70…), not in latitude
+and longitude.
 
-**Cause:** Older script version doesn't handle decimal values
+**Too many texture pages.** Check that the model is in metres; for a very
+large model set *Max pages per chunk* and accept the coarser texel the panel
+shows, or cut it into blocks first.
 
-**Solution:**
+**The tileset sits below the ground in the viewer.** The heights are
+probably orthometric in a coordinate system without vertical datum: tick the
+EGM2008 correction in the Tileset panel.
 
-- Update to ``3DSC_MS_GUI.py`` version 1.7.0 or later
-- Latest version automatically handles both integers and decimals
+Performance
+-----------
 
-**Issue: "messageBox() takes exactly 1 argument (2 given)"**
-
-**Cause:** Using outdated script version with incorrect Metashape API calls
-
-**Solution:**
-
-- Download and use ``3DSC_MS_GUI.py``
-- Do not use old individual scripts (import_multiple_models.py, etc.)
-
-**Issue: Models import at wrong position**
-
-**Possible Causes:**
-
-1. SHIFT.txt values are incorrect
-2. Coordinate system mismatch between Blender and Metashape
-
-**Solutions:**
-
-- Verify shift direction (positive vs negative values)
-- Check if models need ``LOCAL`` instead of ``EPSG``
-- Test with zero shift first: ``LOCAL 0.0 0.0 0.0``
-
-**Issue: Textures are too small / too large**
-
-**Cause:** Model area doesn't match expected dimensions
-
-**Check:**
-
-1. Verify model is in meters (not millimeters or other units)
-2. Check model area in Metashape (right-click chunk → Properties)
-3. For very large models (>200m²), use "Texturize Models (200m² limit)"
-
-**Issue: Excessive texture generation (>20 textures per tile)**
-
-**Cause:** Model area is too large for standard formula
-
-**Solution:**
-
-- Use **Texturize Models (200m² limit)** instead
-- Caps at 12 textures maximum
-- Or resegment model into smaller tiles in Blender
-
-**Issue: Missing textures in export**
-
-**Check:**
-
-1. Texturing completed for all chunks (check progress in Metashape console)
-2. Export folder has write permissions
-3. Sufficient disk space for texture files
-
-**Issue: Script menu doesn't appear**
-
-**Cause:** Python not enabled or script not loaded correctly
-
-**Solutions:**
-
-1. Verify Metashape Professional license (Standard doesn't support Python)
-2. **Tools > Run Script** → select ``3DSC_MS_GUI.py``
-3. Check Metashape console (F8) for error messages
-4. Try restarting Metashape
-
-
-Performance Optimization
-------------------------
-
-**For Large Projects (>50 tiles):**
-
-1. **Disable unnecessary chunks** during texturing to save RAM
-2. **Process in batches**:
-
-   - Import 10-15 tiles at a time
-   - Texture batch
-   - Export batch
-   - Remove chunks, import next batch
-
-3. **Reduce photo count**:
-
-   - Use only photos with optimal lighting
-   - Disable blurred images
-   - Align cameras once, then disable photos before texturing
-
-4. **Texture Settings:**
-
-   - Start with 2048×2048 textures for testing
-   - Switch to 4096×4096 for final export
-   - Use JPEG export format to reduce file size (set in export options)
-
-**Memory Management:**
-
-- Each 100m² tile with 6×4096px textures ≈ 150-200 MB RAM during processing
-- For 50 tiles: expect 8-10 GB RAM usage minimum
-- Close other applications during batch texturing
+- Prefer the blocks as models of one chunk per epoch: no copy of the photos
+  for every block.
+- With many chunks, texture in a new project holding only the reference chunk
+  and the blocks (the Texturing panel offers it).
+- Measuring is done once and kept in the project; re-measure after cleaning
+  a model.
+- Disable blurred or redundant photos before texturing; test at 2048 px
+  pages, deliver at 4096.
 
 
 .. seealso::
 
-   - :doc:`/reference/tools/metashape-tool` — parameters, formula, Python API
-   - :doc:`/reference/panels/index` — 3DSC Blender Add-on panels reference
-   - :doc:`/reference/tools/tsm` — Texture Smart Mapping system
-   - :doc:`/how-to/digital-replica/index` — Complete digital replica workflow
-   - `Agisoft Metashape Python API <https://www.agisoft.com/pdf/metashape_python_api_2_0_0.pdf>`_
-   - `Extended Matrix Framework <https://www.extendedmatrix.org>`_
-   - `3DSC GitHub Repository <https://github.com/zalmoxes-laran/3D-survey-collection>`_
+   - :doc:`/reference/tools/metashape-tool` — parameters and Python API
+   - :doc:`/explanation/texture-resolution-formula` — the Demetrescu-D'Annibale rule
+   - :ref:`shift-coordinates` — why and when to shift coordinates
+   - :doc:`/how-to/digital-replica/index` — the complete digital replica workflow
+   - :doc:`/reference/panels/index` — 3DSC Blender panels
+   - `3DSC for Metashape on GitHub <https://github.com/zalmoxes-laran/3DSC_Metashape>`_
+   - `3DSC for Metashape on extendedmatrix.org <https://www.extendedmatrix.org/tools/3dsc-metashape/>`_
+   - Demetrescu, E., Ferdani, D., Fanini, B., D'Annibale, E., Berto, S.,
+     Morretta, S., Rea, R. (2026). Digital Replicas and 3D Virtual
+     Reconstructions for Large Excavations in Urban Archaeology: Methods,
+     Tools, and Techniques Drawn from the "Metro C" Case Study in Rome.
+     *Remote Sensing* 18(2), 203. https://doi.org/10.3390/rs18020203

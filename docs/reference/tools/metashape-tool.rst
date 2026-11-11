@@ -141,7 +141,10 @@ same chunk.
 
 - **Chunk**, **Tiled model**, or *build it now* from the active model
   (``buildTiledModel(source_data=ModelData)``, pixel size from the texel);
-- **Screen space error** (presets desktop 16 · web 24 · mobile 32);
+- **Screen space error** (presets full detail 16 · web 8 · mobile 4): written as
+  each tile's ``geometricError`` = value × texel of the level; tiles and
+  textures are the same whatever the value. In a viewer whose threshold is 16
+  px a texel is drawn on up to 16 / value pixels;
 - **Tileset version** 1.1/1.0, **Textures** KTX2/JPEG, **Draco**,
   **tileset transform**, **clip to boundary**, **folder depth**;
 - **Heights**: correction onto EGM2008 for this export only, from

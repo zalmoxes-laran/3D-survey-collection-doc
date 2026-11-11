@@ -424,9 +424,19 @@ B.7 The Cesium tileset
 directly in a ``.3tz`` archive or in a folder, or builds it first from the
 active model (the texturable master), at the texel of the rule.
 
-- **Screen space error** decides how many tiles a viewer draws at a given
-  distance: higher means fewer tiles, lighter scenes. Presets: desktop 16,
-  web 24, mobile 32. The same error can also be tuned later in the viewer.
+- **Screen space error.** It changes no tile and no texture: it is written
+  into the file as the *geometric error* of every tile, equal to the value
+  times the texel of that level. A viewer refines a tile when that error,
+  projected on the screen, passes its own threshold — 16 pixels by default.
+  In such a viewer a file exported at **16** shows each texel on about one
+  pixel (full detail); at **8** a texel may spread over two pixels and the
+  scene is lighter; at **4**, over four (mobile). Higher values ask for more
+  detail than the screen can show: more tiles, heavier scenes. Measured on
+  Templu Mare 2015: the same crop exported at 16, 24 and 32 has the same 1 887
+  tiles and the same size, and geometric errors in the ratio 1 : 1.5 : 2 (at the
+  finest level 0.025, 0.038 and 0.051 m, that is 16, 24 and 32 × the texel of
+  1.58 mm). The same balance can also be set in the viewer, by raising its own
+  threshold, without exporting again.
 - Version 1.1 or 1.0, textures in KTX2 (compressed for the graphics card) or
   JPEG, Draco geometry compression, tileset transform, folder depth, clip to
   boundary shapes.
@@ -446,7 +456,7 @@ active model (the texturable master), at the texel of the rule.
    :width: 640
    :align: center
 
-   *The Tileset panel on Templu Mare 2015: screen space error presets, KTX2 textures, and the warning about heights without a vertical datum*
+   *The Tileset panel on Templu Mare 2015: the screen space error and what it means in a viewer at 16, KTX2 textures, the warning about heights without a vertical datum*
 
 B.8 Export
 ----------

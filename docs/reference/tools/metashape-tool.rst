@@ -94,7 +94,10 @@ of a target density counts as that master.
   mesh as shapes of the group «3DSC grid preview»;
 - **Save this grid as the project grid** (``doc.meta["3dsc_grid"]``: grid
   CRS, origin, side, bearing);
-- **Small tiles under (faces)**: merged into the largest neighbour or flagged;
+- **Small tiles under**: a share of the block area (33 % by default), m² of
+  ground (between 0 and the block area) or faces; each small tile is merged
+  into a tile that shares a side — the cell next door first, then the largest
+  — or only flagged. Ground is the plan area of the faces;
 - **Output**: the blocks as models of one new chunk (``<chunk>_blocks``) ·
   one chunk per block · files only; **Master** for the new chunk(s);
 - **Folder**: ``<chunk>_workflow_blocks`` with the blocks, ``metadata.xml``

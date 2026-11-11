@@ -298,8 +298,15 @@ position: nothing rotated is ever saved, and the same settings always give
 the same blocks. The block files are then written in the chunk's coordinate
 system with the usual ``metadata.xml`` (plus ``grid_crs.wkt``, the grid used).
 
-**Small tiles.** Blocks with fewer faces than the threshold (2 000 by
-default) are merged into their largest neighbour, or only flagged. The cut
+**Small tiles.** At the edges of the survey some cells hold only a little
+ground. A tile covering less than a share of the block area — **33 % by
+default**, so under 26.4 m² for 80 m² blocks — joins a neighbour that shares a
+side with it: the cell next door first, the largest if there are more; a tile
+with no neighbour on a side stays and is flagged. The threshold can also be
+given in m² (between 0 and the block area) or, as before, in faces. Ground is
+measured in plan, so vertical walls do not count. On Templu Mare 2015 (80 m²
+blocks) the rule finds 9 small tiles among 80, where a threshold of 2 000
+faces found 27, many of them wide but sparse. The cut
 stops, naming the files, if two blocks turn out identical or if all blocks
 add up to far more faces than the source.
 

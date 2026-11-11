@@ -50,8 +50,6 @@ Two words are kept apart throughout: a **block** is a piece of mesh physically
 cut (one file per block); the **tileset** is Metashape's own quadtree,
 exported as 3D Tiles.
 
-.. Screenshot to add: the 3DSC Metashape Tools menu (steps 0–8, Utility, Help).
-
 .. admonition:: Follow along with an open dataset
    :class: tip
 
@@ -144,6 +142,12 @@ export is stamped with it, without asking again; tick «ask again at every
 export» if several people use the same machine. Left empty, the stamps name
 the software only.
 
+.. figure:: ../../img/metashape/ms_operator_panel.png
+   :width: 460
+   :align: center
+
+   *The Operator panel: an ORCID iD checked and remembered on this computer*
+
 **Shift.** Georeferenced coordinates are too large for the single-precision
 numbers of Blender and of many viewers, so 3DSC works with a shift: a
 ``SHIFT.txt`` with one line ``CRS X Y Z``.
@@ -159,7 +163,11 @@ numbers of Blender and of many viewers, so 3DSC works with a shift: a
 file Blender used for the site, so that both programs speak the same
 coordinates.
 
-.. Screenshot to add: the Shift panel with the Segni shift loaded.
+.. figure:: ../../img/metashape/ms_shift_panel.png
+   :width: 520
+   :align: center
+
+   *The Shift panel: the file, the coordinate system and the values read (Templu Mare, Stereo70)*
 
 
 Workflow A — blocks cut in Blender
@@ -198,7 +206,11 @@ leave *Shift* ticked and choose:
 - **all models in one chunk** — lighter: one chunk holding every block as a
   model of its own (see *Several models in one chunk* below).
 
-.. Screenshot to add: the Import panel with the meshpoly folder and the master.
+.. figure:: ../../img/metashape/ms_import_panel.png
+   :width: 560
+   :align: center
+
+   *Import › Models: blocks from a folder, the project shift, and the master their chunks are copied from*
 
 **A.5 Texture.** Go on with *Texturing* (below, B.5), then *Export › Blocks*
 to ``meshpolytex/``, and come back to Blender for the LODs (:ref:`lod-generator`,
@@ -248,7 +260,11 @@ panel tells you how many faces each master will need.
    no model reaches 10 000); the 6.3 M model is already LOD0 (1 041/m²);
    the 0.6 M model is lighter than LOD0; nothing to make.
 
-.. Screenshot to add: the Masters panel after Measure, on a real chunk.
+.. figure:: ../../img/metashape/ms_masters_panel.png
+   :width: 640
+   :align: center
+
+   *Masters after Measure on Templu Mare 2015: the part of each model in the chain, and nothing left to make*
 
 Clean the high model again later? Run *Masters* again: the lighter masters of
 that level are replaced by new ones, decimated from the cleaned model.
@@ -289,7 +305,17 @@ that hold mesh as orange outlines in the Model view, in a shape group called
 blocks it gives against a north grid. *Remove preview*, *Cancel* and the cut
 itself take the outlines away.
 
-.. Screenshot to add: the Templu Mare with the orange grid along the walls.
+.. figure:: ../../img/metashape/ms_blocks_panel.png
+   :width: 700
+   :align: center
+
+   *The Blocks panel: grid from two markers along the south wall, preview, small tiles under 33 % of the block*
+
+.. figure:: ../../img/metashape/ms_grid_preview_view.jpg
+   :width: 800
+   :align: center
+
+   *The grid of the preview on Templu Mare 2015 (top view of the textured model): 80 m² cells turned by −8.67° along the line from marker 109 to 101 (blue)*
 
 **The project is never rotated.** The turned grid exists only inside the cut
 command (as the coordinate system of the block grid: a local oblique Mercator
@@ -361,7 +387,11 @@ for different photos or alignments — that is, for different epochs.
 holding the reference chunk and the ticked ones: texturing is lighter there,
 and the open project stays as it is.
 
-.. Screenshot to add: the Texturing panel with the simulation of a set of blocks.
+.. figure:: ../../img/metashape/ms_texturing_panel.png
+   :width: 700
+   :align: center
+
+   *Texturing: one row per model with surface, pages, texel reached and memory; the reference of the rule below*
 
 B.6 LODs and normal maps
 ------------------------
@@ -397,6 +427,12 @@ active model (the texturable master), at the texel of the rule.
 - **Check.** After the export the file itself is read back: tiles per level,
   primitives per tile (each one a draw call), size, and where the root sits
   on the Earth.
+
+.. figure:: ../../img/metashape/ms_tileset_panel.png
+   :width: 640
+   :align: center
+
+   *The Tileset panel on Templu Mare 2015: screen space error presets, KTX2 textures, and the warning about heights without a vertical datum*
 
 B.8 Export
 ----------

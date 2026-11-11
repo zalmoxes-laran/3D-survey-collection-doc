@@ -125,6 +125,9 @@ up to more than 1.5 × the faces of the source.
 
 Each ticked model becomes the active one, then ``buildUV(page_count=…)`` and
 ``buildTexture(MosaicBlending)``; the values used go to ``model.meta["3dsc_dd"]``.
+A progress window shows the model N of M, done and left, the current stage, the
+time spent and left (weighted by pages, ``ms_progress.py``) and the expected
+end; *Stop after this one* ends the batch between two models.
 
 6 · LODs + Normal Maps
 ----------------------

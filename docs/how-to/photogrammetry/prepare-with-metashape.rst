@@ -376,6 +376,20 @@ shows the coarser texel you accept instead; leave it empty and the texel stays
 at 1.26 mm with more pages. The values used are written in each model's
 metadata.
 
+**While it runs** a window says where the batch stands: which model of how
+many, how many are done and how many are left, the stage of the current one
+(UV mapping, then the texture), the time spent, the time left and when it
+should end. The estimate is weighted by the texture pages, the real measure of
+the work, and learns from the blocks already done how long each stage takes.
+*Stop after this one* ends the batch when the current model is finished, so no
+model is left half textured.
+
+.. figure:: ../../img/metashape/ms_texturing_progress.png
+   :width: 520
+   :align: center
+
+   *Texturing in progress: the second of three blocks, with the time left and the expected end*
+
 **Several models in one chunk.** Metashape 2.x keeps several models in one
 chunk and textures them one at a time: each becomes the active model, gets its
 own UV pages and texture, and the others keep theirs. Measured on Templu Mare

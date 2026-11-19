@@ -120,7 +120,7 @@ files do not say, then press **Build raster cache**:
   ``-22, 37``); **Frame px**, the plot box in pixels (left, top, right,
   bottom). Leave **Frame px** empty and 3DSC measures it on the first
   capture, by its axes and ticks, and writes it in the field for you to
-  check.
+  check (:numref:`Fig. %s <GPRpanelFIG>`).
 
 Type numbers with a decimal point: the comma separates values.
 
@@ -181,6 +181,12 @@ If the scene already carries a shift, the import goes ahead without
 asking — unless the EPSG code of the dataset disagrees with the
 scene's, in which case you are warned and the scene shift is left
 untouched.
+
+From a script there is no dialog: pass the shift you want and it is
+the one used, for example
+``bpy.ops.gpr.import_stack('EXEC_DEFAULT', shift_e=701700,
+shift_n=4234800, write_shift=True)``. What you do not pass is
+proposed as the dialog would.
 
 Each slice goes where its manifest puts it:
 

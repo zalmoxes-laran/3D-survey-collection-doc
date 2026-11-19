@@ -13,12 +13,13 @@ Geophysics slices
 
 .. _GPRpanelFIG:
 
-.. figure:: /img/GPR_panel.png
+.. figure:: /img/GPR_panel_geophysics.png
    :width: 300
    :align: center
 
-   The panel, then named GPR slices, with a CSV stack cached,
-   georeferenced and draped on a declared photogrammetric ground
+   The panel set for a stack of screen captures (UA Ilici, Alcudia):
+   method GPR, the frame's ticks on X and Y typed and its pixels left
+   empty, the origin printed on the captures in EPSG:25830
 
 The panel (:numref:`Fig. %s <GPRpanelFIG>`) ingests **geophysical
 slices** — the 2D maps a GPR, ERT or magnetic processing suite produces
@@ -254,6 +255,14 @@ situations are distinguished:
    Present in the dialog. When enabled, the accepted values become the
    scene's General Shift Value, so every other 3DSC importer lands on
    the same origin.
+
+**From a script**
+   Run without its dialog, the import keeps the shift it is given:
+   ``bpy.ops.gpr.import_stack('EXEC_DEFAULT', shift_e=701700,
+   shift_n=4234800, shift_z=0, write_shift=True)`` places the stack
+   with that shift and writes it into the scene. Only the values you
+   pass win; the others are proposed as in the dialog (until
+   1.7.0-dev.68 the proposed rounded shift replaced the ones passed).
 
 Depth reference
 ---------------

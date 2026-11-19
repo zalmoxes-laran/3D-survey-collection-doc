@@ -1,14 +1,17 @@
 .. _gpr-representation:
 
-==========================================
-Representing GPR depth slices in 3DSC
-==========================================
+===============================================
+Representing geophysical slices in 3DSC
+===============================================
 
-3DSC represents a ground penetrating radar depth slice as a **textured
-surface** — not as a point cloud, and not as a voxel volume. It hangs
-that surface below a **declared photogrammetric walking surface**, and
-it stops short of saying what any anomaly *is*. This page explains the
-three decisions and what follows from each.
+3DSC represents a geophysical slice — a ground penetrating radar (GPR)
+depth slice, an electrical resistivity (ERT) slice or section, a
+magnetic map — as a **textured surface**, not as a point cloud, and not
+as a voxel volume. It hangs that surface below a **declared
+photogrammetric walking surface**, it reads every format through **one
+reading core** shared with EMStudio, and it stops short of saying what
+any anomaly *is*. This page explains the four decisions and what
+follows from each.
 
 .. contents:: On this page
    :local:
@@ -36,6 +39,35 @@ rectangular bounding grid.
 
 So the file is a raster wearing a table's clothes, and the raster has
 holes in it.
+
+The other surveys 3DSC was measured against say the same thing in other
+clothes:
+
+- the **UA Ilici** GPR sectors are GeoTIFF rasters, float32, one band,
+  0.10 m cells, georeferenced in EPSG:25830, with a nodata value for the
+  cells outside the survey and, in two sectors, a cell at 32767 where
+  the instrument saturated. They carry no depth: ``mean_v2`` and
+  ``sqmean_v2`` are products (mean amplitude, mean of the squares), not
+  depth bands;
+- the **Alcudia** stack of the same site is 601 screenshots of the GPR
+  program, one every 5 mm down to 3 m. A screenshot is a picture of a
+  plot, but its plot box sits on the same pixels in all 601, and the
+  metres of its axes are printed on it: one frame declared for the
+  stack turns every capture into a placed slice;
+- the **Basilica Iulia** ERT is a set of headerless ASCII matrices: six
+  horizontal slices named by their depth band in centimetres
+  (``100-150cm.ASC``) and six vertical sections (``VERT1`` … ``VERT6``),
+  each with a grid of its own. The values are **integers 0–255: the
+  indices of the colour bar** of the report's figures, not ohm-metres.
+  The files say neither their size nor their position; the report does
+  (92 × 50 m for the slices, 50 or 92 m by 8 or 9 m for the sections).
+
+What 3DSC does with the last case is the rule for all of them: the
+values stay as they are, and what the files do not say is **declared**
+— the extent, each section's size, the frame of a capture, and a
+*value scale* (1–255 standing for 0–3500 Ω·m, read off the colour bar,
+low confidence). A declared scale is written as a declaration in the
+manifest and in every stamp, never as a measure.
 
 Why a textured surface
 ======================
@@ -72,6 +104,12 @@ a single representation and the scene-building code has one path.
    The reasoning above holds for **processed depth slices**. Raw
    radargrams really are sparse data along profiles, and would need a
    different representation. 3DSC does not attempt them.
+
+A vertical section is the same surface standing up: an upright plane,
+its length along the line, its depth downwards. The files of a section
+do not say where its line runs on the ground — the Basilica's report
+draws the lines on a sketched plan — so 3DSC stands it along X from the
+stack's origin, says so, and leaves the placing to you.
 
 Depth is measured from the ground, not from zero
 ================================================
@@ -119,6 +157,50 @@ surface, and the assertion should be attributable to the
 photogrammetric document it rests on. 3DSC therefore records which
 object was used and whether it was explicitly declared.
 
+.. _gpr-core-source:
+
+One reading core, two programs
+==============================
+
+The code that reads the slices — the CSV, GeoTIFF, ASCII, point and
+screenshot readers, the depth parsing, the colour ramps, the cache and
+its manifest, the identities and the stamps — is not 3DSC's own. It is
+``geofisica_core``, the core of the **geophysics package** of the
+Extended Matrix (``profiles/geofisica/code/geofisica_core`` in the
+``em-profiles`` repository), the same code EMStudio runs when it brings
+a stack in. Until 1.7.0-dev.66 3DSC had its own ``gpr_core.py``; it is
+gone.
+
+3DSC does not install the package or depend on EM Tools to get it.
+The core is **embedded** in the add-on, in ``importer/_vendor/geofisica_core``,
+as a copy of one commit of ``em-profiles``:
+
+- ``scripts/geofisica_core.lock.json`` names the commit and the digest
+  of the copy (a sha256 over the paths and digests of its ``.py``
+  files);
+- ``SOURCE.json`` beside the copy says the same, so the core knows it is
+  a copy and of which commit;
+- the copy is made only by ``scripts/vendor_geofisica_core.py``, from
+  the committed tree of that commit, never from working files; the
+  tests, the build and the release workflow refuse a copy whose digest
+  is not the lock's.
+
+Nothing of the reading is written twice. A correction is made once, in
+the package, and reaches 3DSC when the lock is moved to the new commit.
+The core needs neither Blender nor s3dgraphy: 3DSC adds only the
+Blender side — the panel, the planes, the drape, the shift.
+
+What the core writes it **stamps**: every PNG of a cache and its
+manifest leave with ``<file>.stamp.json`` beside them, in the
+``dtcstamp`` format — the source files they were made from by digest,
+the parameters (ramp, percentiles, declared scale), and the software:
+3DSC first, with its version and commit, then the core, with the
+``em-profiles`` commit it was copied from. The same stack read by
+EMStudio and by Blender is the same cache, named by the digest of its
+sources and parameters, with the same stamps. The drape is not
+stamped: it is a mesh inside the ``.blend``, not a file, and its
+parameters are recorded on the stack's empty.
+
 Where the importer stops
 ========================
 
@@ -165,8 +247,13 @@ is the geophysical reading.
 
 What 3DSC does, concretely, is give every slice a stable identity as a
 document — keyed on its depth band, so it survives a re-export of the
-stack and a rename of the ``.blend`` — and, when you tag a proxy,
-record which of those documents were on screen, how many, and the depth
+stack and a rename of the ``.blend``. The identity is the core's, the
+same EMStudio gives the document of that slice:
+``gpr:<stack>#d<top>-<bottom>m`` for a GPR depth band, as it has always
+been, ``ert:`` and ``mag:`` for the other methods, ``#s<line>`` for a
+vertical section, and ``#<product>`` (``#mean_v2``) when the depth is
+not known. When you tag a proxy, 3DSC
+records which of those documents were on screen, how many, and the depth
 span they cover. It creates no node and no edge. The stratigraphic
 unit, its type and its place in the matrix remain yours to declare,
 with the Extended Matrix tools.

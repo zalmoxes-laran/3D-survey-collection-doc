@@ -3,7 +3,7 @@
 # -- Project information
 
 project = '3D Survey Collection'
-copyright = '2024, Emanuel Demetrescu, Simone Berto'
+copyright = '2024–2026, Consiglio Nazionale delle Ricerche (CNR) — Istituto di Scienze del Patrimonio Culturale'
 author = 'Emanuel Demetrescu, Simone Berto'
 
 release = '1.7'

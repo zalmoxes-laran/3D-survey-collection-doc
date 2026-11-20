@@ -298,6 +298,29 @@ line, top to bottom.
        every viewer reads as it is; strips save a little space but some
        viewers must convert them at every load.
 
+The four drop-down lists to change, open:
+
+.. list-table::
+   :widths: 50 50
+
+   * - .. figure:: ../../img/rs_lod_initial_type.jpg
+          :width: 100%
+
+          *Initial simplification ▸ Type: Absolute (or None if the model is
+          already lighter than 10 000 triangles per m²).*
+     - .. figure:: ../../img/rs_lod_altitude.jpg
+          :width: 100%
+
+          *Altitude: Unmodified.*
+   * - .. figure:: ../../img/rs_lod_compression.jpg
+          :width: 100%
+
+          *Compression: None.*
+     - .. figure:: ../../img/rs_lod_primitive.jpg
+          :width: 100%
+
+          *Primitive type: Triangles.*
+
 Press OK. RealityScan writes, in the chosen folder:
 
 - ``Basilica_TLS_UAV.json``, the root of the tileset;

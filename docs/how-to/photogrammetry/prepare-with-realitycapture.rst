@@ -167,6 +167,23 @@ survey.
    in height against the reconstruction files: the scans had been registered
    in another frame. No export setting fixes that; the registration does.
 
+Measure the surface
+~~~~~~~~~~~~~~~~~~~
+
+The number of triangles of the tileset comes from the **surface of the mesh**
+in square metres: the real surface in 3D (walls, steps, the faces of a
+trench), not the area of the plan. Measure it once on the textured model:
+
+#. Export the model from RealityScan as OBJ and import it in Blender (3DSC ▸
+   *Importers*), or open the Blender file where it already is.
+#. Select it and open 3DSC ▸ **METS Metadata Export** ▸ **Technical
+   Metadata**, then press **Calculate Mesh Statistics**.
+#. Read **Surface Area** (m²) and **Triangles/m²**.
+
+Multiply the surface by 10 000: that is the *Target triangle count* of
+step 3. If *Triangles/m²* is already below 10 000, the model is lighter than
+the master and the initial simplification is *None*.
+
 2 · Open the export
 ~~~~~~~~~~~~~~~~~~~
 
@@ -180,14 +197,14 @@ the feature is experimental: press OK.
    :align: center
 
    *The Level of Detail Export dialog as it opens, with RealityScan's
-   defaults. Several of them must be changed: see the table below.*
+   defaults. Five of them must be changed: see the table below.*
 
 3 · The parameters, one by one
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The dialog opens with RealityScan's defaults, and some of them are wrong for a
 reference tileset: the first one keeps only 10 % of the model, textures are
-off, the altitude is clamped and the tiles are compressed. Go through every
+off, the altitude is clamped, the tiles are compressed and written as strips. Go through every
 line, top to bottom.
 
 .. list-table::
@@ -200,11 +217,21 @@ line, top to bottom.
      - Why
    * - **Initial simplification** · Type
      - Relative
-     - **None**
-     - It sets the finest level of the tileset. The default keeps only the
-       *Target triangle percentage* of the model (10 %): the finest tiles
-       would be a tenth of what you surveyed. *None* keeps every triangle:
-       the finest tiles are the model itself. The percentage line disappears.
+     - **Absolute**
+     - It sets the finest level of the tileset. The default *Relative* keeps
+       a percentage of the model (10 %), so the result depends on how dense
+       the scanner or the photographs were. *Absolute* fixes the density
+       instead, the same on every site: see the next line.
+   * - **Initial simplification** · Target triangle count
+     - (Relative: Target triangle percentage 10)
+     - **surface × 10 000**
+     - The tileset is the **texturable master** of the 3DSC chain:
+       **10 000 triangles per square metre** of surface. Multiply the
+       surface of the mesh (in m², see *Measure the surface* above) by
+       10 000: 1 000 m² → 10 000 000. If the model already has fewer
+       triangles than that, choose Type **None**: there is nothing to remove.
+       The 1 000 per m² of the tileable master are for the blocks (LOD0),
+       not for the tileset.
    * - **Iterative simplification** · Type
      - Relative
      - **Relative** (the only choice)
@@ -255,18 +282,18 @@ line, top to bottom.
        viewer (EMStudio), for each device, without exporting again.
    * - **Altitude**
      - Clamp to WGS84 ellipsoid
-     - **keep the model's heights** (the option that is not *Clamp*)
+     - **Unmodified**
      - *Clamp to WGS84 ellipsoid* puts the model on the ellipsoid, metres away
-       from its real height. Keep the heights of the project, which on the
-       Basilica are checked on benchmark 49.
+       from its real height. *Unmodified* keeps the heights of the project,
+       which on the Basilica are checked on benchmark 49.
    * - **Compression**
      - Gzip
-     - **No**
+     - **None**
      - Compressed tiles must be unpacked at every load, and some viewers
        cannot do it inside a ``.3tz``. Disk space is not the problem here.
    * - **Primitive type**
      - Triangle strips
-     - **Triangles** (the option that is not *strips*)
+     - **Triangles**
      - How the triangles are written in each tile. *Triangles* is the form
        every viewer reads as it is; strips save a little space but some
        viewers must convert them at every load.

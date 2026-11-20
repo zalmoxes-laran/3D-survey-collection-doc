@@ -145,27 +145,9 @@ reconstruction files. Replace the CRS and the checks with those of your site.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The export dialog has no coordinate system: the tileset is written in the
-**output coordinate system of the project**. Set it first, in the project's
-settings (*coordinate systems*):
-
-- **Project coordinate system**: EPSG:6708.
-- **Output coordinate system**: EPSG:6708.
-
-Then check that the model is really there: in the 3D view read the
-coordinates of a point you know. The Basilica sits around **E 291 300,
-N 4 640 880** (metres). If you read small numbers (tens or hundreds of
-metres), the model is in a local frame: export it like this and the tileset
-lands at the equator. A useful check is a benchmark of the survey (for the
-Basilica, benchmark 49): its height in the model must be its height in the
-survey.
-
-.. warning::
-
-   The laser scans must be registered in the same system as the rest of the
-   documentation. In October 2026 a TLS export of the Basilica was correct
-   inside RealityScan but rotated by 6.6° and shifted by about 110 m and 16 m
-   in height against the reconstruction files: the scans had been registered
-   in another frame. No export setting fixes that; the registration does.
+**output coordinate system of the project**. The Basilica model is already in
+global coordinates, so it is enough that both the **project coordinate
+system** and the **output coordinate system** are EPSG:6708.
 
 Measure the surface
 ~~~~~~~~~~~~~~~~~~~
@@ -176,13 +158,12 @@ trench), not the area of the plan. Measure it once on the textured model:
 
 #. Export the model from RealityScan as OBJ and import it in Blender (3DSC ▸
    *Importers*), or open the Blender file where it already is.
-#. Select it and open 3DSC ▸ **METS Metadata Export** ▸ **Technical
-   Metadata**, then press **Calculate Mesh Statistics**.
-#. Read **Surface Area** (m²) and **Triangles/m²**.
+#. Select it and open 3DSC ▸ **Model Inspector**, then press **Geometry**.
+#. Read **Area** (m²) and **Polygons** in the result.
 
-Multiply the surface by 10 000: that is the *Target triangle count* of
-step 3. If *Triangles/m²* is already below 10 000, the model is lighter than
-the master and the initial simplification is *None*.
+Multiply the area by 10 000: that is the *Target triangle count* of step 3.
+If *Polygons* divided by *Area* is already below 10 000, the model is lighter
+than the master and the initial simplification is *None*.
 
 2 · Open the export
 ~~~~~~~~~~~~~~~~~~~
@@ -284,8 +265,7 @@ line, top to bottom.
      - Clamp to WGS84 ellipsoid
      - **Unmodified**
      - *Clamp to WGS84 ellipsoid* puts the model on the ellipsoid, metres away
-       from its real height. *Unmodified* keeps the heights of the project,
-       which on the Basilica are checked on benchmark 49.
+       from its real height. *Unmodified* keeps the heights of the project.
    * - **Compression**
      - Gzip
      - **None**

@@ -175,73 +175,101 @@ and choose the type **Cesium 3D Tiles (\*.json)**. Give the file a short name
 without spaces, for example ``Basilica_TLS_UAV``. RealityScan may warn that
 the feature is experimental: press OK.
 
-.. figure:: ../../img/realityscan_export_tiles_placeholder.png
-   :width: 500
+.. figure:: ../../img/realityscan_lod_export_cesium.jpg
+   :width: 600
    :align: center
 
-   *The Level of Detail dialog for Cesium 3D Tiles (placeholder)*
+   *The Level of Detail Export dialog as it opens, with RealityScan's
+   defaults. Several of them must be changed: see the table below.*
 
 3 · The parameters, one by one
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+The dialog opens with RealityScan's defaults, and some of them are wrong for a
+reference tileset: the first one keeps only 10 % of the model, textures are
+off, the altitude is clamped and the tiles are compressed. Go through every
+line, top to bottom.
+
 .. list-table::
    :header-rows: 1
-   :widths: 24 22 54
+   :widths: 26 16 18 40
 
    * - Parameter
+     - Default
      - Use
      - Why
    * - **Initial simplification** · Type
+     - Relative
      - **None**
-     - It sets the finest level of the tileset. *None* keeps every triangle
-       of the model: the finest tiles are the model itself. Use *Relative*
-       or *Absolute* only for a light copy, never for the reference tileset.
+     - It sets the finest level of the tileset. The default keeps only the
+       *Target triangle percentage* of the model (10 %): the finest tiles
+       would be a tenth of what you surveyed. *None* keeps every triangle:
+       the finest tiles are the model itself. The percentage line disappears.
    * - **Iterative simplification** · Type
-     - **Relative**, 50 %
-     - The step from one level to the next coarser one (the only type
-       allowed is *Relative*). With 50 % every level has half the triangles
-       of the one below: few levels, and each one lighter by the same
-       ratio.
-   * - **Export textures**
-     - **On**
-     - Without it the tileset is grey geometry. The model must already be
-       textured.
-   * - **Source Layer**
-     - the texture layer of the final texturing
+     - Relative
+     - **Relative** (the only choice)
+     - How each coarser level is made from the one below it.
+   * - **Iterative simplification** · Target triangle percentage
+     - 25
+     - **25** (leave it)
+     - Each coarser level keeps a quarter of the triangles of the one below.
+       It is the right step: a coarser tile covers the area of four finer
+       ones (twice as wide, twice as deep), so with 25 % every tile, at every
+       level, holds about the same number of triangles.
+   * - **Texture options** · Export textures
+     - No
+     - **Yes**
+     - With *No* the tileset is grey geometry. The model must already be
+       textured. When you switch it on, three more lines appear.
+   * - ↳ **Source layer**
+     -
+     - the final texture layer
      - If the project has more than one texture layer (a test, a colour
        correction), choose the one you consider final.
-   * - **Texel size**
-     - **2 × Optimal**
+   * - ↳ **Texel size**
+     -
+     - **twice the optimal**
      - The best texture quality written in the tileset: a smaller texel means
-       sharper and heavier. *Optimal* is the texel of the photographs. On the
-       Basilica it produced textures of 8192 × 8192 pixels for every tile,
+       sharper and heavier. The optimal texel is the one of the photographs.
+       On the Basilica it gave textures of 8192 × 8192 pixels for every tile,
        about 300 MB each on the graphics card: four tiles fill a laptop.
        Twice the optimal value keeps the detail you see on screen and divides
        the weight by four.
-   * - **Texture Format**
+   * - ↳ **Texture format**
+     -
      - **.jpg**
      - Read by every viewer and light. *.png* is lossless but several times
        heavier; *.webp* is not read by every viewer.
    * - **Maximum node triangle count**
-     - **20 000 – 30 000**
+     - 10 000
+     - **25 000** (20 000 – 30 000)
      - How many triangles a tile holds before it is split. On the Basilica,
-       10 000 gave many small tiles (many requests, the viewer always busy);
-       100 000 gave few huge tiles, with tiny error values, and the viewer
+       10 000 gave many small tiles: many requests, the viewer always busy.
+       100 000 gave few huge tiles with tiny error values, and the viewer
        stayed on the coarsest level. 20 000 – 30 000 is the middle way.
-   * - **Bandwidth Scale**
-     - **1**
+   * - **Bandwidth scale**
+     - 1
+     - **1** (leave it)
      - Below 1 the viewer streams faster and shows less detail, above 1 the
-       opposite. Leave it at 1: the balance between quality and speed is
-       tuned later in the viewer (EMStudio), for each device, without
-       exporting again.
+       opposite. The balance between quality and speed is tuned later in the
+       viewer (EMStudio), for each device, without exporting again.
    * - **Altitude**
-     - the model's own heights
-     - Keep the heights of the project. *Clamp to WGS84 ellipsoid* moves the
-       model onto the ellipsoid, metres away from its real height.
+     - Clamp to WGS84 ellipsoid
+     - **keep the model's heights** (the option that is not *Clamp*)
+     - *Clamp to WGS84 ellipsoid* puts the model on the ellipsoid, metres away
+       from its real height. Keep the heights of the project, which on the
+       Basilica are checked on benchmark 49.
    * - **Compression**
+     - Gzip
      - **No**
      - Compressed tiles must be unpacked at every load, and some viewers
        cannot do it inside a ``.3tz``. Disk space is not the problem here.
+   * - **Primitive type**
+     - Triangle strips
+     - **Triangles** (the option that is not *strips*)
+     - How the triangles are written in each tile. *Triangles* is the form
+       every viewer reads as it is; strips save a little space but some
+       viewers must convert them at every load.
 
 Press OK. RealityScan writes, in the chosen folder:
 

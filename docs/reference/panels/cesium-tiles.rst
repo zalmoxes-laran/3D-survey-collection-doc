@@ -94,3 +94,13 @@ Per-mesh summary includes values such as initial faces/vertices, estimated area 
 .. admonition:: Remember
 
    UV atlas is not strictly required to create tilesets. However, valid UVs are required for correct textured rendering in output tiles.
+
+
+**Pack a tileset into .3tz**
+
+Packs an existing tileset into one ``.3tz`` beside it, in the canonical
+profile (the same folder always gives the same bytes), verifies it and stamps
+it. It accepts a folder with ``tileset.json`` at its root, or the export of
+RealityScan / RealityCapture (``X.json`` beside the folder ``X``): choose the
+folder ``X`` or the folder that holds the pair. Since 1.7.0-dev.72. Step by
+step: :ref:`realityscan-tileset-3tz`.

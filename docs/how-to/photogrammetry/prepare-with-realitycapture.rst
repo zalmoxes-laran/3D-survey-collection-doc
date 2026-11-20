@@ -106,6 +106,183 @@ Phase 3: Import and Organize in Blender
    *Complete workflow: RealityCapture to organized Blender collections (placeholder)*
 
 
+.. _realityscan-tileset-3tz:
+
+Export a Cesium tileset and pack it as .3tz
+===========================================
+
+RealityScan (the new name of RealityCapture) exports a model as **Cesium 3D
+Tiles**: a tileset that a viewer loads piece by piece, the coarse levels from
+far away and the fine ones as the camera comes closer. This section shows the
+export settings to use and how to turn the result into one ``.3tz`` file with
+3DSC.
+
+Why one ``.3tz`` file
+---------------------
+
+RealityScan writes a ``.json`` file beside a folder with the same name, and
+the folder holds thousands of tiles. A ``.3tz`` is the same tileset in one
+file:
+
+- it travels as one file (a copy, an upload, a deposit) and nothing gets
+  lost on the way;
+- a viewer reads it piece by piece, without unpacking it;
+- the same folder always gives the same bytes, so the file's fingerprint
+  (sha256) names its content, and 3DSC writes a stamp beside it that says
+  where it comes from.
+
+EMStudio, Heriverse and the EM tools read the ``.3tz`` directly.
+
+Step 1 · Export from RealityScan
+--------------------------------
+
+The example is the **Basilica Iulia** in the Roman Forum: a model made of
+laser scans (TLS) and drone photographs (UAV), in the coordinate system
+**EPSG:6708** (RDN2008 / UTM zone 33N), the one of the Basilica's
+reconstruction files. Replace the CRS and the checks with those of your site.
+
+1 · Before the export: the coordinate system
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The export dialog has no coordinate system: the tileset is written in the
+**output coordinate system of the project**. Set it first, in the project's
+settings (*coordinate systems*):
+
+- **Project coordinate system**: EPSG:6708.
+- **Output coordinate system**: EPSG:6708.
+
+Then check that the model is really there: in the 3D view read the
+coordinates of a point you know. The Basilica sits around **E 291 300,
+N 4 640 880** (metres). If you read small numbers (tens or hundreds of
+metres), the model is in a local frame: export it like this and the tileset
+lands at the equator. A useful check is a benchmark of the survey (for the
+Basilica, benchmark 49): its height in the model must be its height in the
+survey.
+
+.. warning::
+
+   The laser scans must be registered in the same system as the rest of the
+   documentation. In October 2026 a TLS export of the Basilica was correct
+   inside RealityScan but rotated by 6.6° and shifted by about 110 m and 16 m
+   in height against the reconstruction files: the scans had been registered
+   in another frame. No export setting fixes that; the registration does.
+
+2 · Open the export
+~~~~~~~~~~~~~~~~~~~
+
+Select the textured model, then *SCENE 3D ▸ TOOLS ▸ Export ▸ Level of Detail*
+and choose the type **Cesium 3D Tiles (\*.json)**. Give the file a short name
+without spaces, for example ``Basilica_TLS_UAV``. RealityScan may warn that
+the feature is experimental: press OK.
+
+.. figure:: ../../img/realityscan_export_tiles_placeholder.png
+   :width: 500
+   :align: center
+
+   *The Level of Detail dialog for Cesium 3D Tiles (placeholder)*
+
+3 · The parameters, one by one
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+   :header-rows: 1
+   :widths: 24 22 54
+
+   * - Parameter
+     - Use
+     - Why
+   * - **Initial simplification** · Type
+     - **None**
+     - It sets the finest level of the tileset. *None* keeps every triangle
+       of the model: the finest tiles are the model itself. Use *Relative*
+       or *Absolute* only for a light copy, never for the reference tileset.
+   * - **Iterative simplification** · Type
+     - **Relative**, 50 %
+     - The step from one level to the next coarser one (the only type
+       allowed is *Relative*). With 50 % every level has half the triangles
+       of the one below: few levels, and each one lighter by the same
+       ratio.
+   * - **Export textures**
+     - **On**
+     - Without it the tileset is grey geometry. The model must already be
+       textured.
+   * - **Source Layer**
+     - the texture layer of the final texturing
+     - If the project has more than one texture layer (a test, a colour
+       correction), choose the one you consider final.
+   * - **Texel size**
+     - **2 × Optimal**
+     - The best texture quality written in the tileset: a smaller texel means
+       sharper and heavier. *Optimal* is the texel of the photographs. On the
+       Basilica it produced textures of 8192 × 8192 pixels for every tile,
+       about 300 MB each on the graphics card: four tiles fill a laptop.
+       Twice the optimal value keeps the detail you see on screen and divides
+       the weight by four.
+   * - **Texture Format**
+     - **.jpg**
+     - Read by every viewer and light. *.png* is lossless but several times
+       heavier; *.webp* is not read by every viewer.
+   * - **Maximum node triangle count**
+     - **20 000 – 30 000**
+     - How many triangles a tile holds before it is split. On the Basilica,
+       10 000 gave many small tiles (many requests, the viewer always busy);
+       100 000 gave few huge tiles, with tiny error values, and the viewer
+       stayed on the coarsest level. 20 000 – 30 000 is the middle way.
+   * - **Bandwidth Scale**
+     - **1**
+     - Below 1 the viewer streams faster and shows less detail, above 1 the
+       opposite. Leave it at 1: the balance between quality and speed is
+       tuned later in the viewer (EMStudio), for each device, without
+       exporting again.
+   * - **Altitude**
+     - the model's own heights
+     - Keep the heights of the project. *Clamp to WGS84 ellipsoid* moves the
+       model onto the ellipsoid, metres away from its real height.
+   * - **Compression**
+     - **No**
+     - Compressed tiles must be unpacked at every load, and some viewers
+       cannot do it inside a ``.3tz``. Disk space is not the problem here.
+
+Press OK. RealityScan writes, in the chosen folder:
+
+- ``Basilica_TLS_UAV.json``, the root of the tileset;
+- ``Basilica_TLS_UAV/``, the folder of the tiles (thousands of files).
+
+The two travel together: the ``.json`` alone is empty, the folder alone has no
+root. Step 2 turns them into one file.
+
+Step 2 · Pack the tileset into a .3tz with 3DSC
+-----------------------------------------------
+
+You need 3DSC **1.7.0-dev.72 or later**: in Blender, *Edit ▸ Preferences ▸ Get
+Extensions*, update *3D Survey Collection*. The version is written at the top
+of the 3DSC panels.
+
+#. In the 3D Viewport sidebar open **3DSC ▸ Cesium 3D Tiles**.
+#. Press **Pack a tileset into .3tz**.
+#. In the file browser choose **the folder that holds the export** (the
+   ``.json`` and the folder of the same name), or the folder of the tiles
+   itself. Keep *Verify after writing* on.
+#. Press **Accept**.
+
+3DSC writes ``<name>.3tz`` beside the export (``Basilica_TLS_UAV.3tz``), checks it against the original
+tiles, and writes the stamp ``<name>.3tz.stamp.json`` beside it. The original
+export is only read. The log of the panel says how many files went in, the
+size, the time and the fingerprint.
+
+The same button packs any folder with ``tileset.json`` at its root (Metashape,
+3DSC's own export, other generators). If the chosen folder holds more than one
+RealityScan export, 3DSC asks you to choose the folder of one of them.
+
+.. note::
+
+   EMStudio packs the same file, byte for byte: drop the export on the Viewer
+   and press **Prepare the package (.3tz)**, see `Load models and tilesets
+   <https://docs.extendedmatrix.org/projects/emstudio-doc/en/1.6/how-to/space/load-models-and-tilesets.html>`_.
+   That road starts from an open study (an ``em.json``): use it when the
+   tileset goes into a study right away.
+
+
 Multi-Sensor Alignment Tutorial
 ===============================
 

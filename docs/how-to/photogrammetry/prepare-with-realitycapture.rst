@@ -88,7 +88,7 @@ Phase 2: Export from RealityCapture
 -----------------------------------
 
 1. In RealityCapture, complete your mesh reconstruction
-2. In Blender, use **Export LOD** to export LOD structure
+2. In RealityCapture, use **Export LOD** to export LOD structure
 3. RealityCapture generates multi-level detail models to Exchange Folder
 
 Phase 3: Import and Organize in Blender
